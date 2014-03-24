@@ -7,13 +7,18 @@
 //
 
 #import "NCAppDelegate.h"
+#import "NCMessagesTableViewController.h"
 
 @implementation NCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+
+    NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesTVC];
+    self.window.rootViewController = navigationController;
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

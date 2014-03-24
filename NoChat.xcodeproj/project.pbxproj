@@ -19,12 +19,14 @@
 		454987AF18DA3DC300CFC545 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 454987AE18DA3DC300CFC545 /* Images.xcassets */; };
 		454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */; };
 		454987D118DB2B9100CFC545 /* NCMessagesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 454987CF18DB2B9100CFC545 /* NCMessagesTableViewController.xib */; };
+		45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */; };
+		45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987AC18DA3DC300CFC545 /* NCAppDelegate.m */; };
+		45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
 		45EB035918DCED2B0012A621 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45EB035718DCED2B0012A621 /* InfoPlist.strings */; };
 		45EB035B18DCED2B0012A621 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EB035A18DCED2B0012A621 /* main.m */; };
-		45EB036118DCED2B0012A621 /* ExampleSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45EB036018DCED2B0012A621 /* ExampleSpec.mm */; };
 		45F1387D18DB3B6300D09454 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45F1388418DB3B6300D09454 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F1388318DB3B6300D09454 /* main.m */; };
 		45F1388618DB3B6300D09454 /* ExampleSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45F1388518DB3B6300D09454 /* ExampleSpec.mm */; };
@@ -49,13 +51,13 @@
 		454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCMessagesTableViewController.m; sourceTree = "<group>"; };
 		454987CF18DB2B9100CFC545 /* NCMessagesTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCMessagesTableViewController.xib; sourceTree = "<group>"; };
 		45AB9F7318DCEF6000F7CA64 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
+		45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCAppDelegateSpec.mm; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		45EB035A18DCED2B0012A621 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		45EB035C18DCED2B0012A621 /* UISpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UISpecs-Prefix.pch"; sourceTree = "<group>"; };
 		45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iOS.framework"; path = "Frameworks/Cedar-iOS.framework"; sourceTree = "<group>"; };
-		45EB036018DCED2B0012A621 /* ExampleSpec.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExampleSpec.mm; sourceTree = "<group>"; };
 		45F1387C18DB3B6300D09454 /* Specs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Specs; sourceTree = BUILT_PRODUCTS_DIR; };
 		45F1388118DB3B6300D09454 /* Specs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Specs-Prefix.pch"; sourceTree = "<group>"; };
 		45F1388318DB3B6300D09454 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -177,8 +179,8 @@
 			isa = PBXGroup;
 			children = (
 				45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */,
-				45EB036018DCED2B0012A621 /* ExampleSpec.mm */,
 				45EB035518DCED2B0012A621 /* Supporting Files */,
+				45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */,
 			);
 			path = UISpecs;
 			sourceTree = "<group>";
@@ -451,8 +453,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
-				45EB036118DCED2B0012A621 /* ExampleSpec.mm in Sources */,
+				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
+				45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +607,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "UISpecs/UISpecs-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -626,6 +631,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UISpecs/UISpecs-Prefix.pch";
 				INFOPLIST_FILE = "UISpecs/UISpecs-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"$(inherited)",
