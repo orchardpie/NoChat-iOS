@@ -33,6 +33,11 @@
 		45AB9F9318E0D62300F7CA64 /* NoChatSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F9218E0D62300F7CA64 /* NoChatSpec.mm */; };
 		45AB9F9418E0D83F00F7CA64 /* NoChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8F18E0D27400F7CA64 /* NoChat.m */; };
 		45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */; };
+		45AB9F9B18E1DC5100F7CA64 /* NCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F9918E1DC5100F7CA64 /* NCLoginViewController.m */; };
+		45AB9F9C18E1DC5100F7CA64 /* NCLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45AB9F9A18E1DC5100F7CA64 /* NCLoginViewController.xib */; };
+		45AB9F9D18E1DC5800F7CA64 /* NCLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45AB9F9A18E1DC5100F7CA64 /* NCLoginViewController.xib */; };
+		45AB9FA118E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9FA018E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm */; };
+		45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F9918E1DC5100F7CA64 /* NCLoginViewController.m */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -72,6 +77,10 @@
 		45AB9F8F18E0D27400F7CA64 /* NoChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoChat.m; sourceTree = "<group>"; };
 		45AB9F9218E0D62300F7CA64 /* NoChatSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NoChatSpec.mm; sourceTree = "<group>"; };
 		45AB9F9618E0DC0E00F7CA64 /* post_login_response_200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_login_response_200.json; sourceTree = "<group>"; };
+		45AB9F9818E1DC5100F7CA64 /* NCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCLoginViewController.h; sourceTree = "<group>"; };
+		45AB9F9918E1DC5100F7CA64 /* NCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCLoginViewController.m; sourceTree = "<group>"; };
+		45AB9F9A18E1DC5100F7CA64 /* NCLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCLoginViewController.xib; sourceTree = "<group>"; };
+		45AB9FA018E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCLoginViewControllerSpec.mm; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -194,6 +203,9 @@
 				454987CD18DB2B9100CFC545 /* NCMessagesTableViewController.h */,
 				454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */,
 				454987CF18DB2B9100CFC545 /* NCMessagesTableViewController.xib */,
+				45AB9F9818E1DC5100F7CA64 /* NCLoginViewController.h */,
+				45AB9F9918E1DC5100F7CA64 /* NCLoginViewController.m */,
+				45AB9F9A18E1DC5100F7CA64 /* NCLoginViewController.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -232,9 +244,18 @@
 			path = Fixtures;
 			sourceTree = "<group>";
 		};
+		45AB9F9F18E1E06600F7CA64 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				45AB9FA018E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		45EB035418DCED2B0012A621 /* UISpecs */ = {
 			isa = PBXGroup;
 			children = (
+				45AB9F9F18E1E06600F7CA64 /* ViewControllers */,
 				45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */,
 				45EB035518DCED2B0012A621 /* Supporting Files */,
 				45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */,
@@ -379,6 +400,7 @@
 				454987A718DA3DC300CFC545 /* InfoPlist.strings in Resources */,
 				454987AF18DA3DC300CFC545 /* Images.xcassets in Resources */,
 				454987D118DB2B9100CFC545 /* NCMessagesTableViewController.xib in Resources */,
+				45AB9F9C18E1DC5100F7CA64 /* NCLoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45EB035918DCED2B0012A621 /* InfoPlist.strings in Resources */,
+				45AB9F9D18E1DC5800F7CA64 /* NCLoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +529,7 @@
 				45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */,
 				454987A918DA3DC300CFC545 /* main.m in Sources */,
+				45AB9F9B18E1DC5100F7CA64 /* NCLoginViewController.m in Sources */,
 				454987AD18DA3DC300CFC545 /* NCAppDelegate.m in Sources */,
 				45AB9F9018E0D27400F7CA64 /* NoChat.m in Sources */,
 				45AB9F7C18E08A1E00F7CA64 /* NCUser.m in Sources */,
@@ -517,7 +541,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
+				45AB9FA118E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm in Sources */,
 				45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */,
+				45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */,
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
