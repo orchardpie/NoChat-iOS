@@ -1,5 +1,6 @@
 #import "NCAppDelegate.h"
 #import "NCMessagesTableViewController.h"
+#import "NoChat.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -16,6 +17,10 @@ describe(@"NCAppDelegate", ^{
     describe(@"application:didFinishLaunchingWithOptions", ^{
         beforeEach(^{
             [delegate application: nil didFinishLaunchingWithOptions: nil];
+        });
+
+        it(@"should initialize a global NoChat object", ^{
+            noChat should_not be_nil;
         });
 
         it(@"should set a UINavigationController as the root view controller", ^{

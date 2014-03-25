@@ -1,10 +1,6 @@
-//
-//  NCAppDelegate.m
-//  NoChat
-//
-//  Created by Orchard on 3/19/14.
-//  Copyright (c) 2014 Orchard. All rights reserved.
-//
+#import "NoChat.h"
+
+NoChat *noChat;
 
 #import "NCAppDelegate.h"
 #import "NCMessagesTableViewController.h"
@@ -14,6 +10,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    noChat = [[NoChat alloc] init];
+
 
     NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesTVC];

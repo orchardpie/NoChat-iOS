@@ -22,6 +22,17 @@
 		45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */; };
 		45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987AC18DA3DC300CFC545 /* NCAppDelegate.m */; };
 		45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */; };
+		45AB9F7C18E08A1E00F7CA64 /* NCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCUser.m */; };
+		45AB9F7D18E08A1E00F7CA64 /* NCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCUser.m */; };
+		45AB9F7F18E08A4E00F7CA64 /* NCUserSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7E18E08A4E00F7CA64 /* NCUserSpec.mm */; };
+		45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */; };
+		45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */; };
+		45AB9F8D18E0BB9600F7CA64 /* NCWebServiceSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8C18E0BB9600F7CA64 /* NCWebServiceSpec.mm */; };
+		45AB9F9018E0D27400F7CA64 /* NoChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8F18E0D27400F7CA64 /* NoChat.m */; };
+		45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8F18E0D27400F7CA64 /* NoChat.m */; };
+		45AB9F9318E0D62300F7CA64 /* NoChatSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F9218E0D62300F7CA64 /* NoChatSpec.mm */; };
+		45AB9F9418E0D83F00F7CA64 /* NoChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8F18E0D27400F7CA64 /* NoChat.m */; };
+		45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -29,7 +40,6 @@
 		45EB035B18DCED2B0012A621 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EB035A18DCED2B0012A621 /* main.m */; };
 		45F1387D18DB3B6300D09454 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45F1388418DB3B6300D09454 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F1388318DB3B6300D09454 /* main.m */; };
-		45F1388618DB3B6300D09454 /* ExampleSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45F1388518DB3B6300D09454 /* ExampleSpec.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +62,16 @@
 		454987CF18DB2B9100CFC545 /* NCMessagesTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCMessagesTableViewController.xib; sourceTree = "<group>"; };
 		45AB9F7318DCEF6000F7CA64 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
 		45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCAppDelegateSpec.mm; sourceTree = "<group>"; };
+		45AB9F7A18E08A1E00F7CA64 /* NCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCUser.h; sourceTree = "<group>"; };
+		45AB9F7B18E08A1E00F7CA64 /* NCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCUser.m; sourceTree = "<group>"; };
+		45AB9F7E18E08A4E00F7CA64 /* NCUserSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCUserSpec.mm; sourceTree = "<group>"; };
+		45AB9F8718E0BB3B00F7CA64 /* NCWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCWebService.h; sourceTree = "<group>"; };
+		45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCWebService.m; sourceTree = "<group>"; };
+		45AB9F8C18E0BB9600F7CA64 /* NCWebServiceSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCWebServiceSpec.mm; sourceTree = "<group>"; };
+		45AB9F8E18E0D27400F7CA64 /* NoChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoChat.h; sourceTree = "<group>"; };
+		45AB9F8F18E0D27400F7CA64 /* NoChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoChat.m; sourceTree = "<group>"; };
+		45AB9F9218E0D62300F7CA64 /* NoChatSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NoChatSpec.mm; sourceTree = "<group>"; };
+		45AB9F9618E0DC0E00F7CA64 /* post_login_response_200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_login_response_200.json; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -61,7 +81,6 @@
 		45F1387C18DB3B6300D09454 /* Specs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Specs; sourceTree = BUILT_PRODUCTS_DIR; };
 		45F1388118DB3B6300D09454 /* Specs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Specs-Prefix.pch"; sourceTree = "<group>"; };
 		45F1388318DB3B6300D09454 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		45F1388518DB3B6300D09454 /* ExampleSpec.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExampleSpec.mm; sourceTree = "<group>"; };
 		BAACC3D3F5964434A7BDB770 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E210AA640F4DCC831758A6 /* Pods-Specs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Specs.xcconfig"; path = "Pods/Pods-Specs.xcconfig"; sourceTree = "<group>"; };
 		EDB2B8124CED4AE5BBA64592 /* libPods-Specs.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Specs.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,9 +164,13 @@
 		454987A218DA3DC300CFC545 /* NoChat */ = {
 			isa = PBXGroup;
 			children = (
+				45AB9F7818E0893500F7CA64 /* Interfaces */,
+				45AB9F7918E089CD00F7CA64 /* Models */,
 				454987CB18DA496400CFC545 /* ViewControllers */,
 				454987AB18DA3DC300CFC545 /* NCAppDelegate.h */,
 				454987AC18DA3DC300CFC545 /* NCAppDelegate.m */,
+				45AB9F8E18E0D27400F7CA64 /* NoChat.h */,
+				45AB9F8F18E0D27400F7CA64 /* NoChat.m */,
 				454987AE18DA3DC300CFC545 /* Images.xcassets */,
 				454987A318DA3DC300CFC545 /* Supporting Files */,
 			);
@@ -175,6 +198,40 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		45AB9F7818E0893500F7CA64 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				45AB9F8718E0BB3B00F7CA64 /* NCWebService.h */,
+				45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		45AB9F7918E089CD00F7CA64 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				45AB9F7A18E08A1E00F7CA64 /* NCUser.h */,
+				45AB9F7B18E08A1E00F7CA64 /* NCUser.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		45AB9F8B18E0BB7D00F7CA64 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				45AB9F8C18E0BB9600F7CA64 /* NCWebServiceSpec.mm */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		45AB9F9518E0DC0E00F7CA64 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				45AB9F9618E0DC0E00F7CA64 /* post_login_response_200.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 		45EB035418DCED2B0012A621 /* UISpecs */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,10 +256,12 @@
 		45F1387E18DB3B6300D09454 /* Specs */ = {
 			isa = PBXGroup;
 			children = (
+				45AB9F9518E0DC0E00F7CA64 /* Fixtures */,
+				45AB9F8B18E0BB7D00F7CA64 /* Interfaces */,
 				45F1388A18DB3B9700D09454 /* Models */,
 				45F1388318DB3B6300D09454 /* main.m */,
-				45F1388518DB3B6300D09454 /* ExampleSpec.mm */,
 				45F1388018DB3B6300D09454 /* Supporting Files */,
+				45AB9F9218E0D62300F7CA64 /* NoChatSpec.mm */,
 			);
 			path = Specs;
 			sourceTree = "<group>";
@@ -218,6 +277,7 @@
 		45F1388A18DB3B9700D09454 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				45AB9F7E18E08A4E00F7CA64 /* NCUserSpec.mm */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -443,9 +503,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */,
 				454987A918DA3DC300CFC545 /* main.m in Sources */,
 				454987AD18DA3DC300CFC545 /* NCAppDelegate.m in Sources */,
+				45AB9F9018E0D27400F7CA64 /* NoChat.m in Sources */,
+				45AB9F7C18E08A1E00F7CA64 /* NCUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,7 +517,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
+				45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */,
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
+				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
 				45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */,
 			);
@@ -464,8 +529,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45AB9F7F18E08A4E00F7CA64 /* NCUserSpec.mm in Sources */,
 				45F1388418DB3B6300D09454 /* main.m in Sources */,
-				45F1388618DB3B6300D09454 /* ExampleSpec.mm in Sources */,
+				45AB9F8D18E0BB9600F7CA64 /* NCWebServiceSpec.mm in Sources */,
+				45AB9F9318E0D62300F7CA64 /* NoChatSpec.mm in Sources */,
+				45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */,
+				45AB9F7D18E08A1E00F7CA64 /* NCUser.m in Sources */,
+				45AB9F9418E0D83F00F7CA64 /* NoChat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,6 +732,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -681,6 +752,11 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Specs/Specs-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
