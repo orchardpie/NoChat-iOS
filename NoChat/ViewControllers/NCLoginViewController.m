@@ -18,7 +18,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    self.logInButton.enabled = NO;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if (textField == self.emailTextField) {
+        self.logInButton.enabled = self.passwordTextField.text.length > 0 && newText.length > 0;
+    } else {
+        self.logInButton.enabled = self.emailTextField.text.length > 0 && newText.length > 0;
+    }
+
+    return YES;
 }
 
 @end
