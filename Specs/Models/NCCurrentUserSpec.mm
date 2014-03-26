@@ -16,7 +16,14 @@ SPEC_BEGIN(NCCurrentUserSpec)
 
 describe(@"NCCurrentUser", ^{
     __block NCCurrentUser *user = nil;
+    __block NSURLProtectionSpace *protectionSpace = [[NSURLProtectionSpace alloc] initWithHost:@"localhost"
+                                                                                          port:3000
+                                                                                      protocol:@"http"
+                                                                                         realm:nil
+                                                                          authenticationMethod:NSURLAuthenticationMethodHTTPBasic];
     NSString *name = @"Sally User";
+
+    __block id<CedarDouble> credential = nice_fake_for([NSURLCredential class]);
 
     beforeEach(^{
         user = [[NCCurrentUser alloc] initWithDictionary:@{ @"name": name }];
@@ -62,6 +69,28 @@ describe(@"NCCurrentUser", ^{
             it(@"should throw an error", ^{
                 ^{ [[NCCurrentUser alloc] initWithDictionary:nil]; } should raise_exception;
             });
+        });
+    });
+
+    describe(@"-saveCredentialsWithEmail:andPassword", ^{
+        __block NSURLCredentialStorage *credentialStorage;
+        __block __unsafe_unretained NSURLCredential *credential;
+
+        subjectAction(^{ [user saveCredentialsWithEmail:@"kevinwo@orchardpie.com" andPassword:@"whoa"]; });
+
+        beforeEach(^{
+            credentialStorage = [NSURLCredentialStorage sharedCredentialStorage];
+            spy_on(credentialStorage);
+            credentialStorage stub_method("setDefaultCredential:forProtectionSpace:").and_do(^(NSInvocation *invocation) {
+                [invocation getArgument:&credential atIndex:2];
+            });
+        });
+
+        it(@"should save the credentials and set them as the default", ^{
+            credentialStorage should have_received("setDefaultCredential:forProtectionSpace:");
+            credential.user should equal(@"kevinwo@orchardpie.com");
+            credential.password should equal(@"whoa");
+            credential.persistence should equal(NSURLCredentialPersistencePermanent);
         });
     });
 });
