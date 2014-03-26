@@ -21,7 +21,7 @@
                     <rect key="frame" x="20" y="123" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="next"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="o2r-WC-ZYi"/>
                     </connections>

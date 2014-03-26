@@ -22,14 +22,31 @@
     self.logInButton.enabled = NO;
 }
 
+- (IBAction)logInButtonTapped:(id)sender {
+
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == self.passwordTextField) {
+        if (textField.text.length) {
+            if (self.emailTextField.text.length) {
+                // @TODO Call logInButtonTapped:
+            } else {
+                [self.emailTextField becomeFirstResponder];
+            }
+        }
+    } else if (textField.text.length) {
+        [self.passwordTextField becomeFirstResponder];
+    }
+    return YES;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (textField == self.emailTextField) {
-        self.logInButton.enabled = self.passwordTextField.text.length > 0 && newText.length > 0;
-    } else {
-        self.logInButton.enabled = self.emailTextField.text.length > 0 && newText.length > 0;
-    }
+    NSString *otherText = (textField == self.emailTextField ? self.passwordTextField.text : self.emailTextField.text);
+    self.logInButton.enabled = otherText.length > 0 && newText.length > 0;
 
     return YES;
 }

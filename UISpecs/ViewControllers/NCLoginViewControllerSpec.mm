@@ -1,5 +1,4 @@
 #import "NCLoginViewController.h"
-#import "NCUser.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -31,7 +30,12 @@ describe(@"NCLoginViewController", ^{
             it(@"should not autocorrect", ^{
                 controller.emailTextField.autocorrectionType should equal(UITextAutocorrectionTypeNo);
             });
+
+            it(@"should set the Return key to 'Next'", ^{
+                controller.emailTextField.returnKeyType should equal(UIReturnKeyNext);
+            });
         });
+
         describe(@"-passwordTextField", ^{
             it(@"should be", ^{
                 controller.passwordTextField should_not be_nil;
@@ -164,20 +168,91 @@ describe(@"NCLoginViewController", ^{
                         });
                     });
                 });
+            });
+        });
 
+        describe(@"-textFieldShouldReturn:", ^{
+            __block BOOL returnValue;
 
-                context(@"-textFieldShouldReturn:", ^{
-                    context(@"when the text field is empty", ^{
-                        it(@"should return YES", PENDING);
-                        it(@"should not set the password field as first responder", PENDING);
+            subjectAction(^{ returnValue = [controller textFieldShouldReturn:textField]; });
+
+            context(@"when the text field is the email text field", ^{
+                beforeEach(^{
+                    textField = controller.emailTextField;
+                    spy_on(controller.passwordTextField);
+                });
+
+                context(@"when the email text field is empty", ^{
+                    beforeEach(^{
+                        textField.text should be_empty;
                     });
 
-                    context(@"when the text field is not empty", ^{
-                        it(@"should return YES", PENDING);
-                        it(@"should set the password field as first responder", PENDING);
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+
+                    it(@"should not set the password field as first responder", ^{
+                        controller.passwordTextField should_not have_received("becomeFirstResponder");
+                    });
+                });
+
+                context(@"when the email text field is not empty", ^{
+                    beforeEach(^{
+                        textField.text = @"foo@example.com";
+                    });
+
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+
+                    it(@"should set the password field as first responder", ^{
+                        controller.passwordTextField should have_received("becomeFirstResponder");
                     });
                 });
             });
+
+            context(@"when the text field is the password text field", ^{
+                beforeEach(^{
+                    textField = controller.passwordTextField;
+                    spy_on(controller.emailTextField);
+                });
+
+                context(@"when the password text field is empty", ^{
+                    beforeEach(^{
+                        textField.text should be_empty;
+                    });
+
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+                });
+
+                context(@"when the password text field is not empty", ^{
+                    beforeEach(^{
+                        textField.text = @"something";
+                    });
+
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+
+                    context(@"when the email text field is empty", ^{
+                        beforeEach(^{
+                            controller.emailTextField.text = @"";
+                        });
+
+                        it(@"should set the email field as the first responder", ^{
+                            controller.emailTextField should have_received("becomeFirstResponder");
+                        });
+                    });
+                });
+            });
+        });
+    });
+
+    describe(@"-logInButtonTapped", ^{
+        subjectAction(^{
+            [controller.logInButton sendActionsForControlEvents:UIControlEventTouchUpInside];
         });
     });
 });
