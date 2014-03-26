@@ -1,16 +1,18 @@
 #import "NCLoginViewController.h"
+#import "NCCurrentUser.h"
 
 @interface NCLoginViewController ()
+
+@property (strong, nonatomic) NCCurrentUser *currentUser;
 
 @end
 
 @implementation NCLoginViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithCurrentUser:(NCCurrentUser *)currentUser
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if(self = [super init]) {
+        self.currentUser = currentUser;
     }
     return self;
 }
@@ -22,8 +24,9 @@
     self.logInButton.enabled = NO;
 }
 
-- (IBAction)logInButtonTapped:(id)sender {
-
+- (IBAction)logInButtonTapped:(id)sender
+{
+    [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -31,7 +34,7 @@
     if (textField == self.passwordTextField) {
         if (textField.text.length) {
             if (self.emailTextField.text.length) {
-                // @TODO Call logInButtonTapped:
+                [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
             } else {
                 [self.emailTextField becomeFirstResponder];
             }

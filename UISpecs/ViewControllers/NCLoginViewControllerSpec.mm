@@ -1,4 +1,5 @@
 #import "NCLoginViewController.h"
+#import "NCCurrentUser.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -7,9 +8,10 @@ SPEC_BEGIN(NCLoginViewControllerSpec)
 
 describe(@"NCLoginViewController", ^{
     __block NCLoginViewController *controller;
+    __block id<CedarDouble> currentUser = nice_fake_for([NCCurrentUser class]);
 
     beforeEach(^{
-        controller = [[NCLoginViewController alloc] init];
+        controller = [[NCLoginViewController alloc] initWithCurrentUser: currentUser];
         controller.view should_not be_nil;
     });
 
@@ -68,6 +70,12 @@ describe(@"NCLoginViewController", ^{
     describe(@"-viewDidLoad", ^{
         it(@"should disable the log in button", ^{
             controller.logInButton.enabled should_not be_truthy;
+        });
+    });
+
+    sharedExamplesFor(@"an action that attempts to save credentials", ^(NSDictionary *sharedContext) {
+        it(@"should ask the CurrentUser to save credentials", ^{
+            currentUser should have_received("saveCredentialsWithEmail:andPassword:").with(controller.emailTextField.text).and_with(controller.passwordTextField.text);
         });
     });
 
@@ -225,16 +233,23 @@ describe(@"NCLoginViewController", ^{
                     it(@"should return YES", ^{
                         returnValue should be_truthy;
                     });
+
+                    it(@"should not attempt to save credentials", ^{
+                        currentUser should_not have_received("saveCredentialsWithEmail:andPassword");
+                    });
                 });
 
                 context(@"when the password text field is not empty", ^{
                     beforeEach(^{
                         textField.text = @"something";
+                        controller.emailTextField.text = @"sup@updog.com";
                     });
 
                     it(@"should return YES", ^{
                         returnValue should be_truthy;
                     });
+
+                    itShouldBehaveLike(@"an action that attempts to save credentials");
 
                     context(@"when the email text field is empty", ^{
                         beforeEach(^{
@@ -254,6 +269,13 @@ describe(@"NCLoginViewController", ^{
         subjectAction(^{
             [controller.logInButton sendActionsForControlEvents:UIControlEventTouchUpInside];
         });
+
+        beforeEach(^{
+            controller.emailTextField.text = @"kevinwo@orchardpie.com";
+            controller.passwordTextField.text = @"ilikepie";
+        });
+
+        itShouldBehaveLike(@"an action that attempts to save credentials");
     });
 });
 

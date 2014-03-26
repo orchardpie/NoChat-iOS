@@ -1,18 +1,13 @@
-#import "NCUser.h"
+#import "NCCurrentUser.h"
 
-@implementation NCUser
+@implementation NCCurrentUser
 
 + (void)logInWithEmail:(NSString *)email andPassword:(NSString *)password completion:(UserLoginCompletion)completion
 {
-    NCUser *user = nil;
+    NCCurrentUser *user = nil;
     NSError *error = [[NSError alloc] init];
 
     if (completion) { completion(user, error); }
-}
-
-- (instancetype)init
-{
-    [self doesNotRecognizeSelector:_cmd]; return nil;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)userDict
@@ -22,6 +17,11 @@
         self.name = [userDict objectForKey:@"name"];
     }
     return self;
+}
+
+- (BOOL)saveCredentialsWithEmail:(NSString *)email andPassword:(NSString *)password
+{
+    return YES;
 }
 
 @end

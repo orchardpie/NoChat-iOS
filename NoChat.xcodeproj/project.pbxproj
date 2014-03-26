@@ -22,9 +22,9 @@
 		45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */; };
 		45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987AC18DA3DC300CFC545 /* NCAppDelegate.m */; };
 		45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */; };
-		45AB9F7C18E08A1E00F7CA64 /* NCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCUser.m */; };
-		45AB9F7D18E08A1E00F7CA64 /* NCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCUser.m */; };
-		45AB9F7F18E08A4E00F7CA64 /* NCUserSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7E18E08A4E00F7CA64 /* NCUserSpec.mm */; };
+		45AB9F7C18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCCurrentUser.m */; };
+		45AB9F7D18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCCurrentUser.m */; };
+		45AB9F7F18E08A4E00F7CA64 /* NCCurrentUserSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7E18E08A4E00F7CA64 /* NCCurrentUserSpec.mm */; };
 		45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */; };
 		45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */; };
 		45AB9F8D18E0BB9600F7CA64 /* NCWebServiceSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F8C18E0BB9600F7CA64 /* NCWebServiceSpec.mm */; };
@@ -38,6 +38,7 @@
 		45AB9F9D18E1DC5800F7CA64 /* NCLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45AB9F9A18E1DC5100F7CA64 /* NCLoginViewController.xib */; };
 		45AB9FA118E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9FA018E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm */; };
 		45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F9918E1DC5100F7CA64 /* NCLoginViewController.m */; };
+		45AB9FA318E32A5900F7CA64 /* NCCurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCCurrentUser.m */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -67,9 +68,9 @@
 		454987CF18DB2B9100CFC545 /* NCMessagesTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCMessagesTableViewController.xib; sourceTree = "<group>"; };
 		45AB9F7318DCEF6000F7CA64 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
 		45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCAppDelegateSpec.mm; sourceTree = "<group>"; };
-		45AB9F7A18E08A1E00F7CA64 /* NCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCUser.h; sourceTree = "<group>"; };
-		45AB9F7B18E08A1E00F7CA64 /* NCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCUser.m; sourceTree = "<group>"; };
-		45AB9F7E18E08A4E00F7CA64 /* NCUserSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCUserSpec.mm; sourceTree = "<group>"; };
+		45AB9F7A18E08A1E00F7CA64 /* NCCurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCCurrentUser.h; sourceTree = "<group>"; };
+		45AB9F7B18E08A1E00F7CA64 /* NCCurrentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCCurrentUser.m; sourceTree = "<group>"; };
+		45AB9F7E18E08A4E00F7CA64 /* NCCurrentUserSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCCurrentUserSpec.mm; sourceTree = "<group>"; };
 		45AB9F8718E0BB3B00F7CA64 /* NCWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCWebService.h; sourceTree = "<group>"; };
 		45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCWebService.m; sourceTree = "<group>"; };
 		45AB9F8C18E0BB9600F7CA64 /* NCWebServiceSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCWebServiceSpec.mm; sourceTree = "<group>"; };
@@ -222,8 +223,8 @@
 		45AB9F7918E089CD00F7CA64 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				45AB9F7A18E08A1E00F7CA64 /* NCUser.h */,
-				45AB9F7B18E08A1E00F7CA64 /* NCUser.m */,
+				45AB9F7A18E08A1E00F7CA64 /* NCCurrentUser.h */,
+				45AB9F7B18E08A1E00F7CA64 /* NCCurrentUser.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -298,7 +299,7 @@
 		45F1388A18DB3B9700D09454 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				45AB9F7E18E08A4E00F7CA64 /* NCUserSpec.mm */,
+				45AB9F7E18E08A4E00F7CA64 /* NCCurrentUserSpec.mm */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -532,7 +533,7 @@
 				45AB9F9B18E1DC5100F7CA64 /* NCLoginViewController.m in Sources */,
 				454987AD18DA3DC300CFC545 /* NCAppDelegate.m in Sources */,
 				45AB9F9018E0D27400F7CA64 /* NoChat.m in Sources */,
-				45AB9F7C18E08A1E00F7CA64 /* NCUser.m in Sources */,
+				45AB9F7C18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,6 +545,7 @@
 				45AB9FA118E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm in Sources */,
 				45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */,
 				45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */,
+				45AB9FA318E32A5900F7CA64 /* NCCurrentUser.m in Sources */,
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
@@ -555,12 +557,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45AB9F7F18E08A4E00F7CA64 /* NCUserSpec.mm in Sources */,
+				45AB9F7F18E08A4E00F7CA64 /* NCCurrentUserSpec.mm in Sources */,
 				45F1388418DB3B6300D09454 /* main.m in Sources */,
 				45AB9F8D18E0BB9600F7CA64 /* NCWebServiceSpec.mm in Sources */,
 				45AB9F9318E0D62300F7CA64 /* NoChatSpec.mm in Sources */,
 				45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */,
-				45AB9F7D18E08A1E00F7CA64 /* NCUser.m in Sources */,
+				45AB9F7D18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
 				45AB9F9418E0D83F00F7CA64 /* NoChat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

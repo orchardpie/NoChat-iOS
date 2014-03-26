@@ -1,4 +1,4 @@
-#import "NCUser.h"
+#import "NCCurrentUser.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -12,14 +12,14 @@ NSDictionary *dictFromLegitJSON() {
     return userDict;
 }
 
-SPEC_BEGIN(NCUserSpec)
+SPEC_BEGIN(NCCurrentUserSpec)
 
-describe(@"NCUser", ^{
-    __block NCUser *user = nil;
+describe(@"NCCurrentUser", ^{
+    __block NCCurrentUser *user = nil;
     NSString *name = @"Sally User";
 
     beforeEach(^{
-        user = [[NCUser alloc] initWithDictionary:@{ @"name": name }];
+        user = [[NCCurrentUser alloc] initWithDictionary:@{ @"name": name }];
     });
 
     describe(@"+logInWithEmail:andPassword:completion:", ^{
@@ -27,12 +27,12 @@ describe(@"NCUser", ^{
         __block UserLoginCompletion completion = nil;
 
         subjectAction(^{
-            [NCUser logInWithEmail:@"partyman" andPassword:@"partytime" completion:completion];
+            [NCCurrentUser logInWithEmail:@"partyman" andPassword:@"partytime" completion:completion];
         });
 
         context(@"with a completion block", ^{
             beforeEach(^{
-                completion = [^(NCUser *user, NSError *error) { blockError = error; } copy];
+                completion = [^(NCCurrentUser *user, NSError *error) { blockError = error; } copy];
             });
 
             it(@"should initialize a user and an error with the completion block", ^{
@@ -60,7 +60,7 @@ describe(@"NCUser", ^{
 
         context(@"with no dictionary", ^{
             it(@"should throw an error", ^{
-                ^{ [[NCUser alloc] initWithDictionary:nil]; } should raise_exception;
+                ^{ [[NCCurrentUser alloc] initWithDictionary:nil]; } should raise_exception;
             });
         });
     });
