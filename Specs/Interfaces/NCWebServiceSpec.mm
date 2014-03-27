@@ -72,6 +72,41 @@ describe(@"NCWebService", ^{
             });
         });
     });
+
+    describe(@"GET:parameters:success:failure:", ^{
+        it(@"should send an HTTP GET request to the specified path", PENDING);
+        it(@"should include the auth token in the X-NoChat-AuthToken header", PENDING);
+        it(@"should set the Accept header to application/json", PENDING);
+
+        context(@"on 200 response", ^{
+            it(@"should invoke the success block", PENDING);
+        });
+
+        context(@"on 401 response", ^{
+            it(@"should send a response to the authentication challenge", PENDING);
+
+            context(@"on subsequent 401", ^{
+                it(@"should clear the cached credentials", PENDING);
+                it(@"should notify some sort of global mechanism that the user is no longer authenticated", PENDING);
+            });
+
+            context(@"on subsequent success", ^{
+                it(@"should invoke the success block", PENDING);
+            });
+
+            context(@"on subsequent non-401 failure", ^{
+                it(@"should invoke the failure block", PENDING);
+            });
+        });
+
+        context(@"on response with another HTTP status code", ^{
+            it(@"should invoke the failure block with something something server error", PENDING);
+        });
+
+        context(@"on network error", ^{
+            it(@"should invoke the failure block with something something network error", PENDING);
+        });
+    });
 });
 
 SPEC_END

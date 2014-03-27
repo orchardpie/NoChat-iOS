@@ -1,6 +1,0 @@
-{
-    "user": { "name": "Party Man"}
-    , "authToken": "fhqwgads"
-    , "location": "/users/1"
-    , "resources": { "messages": "/users/1/messages" }
-}

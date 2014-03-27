@@ -27,6 +27,8 @@
 - (IBAction)logInButtonTapped:(id)sender
 {
     [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
+    [self.currentUser fetch:^(NCCurrentUser *currentUser, NSError *error) {
+    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
