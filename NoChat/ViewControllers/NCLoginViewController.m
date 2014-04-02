@@ -1,8 +1,7 @@
 #import "NCLoginViewController.h"
 #import "NCMessagesTableViewController.h"
 #import "NCCurrentUser.h"
-
-#import "NCAppDelegate.h"
+#import "MBProgressHUD.h"
 
 @interface NCLoginViewController ()
 
@@ -32,9 +31,12 @@
 
 - (IBAction)logInButtonTapped:(id)sender
 {
+    [self.passwordTextField resignFirstResponder];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
     [self.currentUser fetch:^(NCCurrentUser *currentUser) {
-        [self.passwordTextField resignFirstResponder];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if (self.loginSuccess) { self.loginSuccess(currentUser); }
 
     } failure:nil];

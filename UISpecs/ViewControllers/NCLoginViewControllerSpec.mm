@@ -1,5 +1,6 @@
 #import "NCLoginViewController.h"
 #import "NCCurrentUser.h"
+#import "MBProgressHUD+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -8,13 +9,13 @@ SPEC_BEGIN(NCLoginViewControllerSpec)
 
 describe(@"NCLoginViewController", ^{
     __block NCLoginViewController *controller;
-    __block id<CedarDouble> currentUser = nice_fake_for([NCCurrentUser class]);
+    __block id<CedarDouble> currentUser;
     __block LoginSuccessBlock loginSuccessBlock;
-    __block bool loginSuccessBlockWasCalled = NO;
-    __block __unsafe_unretained UserFetchSuccessBlock fetchBlock;
-
+    __block bool loginSuccessBlockWasCalled;
 
     beforeEach(^{
+        currentUser = nice_fake_for([NCCurrentUser class]);
+
         controller = [[NCLoginViewController alloc] initWithCurrentUser: currentUser loginSuccessBlock:loginSuccessBlock];
         controller.view should_not be_nil;
     });
@@ -85,6 +86,12 @@ describe(@"NCLoginViewController", ^{
             };
         });
 
+        it(@"should dismiss the keyboard", PENDING);
+
+        it(@"should show the progress indicator", ^{
+            MBProgressHUD.currentHUD should_not be_nil;
+        });
+
         it(@"should ask the CurrentUser to save credentials", ^{
             currentUser should have_received("saveCredentialsWithEmail:andPassword:").with(controller.emailTextField.text).and_with(controller.passwordTextField.text);
         });
@@ -95,16 +102,22 @@ describe(@"NCLoginViewController", ^{
 
         context(@"when the fetch is successful", ^{
             beforeEach(^{
-                currentUser stub_method("fetch:failure:").and_do(^(NSInvocation *invocation){
+                currentUser stub_method("fetch:failure:").and_do(^(NSInvocation *invocation) {
+                    UserFetchSuccessBlock fetchBlock;
                     [invocation getArgument:&fetchBlock atIndex:2];
+
                     NCCurrentUser *someCurrentUser = [[NCCurrentUser alloc] init];
                     fetchBlock(someCurrentUser);
                 });
             });
 
-            it(@"should call the login success block", PENDING);
+            it(@"should call the login success block", ^{
+                loginSuccessBlockWasCalled should be_truthy;
+            });
 
-            it(@"should dismiss the keyboard", PENDING);
+            it(@"should dismiss the progress indicator", ^{
+                MBProgressHUD.currentHUD should be_nil;
+            });
         });
 
         context(@"when the fetch is unsuccessful", ^{

@@ -23,6 +23,8 @@
 		4558D19318EB64800043418E /* NCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19118EB64670043418E /* NCMessage.m */; };
 		4558D19518EB655B0043418E /* NCMessageSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19418EB655B0043418E /* NCMessageSpec.mm */; };
 		4558D19618EC570C0043418E /* NCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19118EB64670043418E /* NCMessage.m */; };
+		4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19918EC99D30043418E /* MBProgressHUD+Spec.m */; };
+		4558D19C18ECA42C0043418E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4558D19B18ECA42C0043418E /* Default-568h@2x.png */; };
 		45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */; };
 		45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987AC18DA3DC300CFC545 /* NCAppDelegate.m */; };
 		45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */; };
@@ -74,6 +76,9 @@
 		4558D19018EB64670043418E /* NCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCMessage.h; sourceTree = "<group>"; };
 		4558D19118EB64670043418E /* NCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCMessage.m; sourceTree = "<group>"; };
 		4558D19418EB655B0043418E /* NCMessageSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCMessageSpec.mm; sourceTree = "<group>"; };
+		4558D19818EC99D30043418E /* MBProgressHUD+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Spec.h"; sourceTree = "<group>"; };
+		4558D19918EC99D30043418E /* MBProgressHUD+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Spec.m"; sourceTree = "<group>"; };
+		4558D19B18ECA42C0043418E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		45AB9F7318DCEF6000F7CA64 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
 		45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCAppDelegateSpec.mm; sourceTree = "<group>"; };
 		45AB9F7A18E08A1E00F7CA64 /* NCCurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCCurrentUser.h; sourceTree = "<group>"; };
@@ -144,6 +149,7 @@
 		4549879018DA3DC300CFC545 = {
 			isa = PBXGroup;
 			children = (
+				4558D19B18ECA42C0043418E /* Default-568h@2x.png */,
 				45AB9F7318DCEF6000F7CA64 /* Rakefile */,
 				454987A218DA3DC300CFC545 /* NoChat */,
 				45F1387E18DB3B6300D09454 /* Specs */,
@@ -220,6 +226,15 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		4558D19718EC999D0043418E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4558D19818EC99D30043418E /* MBProgressHUD+Spec.h */,
+				4558D19918EC99D30043418E /* MBProgressHUD+Spec.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		45AB9F7818E0893500F7CA64 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,6 +282,7 @@
 		45EB035418DCED2B0012A621 /* UISpecs */ = {
 			isa = PBXGroup;
 			children = (
+				4558D19718EC999D0043418E /* Extensions */,
 				45AB9F9F18E1E06600F7CA64 /* ViewControllers */,
 				45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */,
 				45EB035518DCED2B0012A621 /* Supporting Files */,
@@ -424,6 +440,7 @@
 			files = (
 				45EB035918DCED2B0012A621 /* InfoPlist.strings in Resources */,
 				45AB9F9D18E1DC5800F7CA64 /* NCLoginViewController.xib in Resources */,
+				4558D19C18ECA42C0043418E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +572,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */,
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
 				45AB9FA118E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm in Sources */,
 				45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */,
