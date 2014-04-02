@@ -1,6 +1,7 @@
 #import "NCLoginViewController.h"
 #import "NCCurrentUser.h"
 #import "MBProgressHUD+Spec.h"
+#import "UIAlertView+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -121,13 +122,33 @@ describe(@"NCLoginViewController", ^{
         });
 
         context(@"when the fetch is unsuccessful", ^{
-            it(@"should not call the login success block", PENDING);
+            beforeEach(^{
+                currentUser stub_method("fetch:failure:").and_do(^(NSInvocation *invocation) {
+                    UserFetchFailureBlock fetchBlock;
+                    [invocation getArgument:&fetchBlock atIndex:3];
+
+                    NSError *error = [[NSError alloc] init];
+                    fetchBlock(error);
+                });
+            });
+
+            it(@"should not call the login success block", ^{
+                loginSuccessBlockWasCalled should_not be_truthy;
+            });
+
+            it(@"should dismiss the progress indicator", ^{
+                MBProgressHUD.currentHUD should be_nil;
+            });
 
             context(@"with a 401 unauthorized", ^{
-                it(@"should show an error", PENDING);
                 it(@"should clear credentials", PENDING);
             });
-            it(@"should show an error", PENDING);
+
+            context(@"with any error besides a 401", ^{
+                it(@"should show an error", ^{
+                    UIAlertView.currentAlertView should_not be_nil;
+                });
+            });
         });
     });
 

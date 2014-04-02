@@ -39,7 +39,15 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if (self.loginSuccess) { self.loginSuccess(currentUser); }
 
-    } failure:nil];
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                            message:@"There was a problem logging in. Please make sure your e-mail and password are correct and try again."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
 }
 
 #pragma mark - UITextField delegate implementation
