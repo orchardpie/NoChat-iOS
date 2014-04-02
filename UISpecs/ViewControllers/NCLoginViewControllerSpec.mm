@@ -9,9 +9,13 @@ SPEC_BEGIN(NCLoginViewControllerSpec)
 describe(@"NCLoginViewController", ^{
     __block NCLoginViewController *controller;
     __block id<CedarDouble> currentUser = nice_fake_for([NCCurrentUser class]);
+    __block LoginSuccessBlock loginSuccessBlock;
+    __block bool loginSuccessBlockWasCalled = NO;
+    __block __unsafe_unretained UserFetchSuccessBlock fetchBlock;
+
 
     beforeEach(^{
-        controller = [[NCLoginViewController alloc] initWithCurrentUser: currentUser];
+        controller = [[NCLoginViewController alloc] initWithCurrentUser: currentUser loginSuccessBlock:loginSuccessBlock];
         controller.view should_not be_nil;
     });
 
@@ -73,9 +77,44 @@ describe(@"NCLoginViewController", ^{
         });
     });
 
-    sharedExamplesFor(@"an action that attempts to save credentials", ^(NSDictionary *sharedContext) {
+    sharedExamplesFor(@"an action that attempts to save credentials and fetch current user info", ^(NSDictionary *sharedContext) {
+        beforeEach(^{
+            loginSuccessBlockWasCalled = NO;
+            loginSuccessBlock = ^(NCCurrentUser *currentUser){
+                loginSuccessBlockWasCalled = YES;
+            };
+        });
+
         it(@"should ask the CurrentUser to save credentials", ^{
             currentUser should have_received("saveCredentialsWithEmail:andPassword:").with(controller.emailTextField.text).and_with(controller.passwordTextField.text);
+        });
+
+        it(@"should ask the CurrentUser to fetch its info from the server", ^{
+            currentUser should have_received("fetch:failure:");
+        });
+
+        context(@"when the fetch is successful", ^{
+            beforeEach(^{
+                currentUser stub_method("fetch:failure:").and_do(^(NSInvocation *invocation){
+                    [invocation getArgument:&fetchBlock atIndex:2];
+                    NCCurrentUser *someCurrentUser = [[NCCurrentUser alloc] init];
+                    fetchBlock(someCurrentUser);
+                });
+            });
+
+            it(@"should call the login success block", PENDING);
+
+            it(@"should dismiss the keyboard", PENDING);
+        });
+
+        context(@"when the fetch is unsuccessful", ^{
+            it(@"should not call the login success block", PENDING);
+
+            context(@"with a 401 unauthorized", ^{
+                it(@"should show an error", PENDING);
+                it(@"should clear credentials", PENDING);
+            });
+            it(@"should show an error", PENDING);
         });
     });
 
@@ -249,7 +288,7 @@ describe(@"NCLoginViewController", ^{
                         returnValue should be_truthy;
                     });
 
-                    itShouldBehaveLike(@"an action that attempts to save credentials");
+                    itShouldBehaveLike(@"an action that attempts to save credentials and fetch current user info");
 
                     context(@"when the email text field is empty", ^{
                         beforeEach(^{
@@ -275,7 +314,7 @@ describe(@"NCLoginViewController", ^{
             controller.passwordTextField.text = @"ilikepie";
         });
 
-        itShouldBehaveLike(@"an action that attempts to save credentials");
+        itShouldBehaveLike(@"an action that attempts to save credentials and fetch current user info");
     });
 });
 

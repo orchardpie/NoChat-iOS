@@ -64,7 +64,7 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
     return nil;
 }
 
-#pragma mark Private interface
+#pragma mark - Private interface
 
 - (NSURL *)baseURL
 {

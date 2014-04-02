@@ -22,6 +22,7 @@
 		4558D19218EB64670043418E /* NCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19118EB64670043418E /* NCMessage.m */; };
 		4558D19318EB64800043418E /* NCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19118EB64670043418E /* NCMessage.m */; };
 		4558D19518EB655B0043418E /* NCMessageSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19418EB655B0043418E /* NCMessageSpec.mm */; };
+		4558D19618EC570C0043418E /* NCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19118EB64670043418E /* NCMessage.m */; };
 		45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */; };
 		45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987AC18DA3DC300CFC545 /* NCAppDelegate.m */; };
 		45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */; };
@@ -562,6 +563,7 @@
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
+				4558D19618EC570C0043418E /* NCMessage.m in Sources */,
 				45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

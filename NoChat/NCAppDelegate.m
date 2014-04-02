@@ -17,12 +17,31 @@ NoChat *noChat;
 
 
     NCCurrentUser *currentUser = [[NCCurrentUser alloc] init];
-    NCLoginViewController *loginVC = [[NCLoginViewController alloc] initWithCurrentUser:currentUser];
+    NCLoginViewController *loginVC = [[NCLoginViewController alloc] initWithCurrentUser:currentUser
+                                                                      loginSuccessBlock:[self loginSuccessBlock]];
     self.window.rootViewController = loginVC;
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (LoginSuccessBlock)loginSuccessBlock
+{
+    return ^(NCCurrentUser *currentUser) {
+        NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] init];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesTVC];
+
+        [UIView transitionWithView:self.window
+                          duration:0.5
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            [UIView setAnimationsEnabled:NO];
+                            self.window.rootViewController = navigationController;
+                            [UIView setAnimationsEnabled:YES];
+                        }
+                        completion:nil];
+    };
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

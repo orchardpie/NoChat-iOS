@@ -1,18 +1,24 @@
 #import "NCLoginViewController.h"
+#import "NCMessagesTableViewController.h"
 #import "NCCurrentUser.h"
+
+#import "NCAppDelegate.h"
 
 @interface NCLoginViewController ()
 
 @property (strong, nonatomic) NCCurrentUser *currentUser;
+@property (strong, nonatomic) LoginSuccessBlock loginSuccess;
 
 @end
 
 @implementation NCLoginViewController
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
+        loginSuccessBlock:(LoginSuccessBlock)loginSuccess
 {
     if(self = [super init]) {
         self.currentUser = currentUser;
+        self.loginSuccess = loginSuccess;
     }
     return self;
 }
@@ -27,15 +33,21 @@
 - (IBAction)logInButtonTapped:(id)sender
 {
     [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
-    [self.currentUser fetch:nil failure:nil];
+    [self.currentUser fetch:^(NCCurrentUser *currentUser) {
+        [self.passwordTextField resignFirstResponder];
+        if (self.loginSuccess) { self.loginSuccess(currentUser); }
+
+    } failure:nil];
 }
+
+#pragma mark - UITextField delegate implementation
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == self.passwordTextField) {
         if (textField.text.length) {
             if (self.emailTextField.text.length) {
-                [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
+                [self logInButtonTapped:nil];
             } else {
                 [self.emailTextField becomeFirstResponder];
             }
