@@ -2,7 +2,8 @@
 
 @class NCCurrentUser;
 
-typedef void(^UserFetchCompletion)(NCCurrentUser *currentUser, NSError *error);
+typedef void(^UserFetchSuccessBlock)(NCCurrentUser *currentUser);
+typedef void(^UserFetchFailureBlock)(NSError *error);
 
 @interface NCCurrentUser : NSObject
 
@@ -11,6 +12,6 @@ typedef void(^UserFetchCompletion)(NCCurrentUser *currentUser, NSError *error);
 
 - (BOOL)saveCredentialsWithEmail:(NSString *)email andPassword:(NSString *)password;
 
-- (void)fetch:(UserFetchCompletion)completion;
+- (void)fetch:(UserFetchSuccessBlock)success failure:(UserFetchFailureBlock)failure;
 
 @end

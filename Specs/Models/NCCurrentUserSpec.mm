@@ -21,53 +21,72 @@ describe(@"NCCurrentUser", ^{
     });
 
     describe(@"-fetch:", ^{
-        __block UserFetchCompletion completion;
+        __block UserFetchSuccessBlock successBlock;
+        __block UserFetchFailureBlock failureBlock;
+        __block bool successWasCalled = NO;
+        __block bool failureWasCalled = NO;
 
-        subjectAction(^{ [user fetch:completion]; });
+        subjectAction(^{ [user fetch:successBlock failure:failureBlock]; });
 
-        context(@"with a completion block", ^{
-            __block bool wasCalled = NO;
+        beforeEach(^{
+            successWasCalled = NO;
+            failureWasCalled = NO;
+
+            successBlock = [^(NCCurrentUser *currentUser) { successWasCalled = YES; } copy];
+            failureBlock = [^(NSError *error) { failureWasCalled = YES; } copy];
+
+            spy_on(noChat.webService);
+        });
+
+        context(@"when the fetch is successful", ^{
+            typedef void(^AFSuccessBlock)(NSURLSessionDataTask *task, id responseObject);
+            __block __unsafe_unretained AFSuccessBlock requestBlock;
+
             beforeEach(^{
-                wasCalled = NO;
-                completion = [^(NCCurrentUser *user, NSError *error) { wasCalled = YES; } copy];
-                spy_on(noChat.webService);
-            });
-
-            context(@"when the fetch is successful", ^{
-                typedef void(^AFSuccessBlock)(NSURLSessionDataTask *task, id responseObject);
-                __block __unsafe_unretained AFSuccessBlock successBlock;
-
-                beforeEach(^{
-                        noChat.webService stub_method("GET:parameters:success:failure:").and_do(^(NSInvocation*invocation){
-                        [invocation getArgument:&successBlock atIndex:4];
-                        successBlock(nil, validJSONFromFetchUserResponse());
-                    });
-                });
-
-                it(@"should parse the JSON dictionaries into NCMessage objects", ^{
-                    user.messages.count should equal(2);
-                });
-
-                it(@"should call the success completion block", ^{
-                    wasCalled should be_truthy;
+                    noChat.webService stub_method("GET:parameters:success:failure:").and_do(^(NSInvocation*invocation){
+                    [invocation getArgument:&requestBlock atIndex:4];
+                    requestBlock(nil, validJSONFromFetchUserResponse());
                 });
             });
 
-            context(@"when the fetch is not successful", ^{
-                it(@"should call the completion block with an error", PENDING);
+            it(@"should parse the JSON dictionaries into NCMessage objects", ^{
+                user.messages.count should equal(2);
+            });
+
+            it(@"should call the success completion block", ^{
+                successWasCalled should be_truthy;
+            });
+
+            it(@"should not call the failure block", ^{
+                failureWasCalled should_not be_truthy;
             });
 
         });
 
-        context(@"without a completion block", ^{
+        context(@"when the fetch is not successful", ^{
+            typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
+            __block __unsafe_unretained AFFailureBlock requestBlock;
+
             beforeEach(^{
-                completion = nil;
+                noChat.webService stub_method("GET:parameters:success:failure:").and_do(^(NSInvocation*invocation){
+                    [invocation getArgument:&requestBlock atIndex:5];
+                    NSError *error = [[NSError alloc] init];
+                    requestBlock(nil, error);
+                });
             });
 
-            it(@"should not blow up", ^{
-                // If we get here, it didn't blow up.
+            it(@"should not call the success block", ^{
+                successWasCalled should_not be_truthy;
+            });
+            it(@"should call the failure block with an error", ^{
+                failureWasCalled should be_truthy;
+            });
+
+            it(@"should not change the user messages collection", ^{
+                user.messages should be_empty;
             });
         });
+
     });
 
     describe(@"-saveCredentialsWithEmail:andPassword:", ^{

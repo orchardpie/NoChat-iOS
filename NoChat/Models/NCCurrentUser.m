@@ -19,16 +19,15 @@
     return YES;
 }
 
-- (void)fetch:(UserFetchCompletion)completion
+- (void)fetch:(UserFetchSuccessBlock)success failure:(UserFetchFailureBlock)failure
 {
     [noChat.webService GET:@"/" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         [self setMessagesFromResponse:responseObject];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"================> %@", @"Shameful failure");
-    }];
+        if (success) { success(self); }
 
-    NSError *error = [[NSError alloc] init];
-    if (completion) { completion(self, error); }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (failure) { failure(error); }
+    }];
 }
 
 - (void)setMessagesFromResponse:(id)responseObject
