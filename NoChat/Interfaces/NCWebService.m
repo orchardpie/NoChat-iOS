@@ -34,7 +34,7 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 - (BOOL)hasCredential
 {
-    return !!self.credential;
+    return !![[NSURLCredentialStorage sharedCredentialStorage] defaultCredentialForProtectionSpace:self.protectionSpace];
 }
 
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
@@ -44,22 +44,15 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
     [self.requestSerializer setValue:self.authToken forHTTPHeaderField:@"X-User-Token"];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 
-    __weak NCWebService *this = self;
-    __block BOOL respondedToChallenge = NO;
     [self setTaskDidReceiveAuthenticationChallengeBlock:^NSURLSessionAuthChallengeDisposition(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential *__autoreleasing *credential) {
-        if (!respondedToChallenge) {
-            respondedToChallenge = YES;
-
-            *credential = this.credential;
-            return NSURLSessionAuthChallengeUseCredential;
+        if (!challenge.previousFailureCount) {
+            return NSURLSessionAuthChallengePerformDefaultHandling;
         } else {
-            return NSURLSessionAuthChallengeCancelAuthenticationChallenge;
+            return NSURLSessionAuthChallengeRejectProtectionSpace;
         }
     }];
 
-    return [super GET:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        success(task, responseObject);
-    } failure:failure];
+    return [super GET:URLString parameters:parameters success:success failure:failure];
 
     return nil;
 }
@@ -80,13 +73,8 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
     return [[NSURLProtectionSpace alloc] initWithHost:BASE_HOST
                                                  port:BASE_PORT
                                              protocol:BASE_SCHEME
-                                                realm:nil
+                                                realm:@"Application"
                                  authenticationMethod:NSURLAuthenticationMethodHTTPBasic];
-}
-
-- (NSURLCredential *)credential
-{
-    return [[NSURLCredentialStorage sharedCredentialStorage] defaultCredentialForProtectionSpace:self.protectionSpace];
 }
 
 @end
