@@ -1,7 +1,6 @@
 platform :ios, '7.0'
 
 pod 'AFNetworking'
-pod 'TestFlightSDK'
 pod 'MBProgressHUD'
 
 target 'UISpecs', exclusive: true do
