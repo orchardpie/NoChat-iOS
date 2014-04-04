@@ -10,9 +10,6 @@ static NSString * const BASE_HOST = @"nochat.herokuapp.com";
 static const int BASE_PORT = 0;
 #endif
 
-typedef void(^AFSuccessBlock)(NSURLSessionDataTask *task, id responseObject);
-typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
-
 @interface NCWebService ()
 
 @property (strong, nonatomic) NSString *authToken;
@@ -39,8 +36,9 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(NSDictionary *)parameters
-                      success:(AFSuccessBlock)success
-                      failure:(AFFailureBlock)failure {
+                      success:(WebServiceSuccess)success
+                serverFailure:(WebServiceServerFailure)serverFailure
+               networkFailure:(WebServiceNetworkFailure)networkFailure {
     [self.requestSerializer setValue:self.authToken forHTTPHeaderField:@"X-User-Token"];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 
@@ -52,9 +50,17 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
         }
     }];
 
-    return [super GET:URLString parameters:parameters success:success failure:failure];
+    return [super GET:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        // Set authorization token from headers
+        success(responseObject);
 
-    return nil;
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSHTTPURLResponse *failureResponse = (NSHTTPURLResponse *)task.response;
+
+        if ([failureResponse statusCode] == 401) { return; }
+
+        [failureResponse statusCode] ? serverFailure(@"failure from response body") : networkFailure(error);
+    }];
 }
 
 #pragma mark - Private interface

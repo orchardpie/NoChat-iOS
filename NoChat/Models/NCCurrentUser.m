@@ -19,15 +19,15 @@
     return YES;
 }
 
-- (void)fetch:(UserFetchSuccessBlock)success failure:(UserFetchFailureBlock)failure
+- (void)fetch:(UserFetchSuccess)success
+serverFailure:(WebServiceServerFailure)serverFailure
+networkFailure:(WebServiceNetworkFailure)networkFailure
 {
-    [noChat.webService GET:@"/" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self setMessagesFromResponse:responseObject];
+    [noChat.webService GET:@"/" parameters:nil success:^(id responseBody) {
+        [self setMessagesFromResponse:responseBody];
         if (success) { success(self); }
 
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (failure) { failure(error); }
-    }];
+    } serverFailure:serverFailure networkFailure:networkFailure];
 }
 
 - (void)setMessagesFromResponse:(id)responseObject

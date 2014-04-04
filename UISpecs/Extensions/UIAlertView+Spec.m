@@ -14,10 +14,24 @@ static UIAlertView *__currentAlertView;
     __currentAlertView = alertView;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
+
+- (id)initWithTitle:(NSString *)title
+            message:(NSString *)message
+           delegate:(id)delegate
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+  otherButtonTitles:(NSString *)otherButtonTitles, ... {
+    if (self = [super init]) {
+        self.title = title;
+        self.message = message;
+    }
+    return self;
+}
+
 - (void)show
 {
-    UIAlertView *alertView = [[self.class alloc] init];
-    self.class.currentAlertView = alertView;
+    self.class.currentAlertView = self;
 }
 
 @end

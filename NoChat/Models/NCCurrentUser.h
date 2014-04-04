@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
+#import "NCWebService.h"
 
 @class NCCurrentUser;
 
-typedef void(^UserFetchSuccessBlock)(NCCurrentUser *currentUser);
-typedef void(^UserFetchFailureBlock)(NSError *error);
+typedef void(^UserFetchSuccess)(NCCurrentUser *currentUser);
 
 @interface NCCurrentUser : NSObject
 
@@ -12,6 +12,8 @@ typedef void(^UserFetchFailureBlock)(NSError *error);
 
 - (BOOL)saveCredentialsWithEmail:(NSString *)email andPassword:(NSString *)password;
 
-- (void)fetch:(UserFetchSuccessBlock)success failure:(UserFetchFailureBlock)failure;
+- (void)fetch:(UserFetchSuccess)success
+serverFailure:(WebServiceServerFailure)serverFailure
+networkFailure:(WebServiceNetworkFailure)networkFailure;
 
 @end

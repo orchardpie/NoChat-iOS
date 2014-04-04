@@ -98,13 +98,13 @@ describe(@"NCLoginViewController", ^{
         });
 
         it(@"should ask the CurrentUser to fetch its info from the server", ^{
-            currentUser should have_received("fetch:failure:");
+            currentUser should have_received("fetch:serverFailure:networkFailure:");
         });
 
         context(@"when the fetch is successful", ^{
             beforeEach(^{
-                currentUser stub_method("fetch:failure:").and_do(^(NSInvocation *invocation) {
-                    UserFetchSuccessBlock fetchBlock;
+                currentUser stub_method("fetch:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                    UserFetchSuccess fetchBlock;
                     [invocation getArgument:&fetchBlock atIndex:2];
 
                     NCCurrentUser *someCurrentUser = [[NCCurrentUser alloc] init];
@@ -121,17 +121,7 @@ describe(@"NCLoginViewController", ^{
             });
         });
 
-        context(@"when the fetch is unsuccessful", ^{
-            beforeEach(^{
-                currentUser stub_method("fetch:failure:").and_do(^(NSInvocation *invocation) {
-                    UserFetchFailureBlock fetchBlock;
-                    [invocation getArgument:&fetchBlock atIndex:3];
-
-                    NSError *error = [[NSError alloc] init];
-                    fetchBlock(error);
-                });
-            });
-
+        sharedExamplesFor(@"an action which displays an alert message for an error", ^(NSDictionary *sharedContext) {
             it(@"should not call the login success block", ^{
                 loginSuccessBlockWasCalled should_not be_truthy;
             });
@@ -140,15 +130,38 @@ describe(@"NCLoginViewController", ^{
                 MBProgressHUD.currentHUD should be_nil;
             });
 
-            context(@"with a 401 unauthorized", ^{
-                it(@"should clear credentials", PENDING);
+            it(@"should show an error", ^{
+                UIAlertView.currentAlertView should_not be_nil;
+                UIAlertView.currentAlertView.title should_not be_nil;
+                UIAlertView.currentAlertView.message should_not be_nil;
             });
+        });
 
-            context(@"with any error besides a 401", ^{
-                it(@"should show an error", ^{
-                    UIAlertView.currentAlertView should_not be_nil;
+        context(@"when the fetch attempt yields a server failure", ^{
+            beforeEach(^{
+                currentUser stub_method("fetch:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                    WebServiceServerFailure fetchBlock;
+                    [invocation getArgument:&fetchBlock atIndex:3];
+                    NSString *failureMessage = @"shameful failure";
+                    fetchBlock(failureMessage);
                 });
             });
+
+            itShouldBehaveLike(@"an action which displays an alert message for an error");
+        });
+
+        context(@"when the fetch attempt yields a server failure", ^{
+            beforeEach(^{
+                currentUser stub_method("fetch:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                    WebServiceNetworkFailure fetchBlock;
+                    [invocation getArgument:&fetchBlock atIndex:4];
+                    NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
+                                                                                                        NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
+                    fetchBlock(error);
+                });
+            });
+
+            itShouldBehaveLike(@"an action which displays an alert message for an error");
         });
     });
 
@@ -211,7 +224,7 @@ describe(@"NCLoginViewController", ^{
                     textField = controller.passwordTextField;
                 });
 
-                context(@"when the text field will be empty", ^{
+                context(@"when the text field is empty", ^{
                     beforeEach(^{
                         replacementString = @"";
                     });
