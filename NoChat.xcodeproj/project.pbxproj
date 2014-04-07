@@ -47,6 +47,11 @@
 		45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F9918E1DC5100F7CA64 /* NCLoginViewController.m */; };
 		45AB9FA318E32A5900F7CA64 /* NCCurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7B18E08A1E00F7CA64 /* NCCurrentUser.m */; };
 		45AB9FA518E4756E00F7CA64 /* NCSpecHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9FA418E4756E00F7CA64 /* NCSpecHelper.mm */; };
+		45B1077D18F34ED700FA7428 /* NCSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1077B18F34ED700FA7428 /* NCSignupViewController.m */; };
+		45B1077E18F34ED700FA7428 /* NCSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1077B18F34ED700FA7428 /* NCSignupViewController.m */; };
+		45B1077F18F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
+		45B1078018F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
+		45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -99,6 +104,10 @@
 		45AB9F9A18E1DC5100F7CA64 /* NCLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCLoginViewController.xib; sourceTree = "<group>"; };
 		45AB9FA018E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCLoginViewControllerSpec.mm; sourceTree = "<group>"; };
 		45AB9FA418E4756E00F7CA64 /* NCSpecHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCSpecHelper.mm; sourceTree = "<group>"; };
+		45B1077A18F34ED700FA7428 /* NCSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCSignupViewController.h; sourceTree = "<group>"; };
+		45B1077B18F34ED700FA7428 /* NCSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCSignupViewController.m; sourceTree = "<group>"; };
+		45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCSignupViewController.xib; sourceTree = "<group>"; };
+		45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCSignupViewControllerSpec.mm; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -225,6 +234,9 @@
 				45AB9F9818E1DC5100F7CA64 /* NCLoginViewController.h */,
 				45AB9F9918E1DC5100F7CA64 /* NCLoginViewController.m */,
 				45AB9F9A18E1DC5100F7CA64 /* NCLoginViewController.xib */,
+				45B1077A18F34ED700FA7428 /* NCSignupViewController.h */,
+				45B1077B18F34ED700FA7428 /* NCSignupViewController.m */,
+				45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -280,6 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				45AB9FA018E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm */,
+				45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -441,6 +454,7 @@
 				454987AF18DA3DC300CFC545 /* Images.xcassets in Resources */,
 				454987D118DB2B9100CFC545 /* NCMessagesTableViewController.xib in Resources */,
 				45AB9F9C18E1DC5100F7CA64 /* NCLoginViewController.xib in Resources */,
+				45B1077F18F34ED700FA7428 /* NCSignupViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45EB035918DCED2B0012A621 /* InfoPlist.strings in Resources */,
+				45B1078018F34ED700FA7428 /* NCSignupViewController.xib in Resources */,
 				45AB9F9D18E1DC5800F7CA64 /* NCLoginViewController.xib in Resources */,
 				4558D19C18ECA42C0043418E /* Default-568h@2x.png in Resources */,
 			);
@@ -575,6 +590,7 @@
 				454987AD18DA3DC300CFC545 /* NCAppDelegate.m in Sources */,
 				45AB9F9018E0D27400F7CA64 /* NoChat.m in Sources */,
 				45AB9F7C18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
+				45B1077D18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +598,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */,
 				4558D19F18ECB3B70043418E /* UIAlertView+Spec.m in Sources */,
 				4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */,
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
@@ -589,6 +606,7 @@
 				45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */,
 				45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */,
 				45AB9FA318E32A5900F7CA64 /* NCCurrentUser.m in Sources */,
+				45B1077E18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,

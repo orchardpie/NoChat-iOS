@@ -64,8 +64,8 @@ describe(@"NCLoginViewController", ^{
             it(@"should mask the values", ^{
                 controller.passwordTextField.secureTextEntry should be_truthy;
             });
-
         });
+
         describe(@"-logInButton", ^{
             it(@"should be", ^{
                 controller.logInButton should_not be_nil;
