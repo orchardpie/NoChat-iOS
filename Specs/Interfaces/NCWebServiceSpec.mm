@@ -77,34 +77,55 @@ describe(@"NCWebService", ^{
         it(@"should send an HTTP GET request to the specified path", PENDING);
         it(@"should include the auth token in the X-NoChat-AuthToken header", PENDING);
         it(@"should set the Accept header to application/json", PENDING);
+    });
 
-        context(@"on 200 response", ^{
-            it(@"should invoke the success block", PENDING);
+    context(@"with an active request", ^{
+        typedef NSURLSessionAuthChallengeDisposition (^AFURLSessionTaskDidReceiveAuthenticationChallengeBlock)(NSURLSession *session, NSURLSessionTask *task, id<CedarDouble> challenge, NSURLCredential *__autoreleasing *credential);
+        __block AFURLSessionTaskDidReceiveAuthenticationChallengeBlock challengeBlock;
+        __block id<CedarDouble> challenge;
+        __block NSURLCredential *credential;
+        __block NSURLSessionAuthChallengeDisposition disposition;
+
+        beforeEach(^{
+            challenge = nice_fake_for([NSURLAuthenticationChallenge class]);
+            credential = [[NSURLCredential alloc] initWithUser:@"foo" password:@"bar" persistence:NSURLCredentialPersistenceNone];
+
+            [webService GET:@"/" parameters:@{} success:nil serverFailure:nil networkFailure:nil];
+            challengeBlock = (AFURLSessionTaskDidReceiveAuthenticationChallengeBlock)[webService performSelector:NSSelectorFromString(@"taskDidReceiveAuthenticationChallenge")];
         });
 
-        context(@"on 401 response", ^{
-            it(@"should send a response to the authentication challenge", PENDING);
-
-            context(@"on subsequent 401", ^{
-                it(@"should clear the cached credentials", PENDING);
-                it(@"should notify some sort of global mechanism that the user is no longer authenticated", PENDING);
+        describe(@"which receives an authentication challenge", ^{
+            subjectAction(^{
+                disposition = challengeBlock(nil, nil, challenge, &credential);
             });
 
-            context(@"on subsequent success", ^{
-                it(@"should invoke the success block", PENDING);
-            });
-
-            context(@"on subsequent non-401 failure", ^{
-                it(@"should invoke the failure block", PENDING);
+            it(@"should return a default handling disposition", ^{
+                disposition should equal(NSURLSessionAuthChallengePerformDefaultHandling);
             });
         });
 
-        context(@"on response with another HTTP status code", ^{
-            it(@"should invoke the failure block with something something server error", PENDING);
-        });
+        context(@"which has already responded to an authentication challenge", ^{
+            beforeEach(^{
+                credentialStorage stub_method("removeCredential:forProtectionSpace:");
 
-        context(@"on network error", ^{
-            it(@"should invoke the failure block with something something network error", PENDING);
+                NSInteger previousFailureCount = 1;
+                challenge stub_method("previousFailureCount").and_return(previousFailureCount);
+                challengeBlock(nil, nil, challenge, &credential);
+            });
+
+            describe(@"another authentication challenge", ^{
+                subjectAction(^{
+                    disposition = challengeBlock(nil, nil, challenge, &credential);
+                });
+
+                it(@"should clear the credentials", ^{
+                    credentialStorage should have_received("removeCredential:forProtectionSpace:").with(credential, Arguments::any([NSURLProtectionSpace class]));
+                });
+
+                it(@"should return a challenge reject disposition", ^{
+                    disposition should equal(NSURLSessionAuthChallengeRejectProtectionSpace);
+                });
+            });
         });
     });
 });

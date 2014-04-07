@@ -42,10 +42,13 @@ static const int BASE_PORT = 0;
     [self.requestSerializer setValue:self.authToken forHTTPHeaderField:@"X-User-Token"];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 
+    __weak __typeof(self)weakSelf = self;
     [self setTaskDidReceiveAuthenticationChallengeBlock:^NSURLSessionAuthChallengeDisposition(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential *__autoreleasing *credential) {
         if (!challenge.previousFailureCount) {
             return NSURLSessionAuthChallengePerformDefaultHandling;
         } else {
+            [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:*credential
+                                                            forProtectionSpace:weakSelf.protectionSpace];
             return NSURLSessionAuthChallengeRejectProtectionSpace;
         }
     }];
