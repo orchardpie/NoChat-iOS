@@ -60,8 +60,6 @@ static const int BASE_PORT = 0;
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSHTTPURLResponse *failureResponse = (NSHTTPURLResponse *)task.response;
 
-        if ([failureResponse statusCode] == 401) { return; }
-
         [failureResponse statusCode] ? serverFailure(@"There was a problem with the NoChat server. Please try again later.") : networkFailure(error);
     }];
 }
