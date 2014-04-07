@@ -20,7 +20,15 @@ static const int BASE_PORT = 0;
 
 - (instancetype)init
 {
-    return [super initWithBaseURL:self.baseURL];
+    return [super initWithBaseURL:self.baseURL sessionConfiguration:self.sessionConfiguration];
+}
+
+- (NSURLSessionConfiguration *)sessionConfiguration
+{
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    [sessionConfiguration setHTTPAdditionalHeaders:@{ @"Accept": @"application/json" }];
+
+    return sessionConfiguration;
 }
 
 - (void)setCredential:(NSURLCredential *)credential
@@ -39,8 +47,6 @@ static const int BASE_PORT = 0;
                       success:(WebServiceSuccess)success
                 serverFailure:(WebServiceServerFailure)serverFailure
                networkFailure:(WebServiceNetworkFailure)networkFailure {
-    [self.requestSerializer setValue:self.authToken forHTTPHeaderField:@"X-User-Token"];
-    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 
     __weak __typeof(self)weakSelf = self;
     [self setTaskDidReceiveAuthenticationChallengeBlock:^NSURLSessionAuthChallengeDisposition(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential *__autoreleasing *credential) {

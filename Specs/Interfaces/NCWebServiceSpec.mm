@@ -32,6 +32,10 @@ describe(@"NCWebService", ^{
         it(@"should set the credential to nil", ^{
             webService.hasCredential should_not be_truthy;
         });
+
+        it(@"should set the accept headers for the session", ^{
+            webService.session.configuration.HTTPAdditionalHeaders[@"Accept"] should equal(@"application/json");
+        });
     });
 
     describe(@"-setCredential:", ^{
