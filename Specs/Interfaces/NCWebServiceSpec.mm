@@ -1,5 +1,11 @@
 #import "NCWebService.h"
 
+typedef NSURLSessionAuthChallengeDisposition (^AFURLSessionTaskDidReceiveAuthenticationChallengeBlock)(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential * __autoreleasing *credential);
+@interface AFURLSessionManager (Spec)
+- (AFURLSessionTaskDidReceiveAuthenticationChallengeBlock)taskDidReceiveAuthenticationChallenge;
+@end
+
+
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
@@ -80,9 +86,8 @@ describe(@"NCWebService", ^{
     });
 
     context(@"with an active request", ^{
-        typedef NSURLSessionAuthChallengeDisposition (^AFURLSessionTaskDidReceiveAuthenticationChallengeBlock)(NSURLSession *session, NSURLSessionTask *task, id<CedarDouble> challenge, NSURLCredential *__autoreleasing *credential);
         __block AFURLSessionTaskDidReceiveAuthenticationChallengeBlock challengeBlock;
-        __block id<CedarDouble> challenge;
+        __block NSURLAuthenticationChallenge<CedarDouble> *challenge;
         __block NSURLCredential *credential;
         __block NSURLSessionAuthChallengeDisposition disposition;
 
@@ -91,7 +96,7 @@ describe(@"NCWebService", ^{
             credential = [[NSURLCredential alloc] initWithUser:@"foo" password:@"bar" persistence:NSURLCredentialPersistenceNone];
 
             [webService GET:@"/" parameters:@{} success:nil serverFailure:nil networkFailure:nil];
-            challengeBlock = (AFURLSessionTaskDidReceiveAuthenticationChallengeBlock)[webService performSelector:NSSelectorFromString(@"taskDidReceiveAuthenticationChallenge")];
+            challengeBlock = [webService taskDidReceiveAuthenticationChallenge];
         });
 
         describe(@"which receives an authentication challenge", ^{
