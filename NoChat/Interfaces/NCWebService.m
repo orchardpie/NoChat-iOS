@@ -47,8 +47,8 @@ static const int BASE_PORT = 0;
         if (!challenge.previousFailureCount) {
             return NSURLSessionAuthChallengePerformDefaultHandling;
         } else {
-            [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:*credential
-                                                            forProtectionSpace:weakSelf.protectionSpace];
+            NSURLCredentialStorage * credentialStore = NSURLCredentialStorage.sharedCredentialStorage;
+            [credentialStore removeCredential:challenge.proposedCredential forProtectionSpace:weakSelf.protectionSpace];
             return NSURLSessionAuthChallengeRejectProtectionSpace;
         }
     }];

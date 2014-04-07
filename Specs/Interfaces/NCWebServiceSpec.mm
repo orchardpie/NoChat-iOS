@@ -110,11 +110,15 @@ describe(@"NCWebService", ^{
         });
 
         context(@"which has already responded to an authentication challenge", ^{
+            __block NSURLCredential<CedarDouble> *proposedCredential;
+
             beforeEach(^{
                 credentialStorage stub_method("removeCredential:forProtectionSpace:");
+                proposedCredential = nice_fake_for([NSURLCredential class]);
 
                 NSInteger previousFailureCount = 1;
                 challenge stub_method("previousFailureCount").and_return(previousFailureCount);
+                challenge stub_method("proposedCredential").and_return(proposedCredential);
                 challengeBlock(nil, nil, challenge, &credential);
             });
 
@@ -124,7 +128,7 @@ describe(@"NCWebService", ^{
                 });
 
                 it(@"should clear the credentials", ^{
-                    credentialStorage should have_received("removeCredential:forProtectionSpace:").with(credential, Arguments::any([NSURLProtectionSpace class]));
+                    credentialStorage should have_received("removeCredential:forProtectionSpace:").with(proposedCredential, Arguments::any([NSURLProtectionSpace class]));
                 });
 
                 it(@"should return a challenge reject disposition", ^{
