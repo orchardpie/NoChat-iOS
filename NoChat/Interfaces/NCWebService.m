@@ -62,7 +62,7 @@ static const int BASE_PORT = 0;
 
         if ([failureResponse statusCode] == 401) { return; }
 
-        [failureResponse statusCode] ? serverFailure(@"failure from response body") : networkFailure(error);
+        [failureResponse statusCode] ? serverFailure(@"There was a problem with the NoChat server. Please try again later.") : networkFailure(error);
     }];
 }
 
