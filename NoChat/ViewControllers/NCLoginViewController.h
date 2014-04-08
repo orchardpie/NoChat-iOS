@@ -2,8 +2,6 @@
 
 @class NCCurrentUser;
 
-typedef void(^LoginSuccessBlock)();
-
 @interface NCLoginViewController : UIViewController<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
@@ -11,6 +9,6 @@ typedef void(^LoginSuccessBlock)();
 @property (weak, nonatomic) IBOutlet UIButton *logInButton;
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-        loginSuccessBlock:(LoginSuccessBlock)loginSuccess;
+        loginSuccessBlock:(void(^)())loginSuccess;
 
 @end

@@ -11,7 +11,7 @@ SPEC_BEGIN(NCLoginViewControllerSpec)
 describe(@"NCLoginViewController", ^{
     __block NCLoginViewController *controller;
     __block id<CedarDouble> currentUser;
-    __block LoginSuccessBlock loginSuccessBlock;
+    __block void(^loginSuccessBlock)();
     __block bool loginSuccessBlockWasCalled;
 
     beforeEach(^{

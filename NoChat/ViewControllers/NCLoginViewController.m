@@ -6,14 +6,14 @@
 @interface NCLoginViewController ()
 
 @property (strong, nonatomic) NCCurrentUser *currentUser;
-@property (strong, nonatomic) LoginSuccessBlock loginSuccess;
+@property (strong, nonatomic) void (^loginSuccess)();
 
 @end
 
 @implementation NCLoginViewController
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-        loginSuccessBlock:(LoginSuccessBlock)loginSuccess
+        loginSuccessBlock:(void(^)())loginSuccess
 {
     if(self = [super init]) {
         self.currentUser = currentUser;

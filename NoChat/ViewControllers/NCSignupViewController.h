@@ -2,8 +2,6 @@
 
 @class NCCurrentUser;
 
-typedef void(^SignupSuccessBlock)(void);
-
 @interface NCSignupViewController : UIViewController<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
@@ -11,7 +9,7 @@ typedef void(^SignupSuccessBlock)(void);
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-       signupSuccessBlock:(SignupSuccessBlock)signupSuccess;
+       signupSuccessBlock:(void(^)())signupSuccess;
 
 @end
 

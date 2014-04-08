@@ -26,9 +26,9 @@ NoChat *noChat;
     return YES;
 }
 
-- (LoginSuccessBlock)loginSuccessBlock
+- (void(^)())authenticationSuccessBlock
 {
-    return ^(NCCurrentUser *currentUser) {
+    return ^{
         NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] init];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesTVC];
 

@@ -11,7 +11,7 @@ SPEC_BEGIN(NCSignupViewControllerSpec)
 describe(@"NCSignupViewController", ^{
     __block NCSignupViewController *controller;
     __block id<CedarDouble> currentUser;
-    __block SignupSuccessBlock signupSuccessBlock;
+    __block void (^signupSuccessBlock)();
     __block bool signupSuccessBlockWasCalled;
 
     beforeEach(^{

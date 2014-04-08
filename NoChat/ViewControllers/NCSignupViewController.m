@@ -11,7 +11,7 @@
 @implementation NCSignupViewController
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-       signupSuccessBlock:(SignupSuccessBlock)signupSuccess
+       signupSuccessBlock:(void(^)())signupSuccess
 {
     if(self = [super init]) {
         self.currentUser = currentUser;
