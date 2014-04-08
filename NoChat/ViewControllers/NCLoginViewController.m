@@ -30,6 +30,7 @@
 {
     [super viewDidLoad];
 
+    self.title = @"Log In";
     self.logInButton.enabled = NO;
 }
 

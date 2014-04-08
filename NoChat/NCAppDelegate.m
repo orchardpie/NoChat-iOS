@@ -6,6 +6,12 @@ NoChat *noChat;
 #import "NCMessagesTableViewController.h"
 #import "NCCurrentUser.h"
 
+@interface NCAppDelegate ()
+
+@property (strong, nonatomic) NCCurrentUser *currentUser;
+
+@end
+
 @implementation NCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -13,50 +19,51 @@ NoChat *noChat;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     noChat = [[NoChat alloc] init];
+    self.currentUser = [[NCCurrentUser alloc] init];
 
-
-    NCCurrentUser *currentUser = [[NCCurrentUser alloc] init];
-    NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:currentUser delegate:self];
-    self.window.rootViewController = signupVC;
+    NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:signupVC];
+    self.window.rootViewController = navigationController;
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-- (void(^)())authenticationSuccessBlock
-{
-    return ^{
-        NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] init];
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesTVC];
-
-        [UIView transitionWithView:self.window
-                          duration:0.5
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{
-                            [UIView setAnimationsEnabled:NO];
-                            self.window.rootViewController = navigationController;
-                            [UIView setAnimationsEnabled:YES];
-                        }
-                        completion:nil];
-    };
-}
-
 #pragma mark - Signup and login delegate implementation
 
 - (void)userDidSwitchToLogin
 {
-
+    NCLoginViewController *loginVC = [[NCLoginViewController alloc] initWithCurrentUser:self.currentUser
+                                                                               delegate:self];
+    [self transitionToViewController:loginVC];
 }
 
 - (void)userDidSwitchToSignup
 {
-
+    NCSignupViewController *loginVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser
+                                                                               delegate:self];
+    [self transitionToViewController:loginVC];
 }
 
 - (void)userDidAuthenticate
 {
+    NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] init];
+    [self transitionToViewController:messagesTVC];
+}
 
+- (void)transitionToViewController:(UIViewController *)viewController
+{
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [UIView transitionWithView:self.window
+                      duration:0.5
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        [UIView setAnimationsEnabled:NO];
+                        self.window.rootViewController = navigationController;
+                        [UIView setAnimationsEnabled:YES];
+                    }
+                    completion:nil];
 }
 
 #pragma mark - app delegate stuff

@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
 
+    self.title = @"Sign Up";
     self.signUpButton.enabled = NO;
 }
 

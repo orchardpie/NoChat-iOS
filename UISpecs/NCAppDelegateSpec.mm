@@ -24,9 +24,27 @@ describe(@"NCAppDelegate", ^{
             noChat should_not be_nil;
         });
 
-        it(@"should set login view as the root view controller", ^{
-            delegate.window.rootViewController should be_instance_of([NCSignupViewController class]);
+        it(@"should set signup view as the root view controller", ^{
+            delegate.window.rootViewController should be_instance_of([UINavigationController class]);
+            UINavigationController *navController = (id)delegate.window.rootViewController;
+            navController.topViewController should be_instance_of([NCSignupViewController class]);
         });
+    });
+
+    describe(@"-userDidSwitchToLogin", ^{
+        beforeEach(^{
+            [delegate userDidSwitchToLogin];
+        });
+
+
+    });
+
+    describe(@"-userDidAuthenticate", ^{
+        beforeEach(^{
+            [delegate userDidAuthenticate];
+        });
+
+        it(@"should do something", PENDING);
     });
 });
 
