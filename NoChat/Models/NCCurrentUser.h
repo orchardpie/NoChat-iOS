@@ -16,4 +16,8 @@ typedef void(^UserFetchSuccess)(NCCurrentUser *currentUser);
 serverFailure:(WebServiceServerFailure)serverFailure
 networkFailure:(WebServiceNetworkFailure)networkFailure;
 
+- (void)create:(UserFetchSuccess)success
+ serverFailure:(WebServiceServerFailure)serverFailure
+networkFailure:(WebServiceNetworkFailure)networkFailure;
+
 @end

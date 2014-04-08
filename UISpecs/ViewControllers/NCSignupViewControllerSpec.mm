@@ -1,4 +1,7 @@
 #import "NCSignupViewController.h"
+#import "NCCurrentUser.h"
+#import "MBProgressHUD+Spec.h"
+#import "UIAlertView+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -7,9 +10,13 @@ SPEC_BEGIN(NCSignupViewControllerSpec)
 
 describe(@"NCSignupViewController", ^{
     __block NCSignupViewController *controller;
+    __block id<CedarDouble> currentUser;
+    __block SignupSuccessBlock signupSuccessBlock;
+    __block bool signupSuccessBlockWasCalled;
 
     beforeEach(^{
-        controller = [[NCSignupViewController alloc] init];
+        currentUser = nice_fake_for([NCCurrentUser class]);
+        controller = [[NCSignupViewController alloc] initWithCurrentUser:currentUser signupSuccessBlock:^{}];
         controller.view should_not be_nil;
     });
 
@@ -63,6 +70,48 @@ describe(@"NCSignupViewController", ^{
                 controller.signUpButton should_not be_nil;
             });
         });
+    });
+
+    describe(@"-viewDidLoad", ^{
+        it(@"should disable the sign up button", ^{
+            controller.signUpButton.enabled should_not be_truthy;
+        });
+    });
+
+    sharedExamplesFor(@"an action that attempts to save credentials and create current user", ^(NSDictionary *sharedContext) {
+        beforeEach(^{
+            signupSuccessBlockWasCalled = NO;
+            signupSuccessBlock = ^{
+                signupSuccessBlockWasCalled = YES;
+            };
+        });
+
+        it(@"should dismiss the keyboard", PENDING);
+
+        it(@"should show the progress indicator", ^{
+            MBProgressHUD.currentHUD should_not be_nil;
+        });
+
+        it(@"should ask the CurrentUser to save credentials", ^{
+            currentUser should have_received("saveCredentialsWithEmail:andPassword:").with(controller.emailTextField.text).and_with(controller.passwordTextField.text);
+        });
+
+        it(@"should ask the CurrentUser to fetch its info from the server", ^{
+            currentUser should have_received("create:serverFailure:networkFailure:");
+        });
+    });
+
+    describe(@"-signUpButtonTapped", ^{
+        subjectAction(^{
+            [controller.signUpButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+        });
+
+        beforeEach(^{
+            controller.emailTextField.text = @"kevinwo@orchardpie.com";
+            controller.passwordTextField.text = @"ilikepie";
+        });
+
+        itShouldBehaveLike(@"an action that attempts to save credentials and create current user");
     });
 });
 

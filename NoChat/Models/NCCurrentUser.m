@@ -30,6 +30,13 @@ networkFailure:(WebServiceNetworkFailure)networkFailure
     } serverFailure:serverFailure networkFailure:networkFailure];
 }
 
+- (void)create:(UserFetchSuccess)success
+ serverFailure:(WebServiceServerFailure)serverFailure
+networkFailure:(WebServiceNetworkFailure)networkFailure
+{
+    // no op, yet
+}
+
 - (void)setMessagesFromResponse:(id)responseObject
 {
     NSMutableArray *messagesArray = [NSMutableArray array];
