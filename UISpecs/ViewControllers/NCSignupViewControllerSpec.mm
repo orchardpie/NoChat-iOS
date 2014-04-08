@@ -26,6 +26,10 @@ describe(@"NCSignupViewController", ^{
                 controller.emailTextField should_not be_nil;
             });
 
+            it(@"should have delegate set to controller", ^{
+                controller.emailTextField.delegate should equal(controller);
+            });
+
             it(@"should bring up the e-mail keyboard", ^{
                 controller.emailTextField.keyboardType should equal(UIKeyboardTypeEmailAddress);
             });
@@ -46,6 +50,10 @@ describe(@"NCSignupViewController", ^{
         describe(@"-passwordTextField", ^{
             it(@"should be", ^{
                 controller.passwordTextField should_not be_nil;
+            });
+
+            it(@"should have delegate set to controller", ^{
+                controller.passwordTextField.delegate should equal(controller);
             });
 
             it(@"should bring up the password keyboard", ^{
