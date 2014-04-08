@@ -87,8 +87,6 @@ describe(@"NCLoginViewController", ^{
             };
         });
 
-        it(@"should dismiss the keyboard", PENDING);
-
         it(@"should show the progress indicator", ^{
             MBProgressHUD.currentHUD should_not be_nil;
         });
@@ -306,6 +304,7 @@ describe(@"NCLoginViewController", ^{
             context(@"when the text field is the password text field", ^{
                 beforeEach(^{
                     textField = controller.passwordTextField;
+                    spy_on(controller.passwordTextField);
                     spy_on(controller.emailTextField);
                 });
 
@@ -321,6 +320,10 @@ describe(@"NCLoginViewController", ^{
                     it(@"should not attempt to save credentials", ^{
                         currentUser should_not have_received("saveCredentialsWithEmail:andPassword");
                     });
+
+                    it(@"should not resign first responder", ^{
+                        controller.passwordTextField should_not have_received("resignFirstResponder");
+                    });
                 });
 
                 context(@"when the password text field is not empty", ^{
@@ -333,7 +336,17 @@ describe(@"NCLoginViewController", ^{
                         returnValue should be_truthy;
                     });
 
-                    itShouldBehaveLike(@"an action that attempts to save credentials and fetch current user info");
+                    context(@"when the email text field is not empty", ^{
+                        beforeEach(^{
+                            controller.emailTextField.text should_not be_empty;
+                        });
+
+                        itShouldBehaveLike(@"an action that attempts to save credentials and fetch current user info");
+
+                        it(@"should resign first responder", ^{
+                            controller.passwordTextField should have_received("resignFirstResponder");
+                        });
+                    });
 
                     context(@"when the email text field is empty", ^{
                         beforeEach(^{
