@@ -4,7 +4,7 @@ NoChat *noChat;
 
 #import "NCAppDelegate.h"
 #import "NCMessagesTableViewController.h"
-#import "NCLoginViewController.h"
+#import "NCSignupViewController.h"
 #import "NCCurrentUser.h"
 
 @implementation NCAppDelegate
@@ -17,9 +17,9 @@ NoChat *noChat;
 
 
     NCCurrentUser *currentUser = [[NCCurrentUser alloc] init];
-    NCLoginViewController *loginVC = [[NCLoginViewController alloc] initWithCurrentUser:currentUser
-                                                                      loginSuccessBlock:[self loginSuccessBlock]];
-    self.window.rootViewController = loginVC;
+    NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:currentUser
+                                                                signupSuccessBlock:[self authenticationSuccessBlock]];
+    self.window.rootViewController = signupVC;
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

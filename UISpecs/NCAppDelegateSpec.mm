@@ -1,5 +1,5 @@
 #import "NCAppDelegate.h"
-#import "NCLoginViewController.h"
+#import "NCSignupViewController.h"
 #import "NCMessagesTableViewController.h"
 #import "NoChat.h"
 
@@ -25,7 +25,7 @@ describe(@"NCAppDelegate", ^{
         });
 
         it(@"should set login view as the root view controller", ^{
-            delegate.window.rootViewController should be_instance_of([NCLoginViewController class]);
+            delegate.window.rootViewController should be_instance_of([NCSignupViewController class]);
         });
     });
 });
