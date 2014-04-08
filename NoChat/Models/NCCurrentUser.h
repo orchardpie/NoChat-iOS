@@ -3,8 +3,6 @@
 
 @class NCCurrentUser;
 
-typedef void(^UserFetchSuccess)(NCCurrentUser *currentUser);
-
 @interface NCCurrentUser : NSObject
 
 @property (strong, nonatomic) NSString *name;
@@ -12,12 +10,12 @@ typedef void(^UserFetchSuccess)(NCCurrentUser *currentUser);
 
 - (BOOL)saveCredentialsWithEmail:(NSString *)email andPassword:(NSString *)password;
 
-- (void)fetch:(UserFetchSuccess)success
-serverFailure:(WebServiceServerFailure)serverFailure
-networkFailure:(WebServiceNetworkFailure)networkFailure;
+- (void)fetchWithSuccess:(void(^)())success
+           serverFailure:(WebServiceServerFailure)serverFailure
+          networkFailure:(WebServiceNetworkFailure)networkFailure;
 
-- (void)create:(UserFetchSuccess)success
- serverFailure:(WebServiceServerFailure)serverFailure
-networkFailure:(WebServiceNetworkFailure)networkFailure;
+- (void)signUpWithSuccess:(void(^)())success
+            serverFailure:(WebServiceServerFailure)serverFailure
+           networkFailure:(WebServiceNetworkFailure)networkFailure;
 
 @end

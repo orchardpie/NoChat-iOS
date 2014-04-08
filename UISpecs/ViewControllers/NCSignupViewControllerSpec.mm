@@ -96,8 +96,8 @@ describe(@"NCSignupViewController", ^{
             currentUser should have_received("saveCredentialsWithEmail:andPassword:").with(controller.emailTextField.text).and_with(controller.passwordTextField.text);
         });
 
-        it(@"should ask the CurrentUser to fetch its info from the server", ^{
-            currentUser should have_received("create:serverFailure:networkFailure:");
+        it(@"should ask the CurrentUser to save itself to the server", ^{
+            currentUser should have_received("signUpWithSuccess:serverFailure:networkFailure:");
         });
     });
 

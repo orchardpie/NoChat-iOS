@@ -2,7 +2,7 @@
 
 @class NCCurrentUser;
 
-typedef void(^LoginSuccessBlock)(NCCurrentUser *currentUser);
+typedef void(^LoginSuccessBlock)();
 
 @interface NCLoginViewController : UIViewController<UITextFieldDelegate>
 

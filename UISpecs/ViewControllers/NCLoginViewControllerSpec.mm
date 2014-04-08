@@ -82,7 +82,7 @@ describe(@"NCLoginViewController", ^{
     sharedExamplesFor(@"an action that attempts to save credentials and fetch current user info", ^(NSDictionary *sharedContext) {
         beforeEach(^{
             loginSuccessBlockWasCalled = NO;
-            loginSuccessBlock = ^(NCCurrentUser *currentUser){
+            loginSuccessBlock = ^{
                 loginSuccessBlockWasCalled = YES;
             };
         });
@@ -98,17 +98,15 @@ describe(@"NCLoginViewController", ^{
         });
 
         it(@"should ask the CurrentUser to fetch its info from the server", ^{
-            currentUser should have_received("fetch:serverFailure:networkFailure:");
+            currentUser should have_received("fetchWithSuccess:serverFailure:networkFailure:");
         });
 
         context(@"when the fetch is successful", ^{
             beforeEach(^{
-                currentUser stub_method("fetch:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
-                    UserFetchSuccess fetchBlock;
+                currentUser stub_method("fetchWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                    void (^fetchBlock)();
                     [invocation getArgument:&fetchBlock atIndex:2];
-
-                    NCCurrentUser *someCurrentUser = [[NCCurrentUser alloc] init];
-                    fetchBlock(someCurrentUser);
+                    fetchBlock();
                 });
             });
 
@@ -139,7 +137,7 @@ describe(@"NCLoginViewController", ^{
 
         context(@"when the fetch attempt yields a server failure", ^{
             beforeEach(^{
-                currentUser stub_method("fetch:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                currentUser stub_method("fetchWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
                     WebServiceServerFailure fetchBlock;
                     [invocation getArgument:&fetchBlock atIndex:3];
                     NSString *failureMessage = @"shameful failure";
@@ -152,7 +150,7 @@ describe(@"NCLoginViewController", ^{
 
         context(@"when the fetch attempt yields a server failure", ^{
             beforeEach(^{
-                currentUser stub_method("fetch:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                currentUser stub_method("fetchWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
                     WebServiceNetworkFailure fetchBlock;
                     [invocation getArgument:&fetchBlock atIndex:4];
                     NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",

@@ -19,7 +19,7 @@
     return YES;
 }
 
-- (void)fetch:(UserFetchSuccess)success
+- (void)fetchWithSuccess:(void(^)())success
 serverFailure:(WebServiceServerFailure)serverFailure
 networkFailure:(WebServiceNetworkFailure)networkFailure
 {
@@ -30,7 +30,7 @@ networkFailure:(WebServiceNetworkFailure)networkFailure
     } serverFailure:serverFailure networkFailure:networkFailure];
 }
 
-- (void)create:(UserFetchSuccess)success
+- (void)signUpWithSuccess:(void(^)())success
  serverFailure:(WebServiceServerFailure)serverFailure
 networkFailure:(WebServiceNetworkFailure)networkFailure
 {

@@ -35,9 +35,9 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
-    [self.currentUser fetch:^(NCCurrentUser *currentUser) {
+    [self.currentUser fetchWithSuccess:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (self.loginSuccess) { self.loginSuccess(currentUser); }
+        if (self.loginSuccess) { self.loginSuccess(); }
 
     } serverFailure:^(NSString *failureMessage) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];

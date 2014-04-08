@@ -26,21 +26,15 @@
     self.signUpButton.enabled = NO;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)signUpButtonTapped:(id)sender {
     [self.passwordTextField resignFirstResponder];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
-    [self.currentUser create:^(NCCurrentUser *currentUser){
+    [self.currentUser signUpWithSuccess:^{
         // all gravy baby
-    } serverFailure:^(NSString *failureMessage){
+    } serverFailure:^(NSString *failureMessage) {
         // shameful failure
-    } networkFailure:^(NSError *error){
+    } networkFailure:^(NSError *error) {
         // the failure of others
     }];
 }

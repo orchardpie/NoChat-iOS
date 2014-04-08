@@ -21,14 +21,14 @@ describe(@"NCCurrentUser", ^{
     });
 
     describe(@"-fetch:", ^{
-        __block UserFetchSuccess success;
+        __block void (^success)();
         __block WebServiceServerFailure serverFailure;
         __block WebServiceNetworkFailure networkFailure;
         __block bool successWasCalled = NO;
         __block bool serverFailureWasCalled = NO;
         __block bool networkFailureWasCalled = NO;
 
-        subjectAction(^{ [user fetch:success serverFailure:serverFailure networkFailure:networkFailure]; });
+        subjectAction(^{ [user fetchWithSuccess:success serverFailure:serverFailure networkFailure:networkFailure]; });
 
         beforeEach(^{
             successWasCalled = NO;
