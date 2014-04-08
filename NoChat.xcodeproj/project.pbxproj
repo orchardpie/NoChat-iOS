@@ -62,7 +62,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		15B3E0F58F7746FB90A804DB /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
 		251904D607D44566942FBE20 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		426D41A41B3541E19DC67647 /* Pods-UISpecs.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UISpecs.xcconfig"; path = "Pods/Pods-UISpecs.xcconfig"; sourceTree = "<group>"; };
 		4549879918DA3DC300CFC545 /* NoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,7 +168,6 @@
 				4549879B18DA3DC300CFC545 /* Frameworks */,
 				4549879A18DA3DC300CFC545 /* Products */,
 				251904D607D44566942FBE20 /* Pods.xcconfig */,
-				15B3E0F58F7746FB90A804DB /* Pods-test.xcconfig */,
 				D3E210AA640F4DCC831758A6 /* Pods-Specs.xcconfig */,
 				426D41A41B3541E19DC67647 /* Pods-UISpecs.xcconfig */,
 			);

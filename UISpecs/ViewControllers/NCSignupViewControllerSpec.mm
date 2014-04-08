@@ -86,8 +86,6 @@ describe(@"NCSignupViewController", ^{
             };
         });
 
-        it(@"should dismiss the keyboard", PENDING);
-
         it(@"should show the progress indicator", ^{
             MBProgressHUD.currentHUD should_not be_nil;
         });
@@ -98,6 +96,207 @@ describe(@"NCSignupViewController", ^{
 
         it(@"should ask the CurrentUser to save itself to the server", ^{
             currentUser should have_received("signUpWithSuccess:serverFailure:networkFailure:");
+        });
+    });
+
+    describe(@"UITextFieldDelegate", ^{
+        __block UITextField *textField;
+
+        describe(@"-textField:shouldChangeCharactersInRange:replacementString", ^{
+            NSRange range = NSMakeRange(0, 0);
+            __block NSString *replacementString;
+
+            subjectAction(^{
+                [controller textField:textField shouldChangeCharactersInRange:range replacementString:replacementString];
+            });
+
+            context(@"when the text field is the email text field", ^{
+                beforeEach(^{
+                    textField = controller.emailTextField;
+                });
+
+                context(@"when the text field will be empty", ^{
+                    beforeEach(^{
+                        replacementString = @"";
+                    });
+
+                    it(@"should return YES", ^{
+                        [controller textField:textField shouldChangeCharactersInRange:range replacementString:replacementString] should be_truthy;
+                    });
+                    it(@"should not enable the logInButton", ^{
+                        controller.signUpButton.enabled should_not be_truthy;
+                    });
+                });
+
+                context(@"when the text field will not be empty", ^{
+                    beforeEach(^{
+                        replacementString = @"foo@example.com";
+                    });
+
+                    context(@"when the password text field is empty", ^{
+                        beforeEach(^{
+                            controller.passwordTextField.text should be_empty;
+                        });
+                        it(@"should not enable the logInButton", ^{
+                            controller.signUpButton.enabled should_not be_truthy;
+                        });
+                    });
+                    context(@"when the password text field is not empty", ^{
+                        beforeEach(^{
+                            controller.passwordTextField.text = @"partypassword";
+                        });
+
+                        it(@"should enable the logInButton", ^{
+                            controller.signUpButton.enabled should be_truthy;
+                        });
+                    });
+                });
+            });
+
+            context(@"when the text field is the password text field", ^{
+                beforeEach(^{
+                    textField = controller.passwordTextField;
+                });
+
+                context(@"when the text field is empty", ^{
+                    beforeEach(^{
+                        replacementString = @"";
+                    });
+
+                    it(@"should return YES", ^{
+                        [controller textField:textField shouldChangeCharactersInRange:range replacementString:replacementString] should be_truthy;
+                    });
+
+                    it(@"should not enable the logInButton", ^{
+                        controller.signUpButton.enabled should_not be_truthy;
+                    });
+                });
+
+                context(@"when the text field will not be empty", ^{
+                    beforeEach(^{
+                        replacementString = @"password";
+                    });
+
+                    context(@"when the email text field is empty", ^{
+                        beforeEach(^{
+                            controller.emailTextField.text should be_empty;
+                        });
+
+                        it(@"should not enable the logInButton", ^{
+                            controller.signUpButton.enabled should_not be_truthy;
+                        });
+                    });
+                    context(@"when the email text field is not empty", ^{
+                        beforeEach(^{
+                            controller.emailTextField.text = @"bar@example.com";
+                        });
+
+                        it(@"should enable the logInButton", ^{
+                            controller.signUpButton.enabled should be_truthy;
+                        });
+                    });
+                });
+            });
+        });
+
+        describe(@"-textFieldShouldReturn:", ^{
+            __block BOOL returnValue;
+
+            subjectAction(^{ returnValue = [controller textFieldShouldReturn:textField]; });
+
+            context(@"when the text field is the email text field", ^{
+                beforeEach(^{
+                    textField = controller.emailTextField;
+                    spy_on(controller.passwordTextField);
+                });
+
+                context(@"when the email text field is empty", ^{
+                    beforeEach(^{
+                        textField.text should be_empty;
+                    });
+
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+
+                    it(@"should not set the password field as first responder", ^{
+                        controller.passwordTextField should_not have_received("becomeFirstResponder");
+                    });
+                });
+
+                context(@"when the email text field is not empty", ^{
+                    beforeEach(^{
+                        textField.text = @"foo@example.com";
+                    });
+
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+
+                    it(@"should set the password field as first responder", ^{
+                        controller.passwordTextField should have_received("becomeFirstResponder");
+                    });
+                });
+            });
+
+            context(@"when the text field is the password text field", ^{
+                beforeEach(^{
+                    textField = controller.passwordTextField;
+                    spy_on(controller.passwordTextField);
+                    spy_on(controller.emailTextField);
+                });
+
+                context(@"when the password text field is empty", ^{
+                    beforeEach(^{
+                        textField.text should be_empty;
+                    });
+
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+
+                    it(@"should not attempt to save credentials", ^{
+                        currentUser should_not have_received("saveCredentialsWithEmail:andPassword");
+                    });
+
+                    it(@"should not resign first responder", ^{
+                        controller.passwordTextField should_not have_received("resignFirstResponder");
+                    });
+                });
+
+                context(@"when the password text field is not empty", ^{
+                    beforeEach(^{
+                        textField.text = @"something";
+                        controller.emailTextField.text = @"sup@updog.com";
+                    });
+
+                    it(@"should return YES", ^{
+                        returnValue should be_truthy;
+                    });
+
+                    context(@"when the email text field is not empty", ^{
+                        beforeEach(^{
+                            controller.emailTextField.text should_not be_empty;
+                        });
+
+                        itShouldBehaveLike(@"an action that attempts to save credentials and create current user");
+
+                        it(@"should resign first responder", ^{
+                            controller.passwordTextField should have_received("resignFirstResponder");
+                        });
+                    });
+                    
+                    context(@"when the email text field is empty", ^{
+                        beforeEach(^{
+                            controller.emailTextField.text = @"";
+                        });
+                        
+                        it(@"should set the email field as the first responder", ^{
+                            controller.emailTextField should have_received("becomeFirstResponder");
+                        });
+                    });
+                });
+            });
         });
     });
 

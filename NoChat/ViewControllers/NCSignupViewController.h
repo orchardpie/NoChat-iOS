@@ -4,7 +4,7 @@
 
 typedef void(^SignupSuccessBlock)(void);
 
-@interface NCSignupViewController : UIViewController
+@interface NCSignupViewController : UIViewController<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
