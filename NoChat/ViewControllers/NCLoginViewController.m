@@ -6,20 +6,24 @@
 @interface NCLoginViewController ()
 
 @property (strong, nonatomic) NCCurrentUser *currentUser;
-@property (strong, nonatomic) void (^loginSuccess)();
+@property (weak, nonatomic) id<NCLoginDelegate> delegate;
 
 @end
 
 @implementation NCLoginViewController
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-        loginSuccessBlock:(void(^)())loginSuccess
+                 delegate:(id)delegate
 {
     if(self = [super init]) {
         self.currentUser = currentUser;
-        self.loginSuccess = loginSuccess;
+        self.delegate = delegate;
     }
     return self;
+}
+
+- (id)init {
+    [self doesNotRecognizeSelector:_cmd]; return nil;
 }
 
 - (void)viewDidLoad
@@ -37,7 +41,9 @@
     [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
     [self.currentUser fetchWithSuccess:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (self.loginSuccess) { self.loginSuccess(); }
+        if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {
+            [self.delegate userDidAuthenticate];
+        }
 
     } serverFailure:^(NSString *failureMessage) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -55,6 +61,12 @@
                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
                           otherButtonTitles:nil] show];
     }];
+}
+
+- (IBAction)switchToSignupButtonTapped:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(userDidSwitchToSignup)]) {
+        [self.delegate userDidSwitchToSignup];
+    }
 }
 
 #pragma mark - UITextField delegate implementation

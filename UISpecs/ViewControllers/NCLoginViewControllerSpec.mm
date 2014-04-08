@@ -11,13 +11,14 @@ SPEC_BEGIN(NCLoginViewControllerSpec)
 describe(@"NCLoginViewController", ^{
     __block NCLoginViewController *controller;
     __block id<CedarDouble> currentUser;
-    __block void(^loginSuccessBlock)();
-    __block bool loginSuccessBlockWasCalled;
+    __block id<CedarDouble> delegate;
 
     beforeEach(^{
         currentUser = nice_fake_for([NCCurrentUser class]);
+        delegate = nice_fake_for(@protocol(NCLoginDelegate));
 
-        controller = [[NCLoginViewController alloc] initWithCurrentUser: currentUser loginSuccessBlock:loginSuccessBlock];
+        controller = [[NCLoginViewController alloc] initWithCurrentUser:currentUser delegate:delegate];
+
         controller.view should_not be_nil;
     });
 
@@ -88,13 +89,6 @@ describe(@"NCLoginViewController", ^{
     });
 
     sharedExamplesFor(@"an action that attempts to save credentials and fetch current user info", ^(NSDictionary *sharedContext) {
-        beforeEach(^{
-            loginSuccessBlockWasCalled = NO;
-            loginSuccessBlock = ^{
-                loginSuccessBlockWasCalled = YES;
-            };
-        });
-
         it(@"should show the progress indicator", ^{
             MBProgressHUD.currentHUD should_not be_nil;
         });
@@ -116,8 +110,8 @@ describe(@"NCLoginViewController", ^{
                 });
             });
 
-            it(@"should call the login success block", ^{
-                loginSuccessBlockWasCalled should be_truthy;
+            it(@"should tell the delegate that the user has authenticated", ^{
+                delegate should have_received("userDidAuthenticate");
             });
 
             it(@"should dismiss the progress indicator", ^{
@@ -126,8 +120,8 @@ describe(@"NCLoginViewController", ^{
         });
 
         sharedExamplesFor(@"an action which displays an alert message for an error", ^(NSDictionary *sharedContext) {
-            it(@"should not call the login success block", ^{
-                loginSuccessBlockWasCalled should_not be_truthy;
+            it(@"should not tell the delegate that the user has authenticated", ^{
+                delegate should_not have_received("userDidAuthenticate");
             });
 
             it(@"should dismiss the progress indicator", ^{
@@ -381,6 +375,16 @@ describe(@"NCLoginViewController", ^{
         });
 
         itShouldBehaveLike(@"an action that attempts to save credentials and fetch current user info");
+    });
+
+    describe(@"-switchToSignupButtonTapped", ^{
+        subjectAction(^{
+            [controller.switchToSignupButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+        });
+
+        it(@"should ask the app delegate to switch to the signup view", ^{
+            delegate should have_received("userDidSwitchToSignup");
+        });
     });
 });
 

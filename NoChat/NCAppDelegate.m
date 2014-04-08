@@ -4,7 +4,6 @@ NoChat *noChat;
 
 #import "NCAppDelegate.h"
 #import "NCMessagesTableViewController.h"
-#import "NCSignupViewController.h"
 #import "NCCurrentUser.h"
 
 @implementation NCAppDelegate
@@ -17,8 +16,7 @@ NoChat *noChat;
 
 
     NCCurrentUser *currentUser = [[NCCurrentUser alloc] init];
-    NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:currentUser
-                                                                signupSuccessBlock:[self authenticationSuccessBlock]];
+    NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:currentUser delegate:self];
     self.window.rootViewController = signupVC;
 
     self.window.backgroundColor = [UIColor whiteColor];
@@ -43,6 +41,25 @@ NoChat *noChat;
                         completion:nil];
     };
 }
+
+#pragma mark - Signup and login delegate implementation
+
+- (void)userDidSwitchToLogin
+{
+
+}
+
+- (void)userDidSwitchToSignup
+{
+
+}
+
+- (void)userDidAuthenticate
+{
+
+}
+
+#pragma mark - app delegate stuff
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

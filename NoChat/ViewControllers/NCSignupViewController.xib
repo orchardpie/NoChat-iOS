@@ -9,6 +9,7 @@
                 <outlet property="emailTextField" destination="DmF-xV-bGo" id="lSk-oy-HXF"/>
                 <outlet property="passwordTextField" destination="ZOX-XY-2FZ" id="WZ9-2k-IbS"/>
                 <outlet property="signUpButton" destination="xJg-JT-HJ9" id="yvm-yI-UBl"/>
+                <outlet property="switchToLoginButton" destination="FYB-Je-E1x" id="Cgq-SP-Quo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -56,6 +57,16 @@
                     </state>
                     <connections>
                         <action selector="signUpButtonTapped:" destination="-1" eventType="touchUpInside" id="b5e-7X-iTD"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYB-Je-E1x">
+                    <rect key="frame" x="20" y="262" width="280" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="I already have a NoChat account">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="switchToLoginButtonTapped:" destination="-1" eventType="touchUpInside" id="Odv-LP-CEx"/>
                     </connections>
                 </button>
             </subviews>

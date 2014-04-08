@@ -5,18 +5,24 @@
 @interface NCSignupViewController ()
 
 @property (strong, nonatomic) NCCurrentUser *currentUser;
+@property (weak, nonatomic) id<NCSignupDelegate> delegate;
 
 @end
 
 @implementation NCSignupViewController
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-       signupSuccessBlock:(void(^)())signupSuccess
+                 delegate:(id)delegate
 {
     if(self = [super init]) {
         self.currentUser = currentUser;
+        self.delegate = delegate;
     }
     return self;
+}
+
+- (id)init {
+    [self doesNotRecognizeSelector:_cmd]; return nil;
 }
 
 - (void)viewDidLoad
@@ -37,6 +43,11 @@
     } networkFailure:^(NSError *error) {
         // the failure of others
     }];
+}
+- (IBAction)switchToLoginButtonTapped:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(userDidSwitchToLogin)]) {
+        [self.delegate userDidSwitchToLogin];
+    }
 }
 
 #pragma mark - UITextField delegate implementation

@@ -11,12 +11,16 @@ SPEC_BEGIN(NCSignupViewControllerSpec)
 describe(@"NCSignupViewController", ^{
     __block NCSignupViewController *controller;
     __block id<CedarDouble> currentUser;
+    __block id<CedarDouble> delegate;
     __block void (^signupSuccessBlock)();
     __block bool signupSuccessBlockWasCalled;
 
     beforeEach(^{
         currentUser = nice_fake_for([NCCurrentUser class]);
-        controller = [[NCSignupViewController alloc] initWithCurrentUser:currentUser signupSuccessBlock:^{}];
+        delegate = nice_fake_for(@protocol(NCSignupDelegate));
+
+        controller = [[NCSignupViewController alloc] initWithCurrentUser:currentUser delegate:delegate];
+
         controller.view should_not be_nil;
     });
 
@@ -319,6 +323,16 @@ describe(@"NCSignupViewController", ^{
         });
 
         itShouldBehaveLike(@"an action that attempts to save credentials and create current user");
+    });
+
+    describe(@"-switchToLoginButtonTapped", ^{
+        subjectAction(^{
+            [controller.switchToLoginButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+        });
+
+        it(@"should ask the app delegate to switch to the login view", ^{
+            delegate should have_received("userDidSwitchToLogin");
+        });
     });
 });
 
