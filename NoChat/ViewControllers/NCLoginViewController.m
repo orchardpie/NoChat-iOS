@@ -32,6 +32,16 @@
 
     self.title = @"Log In";
     self.logInButton.enabled = NO;
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+}
+
+- (void)dismissKeyboard
+{
+    [self.view endEditing:YES];
 }
 
 - (IBAction)logInButtonTapped:(id)sender

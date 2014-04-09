@@ -31,6 +31,16 @@
 
     self.title = @"Sign Up";
     self.signUpButton.enabled = NO;
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+}
+
+- (void)dismissKeyboard
+{
+    [self.view endEditing:YES];
 }
 
 - (IBAction)signUpButtonTapped:(id)sender {

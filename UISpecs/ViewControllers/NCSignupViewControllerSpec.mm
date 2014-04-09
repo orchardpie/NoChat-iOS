@@ -2,6 +2,8 @@
 #import "NCCurrentUser.h"
 #import "MBProgressHUD+Spec.h"
 #import "UIAlertView+Spec.h"
+#import "UIView+Spec.h"
+#import "UIGestureRecognizer+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -16,6 +18,8 @@ describe(@"NCSignupViewController", ^{
     __block bool signupSuccessBlockWasCalled;
 
     beforeEach(^{
+        [UIGestureRecognizer whitelistClassForGestureSnooping:[NCSignupViewController class]];
+
         currentUser = nice_fake_for([NCCurrentUser class]);
         delegate = nice_fake_for(@protocol(NCSignupDelegate));
 
@@ -87,6 +91,22 @@ describe(@"NCSignupViewController", ^{
     describe(@"-viewDidLoad", ^{
         it(@"should disable the sign up button", ^{
             controller.signUpButton.enabled should_not be_truthy;
+        });
+    });
+
+    describe(@"gesture events", ^{
+        describe(@"tap outside of a text field", ^{
+            subjectAction(^{
+                [controller.view tap];
+            });
+
+            beforeEach(^{
+                spy_on(controller.view);
+            });
+
+            it(@"should dismiss the keyboard", ^{
+                controller.view should have_received("endEditing:");
+            });
         });
     });
 
@@ -297,12 +317,12 @@ describe(@"NCSignupViewController", ^{
                             controller.passwordTextField should have_received("resignFirstResponder");
                         });
                     });
-                    
+
                     context(@"when the email text field is empty", ^{
                         beforeEach(^{
                             controller.emailTextField.text = @"";
                         });
-                        
+
                         it(@"should set the email field as the first responder", ^{
                             controller.emailTextField should have_received("becomeFirstResponder");
                         });

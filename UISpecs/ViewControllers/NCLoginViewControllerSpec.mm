@@ -2,6 +2,8 @@
 #import "NCCurrentUser.h"
 #import "MBProgressHUD+Spec.h"
 #import "UIAlertView+Spec.h"
+#import "UIView+Spec.h"
+#import "UIGestureRecognizer+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -14,6 +16,8 @@ describe(@"NCLoginViewController", ^{
     __block id<CedarDouble> delegate;
 
     beforeEach(^{
+        [UIGestureRecognizer whitelistClassForGestureSnooping:[NCLoginViewController class]];
+
         currentUser = nice_fake_for([NCCurrentUser class]);
         delegate = nice_fake_for(@protocol(NCLoginDelegate));
 
@@ -85,6 +89,22 @@ describe(@"NCLoginViewController", ^{
     describe(@"-viewDidLoad", ^{
         it(@"should disable the log in button", ^{
             controller.logInButton.enabled should_not be_truthy;
+        });
+    });
+
+    describe(@"gesture events", ^{
+        describe(@"tap outside of a text field", ^{
+            subjectAction(^{
+                [controller.view tap];
+            });
+
+            beforeEach(^{
+                spy_on(controller.view);
+            });
+
+            it(@"should dismiss the keyboard", ^{
+                controller.view should have_received("endEditing:");
+            });
         });
     });
 
