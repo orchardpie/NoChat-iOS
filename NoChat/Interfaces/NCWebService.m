@@ -20,7 +20,19 @@ static const int BASE_PORT = 0;
 
 - (instancetype)init
 {
-    return [super initWithBaseURL:self.baseURL sessionConfiguration:self.sessionConfiguration];
+    if (self = [super initWithBaseURL:self.baseURL sessionConfiguration:self.sessionConfiguration]) {
+        __weak __typeof(self)weakSelf = self;
+        [self setTaskDidReceiveAuthenticationChallengeBlock:^NSURLSessionAuthChallengeDisposition(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential *__autoreleasing *credential) {
+            if (!challenge.previousFailureCount) {
+                return NSURLSessionAuthChallengePerformDefaultHandling;
+            } else {
+                NSURLCredentialStorage * credentialStore = NSURLCredentialStorage.sharedCredentialStorage;
+                [credentialStore removeCredential:challenge.proposedCredential forProtectionSpace:weakSelf.protectionSpace];
+                return NSURLSessionAuthChallengeRejectProtectionSpace;
+            }
+        }];
+    }
+    return self;
 }
 
 - (NSURLSessionConfiguration *)sessionConfiguration
@@ -47,17 +59,6 @@ static const int BASE_PORT = 0;
                       success:(WebServiceSuccess)success
                 serverFailure:(WebServiceServerFailure)serverFailure
                networkFailure:(WebServiceNetworkFailure)networkFailure {
-
-    __weak __typeof(self)weakSelf = self;
-    [self setTaskDidReceiveAuthenticationChallengeBlock:^NSURLSessionAuthChallengeDisposition(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential *__autoreleasing *credential) {
-        if (!challenge.previousFailureCount) {
-            return NSURLSessionAuthChallengePerformDefaultHandling;
-        } else {
-            NSURLCredentialStorage * credentialStore = NSURLCredentialStorage.sharedCredentialStorage;
-            [credentialStore removeCredential:challenge.proposedCredential forProtectionSpace:weakSelf.protectionSpace];
-            return NSURLSessionAuthChallengeRejectProtectionSpace;
-        }
-    }];
 
     return [super GET:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         // Set authorization token from headers
