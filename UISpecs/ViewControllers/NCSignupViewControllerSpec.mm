@@ -14,8 +14,6 @@ describe(@"NCSignupViewController", ^{
     __block NCSignupViewController *controller;
     __block id<CedarDouble> currentUser;
     __block id<CedarDouble> delegate;
-    __block void (^signupSuccessBlock)();
-    __block bool signupSuccessBlockWasCalled;
 
     beforeEach(^{
         [UIGestureRecognizer whitelistClassForGestureSnooping:[NCSignupViewController class]];
@@ -111,23 +109,30 @@ describe(@"NCSignupViewController", ^{
     });
 
     sharedExamplesFor(@"an action that attempts to save credentials and create current user", ^(NSDictionary *sharedContext) {
-        beforeEach(^{
-            signupSuccessBlockWasCalled = NO;
-            signupSuccessBlock = ^{
-                signupSuccessBlockWasCalled = YES;
-            };
-        });
-
         it(@"should show the progress indicator", ^{
             MBProgressHUD.currentHUD should_not be_nil;
         });
 
-        it(@"should ask the CurrentUser to save credentials", ^{
-            currentUser should have_received("saveCredentialsWithEmail:andPassword:").with(controller.emailTextField.text).and_with(controller.passwordTextField.text);
+        it(@"should ask the CurrentUser to save itself to the server", ^{
+            currentUser should have_received("signUpWithEmail:password:success:serverFailure:networkFailure:").with(controller.emailTextField.text, controller.passwordTextField.text, Arguments::any([NSObject class]), Arguments::any([NSObject class]), Arguments::any([NSObject class]));
         });
 
-        it(@"should ask the CurrentUser to save itself to the server", ^{
-            currentUser should have_received("signUpWithSuccess:serverFailure:networkFailure:");
+        context(@"when the fetch is successful", ^{
+            beforeEach(^{
+                currentUser stub_method("signUpWithEmail:password:success:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                    void (^signUpBlock)();
+                    [invocation getArgument:&signUpBlock atIndex:4];
+                    signUpBlock();
+                });
+            });
+
+            it(@"should tell the delegate that the user has authenticated", ^{
+                delegate should have_received("userDidAuthenticate");
+            });
+
+            it(@"should dismiss the progress indicator", ^{
+                MBProgressHUD.currentHUD should be_nil;
+            });
         });
     });
 
@@ -288,7 +293,7 @@ describe(@"NCSignupViewController", ^{
                     });
 
                     it(@"should not attempt to save credentials", ^{
-                        currentUser should_not have_received("saveCredentialsWithEmail:andPassword");
+                        currentUser should_not have_received("saveCredentialWithEmail:password");
                     });
 
                     it(@"should not resign first responder", ^{

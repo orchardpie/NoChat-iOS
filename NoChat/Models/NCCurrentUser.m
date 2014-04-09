@@ -3,48 +3,63 @@
 #import "NCWebService.h"
 #import "NCMessage.h"
 
-@interface NCCurrentUser ()
-
-@end
+static NSString const *EMAIL_KEY                    = @"email";
+static NSString const *PASSWORD_KEY                 = @"password";
+static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
 @implementation NCCurrentUser
 
-- (BOOL)saveCredentialsWithEmail:(NSString *)email andPassword:(NSString *)password
+- (BOOL)saveCredentialWithEmail:(NSString *)email password:(NSString *)password
 {
-    NSURLCredential *credential = [NSURLCredential credentialWithUser:email
-                                                 password:password
-                                              persistence:NSURLCredentialPersistencePermanent];
-    [noChat.webService setCredential:credential];
+    [noChat.webService saveCredentialWithEmail:email password:password];
 
     return YES;
 }
 
 - (void)fetchWithSuccess:(void(^)())success
-serverFailure:(WebServiceServerFailure)serverFailure
-networkFailure:(WebServiceNetworkFailure)networkFailure
+           serverFailure:(WebServiceServerFailure)serverFailure
+          networkFailure:(WebServiceNetworkFailure)networkFailure
 {
     [noChat.webService GET:@"/" parameters:nil success:^(id responseBody) {
         [self setMessagesFromResponse:responseBody];
-        if (success) { success(self); }
+        if (success) { success(); }
 
     } serverFailure:serverFailure networkFailure:networkFailure];
 }
 
-- (void)signUpWithSuccess:(void(^)())success
- serverFailure:(WebServiceServerFailure)serverFailure
-networkFailure:(WebServiceNetworkFailure)networkFailure
+- (void)signUpWithEmail:(NSString *)email
+               password:(NSString *)password
+                success:(void(^)())success
+          serverFailure:(WebServiceServerFailure)serverFailure
+         networkFailure:(WebServiceNetworkFailure)networkFailure
 {
-    // no op, yet
+    NSDictionary *parameters = @{ @"user":@{ EMAIL_KEY : email,
+                                             PASSWORD_KEY : password,
+                                             PASSWORD_CONFIRMATION_KEY : password } };
+
+    [noChat.webService POST:@"/users" parameters:parameters success:^(id responseBody) {
+        [noChat.webService saveCredentialWithEmail:email password:password];
+
+        [self setMessagesFromResponse:responseBody];
+        if (success) { success(); }
+
+    } serverFailure:serverFailure networkFailure:networkFailure];
 }
 
 - (void)setMessagesFromResponse:(id)responseObject
 {
-    NSMutableArray *messagesArray = [NSMutableArray array];
-    for (NSDictionary *messageDict in (NSArray *)responseObject) {
-        [messagesArray addObject:[[NCMessage alloc] initWithDictionary:messageDict]];
-    }
+    NSDictionary *responseDict = (NSDictionary *)responseObject;
+    NSArray *responseMessages = responseDict[@"messages"];
 
-    self.messages = messagesArray;
+    if (responseMessages && responseMessages.count > 0) {
+        NSMutableArray *messages = [NSMutableArray array];
+
+        for (NSDictionary *messageDict in responseMessages) {
+            [messages addObject:[[NCMessage alloc] initWithDictionary:messageDict]];
+        }
+
+        self.messages = messages;
+    }
 }
 
 @end

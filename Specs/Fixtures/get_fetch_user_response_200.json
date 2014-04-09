@@ -1,14 +1,16 @@
- [
-  {
-  "id": 1,
-  "word_count": 5,
-  "time_saved": 1200,
-  "disposition": "sent"
-  },
-  {
-  "id": 1,
-  "word_count": 5,
-  "time_saved": 1200,
-  "disposition": "received"
-  }
-]
+{ "messages" :
+  [
+    {
+    "id": 1,
+    "word_count": 5,
+    "time_saved": 1200,
+    "disposition": "sent"
+    },
+    {
+    "id": 1,
+    "word_count": 5,
+    "time_saved": 1200,
+    "disposition": "received"
+    }
+  ]
+}

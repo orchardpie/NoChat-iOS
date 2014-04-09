@@ -38,22 +38,24 @@ describe(@"NCWebService", ^{
         });
     });
 
-    describe(@"-setCredential:", ^{
-        __block NSURLCredential *credential;
+    describe(@"-saveCredentialWithEmail:password:", ^{
+        NSString *email = @"kwo@example.com", *password = @"whoa";
+        __block __unsafe_unretained NSURLCredential *credential;
 
         subjectAction(^{
-            [webService setCredential:credential];
+            [webService saveCredentialWithEmail:email password:password];
         });
 
         beforeEach(^{
-            credentialStorage stub_method("setDefaultCredential:forProtectionSpace:");
-            credential = [[NSURLCredential alloc] initWithUser:@"foo@example.com"
-                                                      password:@"password"
-                                                   persistence:NSURLCredentialPersistenceNone];
+            credentialStorage stub_method("setDefaultCredential:forProtectionSpace:").and_do(^(NSInvocation *invocation) {
+                [invocation getArgument:&credential atIndex:2];
+            });
         });
 
         it(@"should store the credential in the system credential cache", ^{
             credentialStorage should have_received("setDefaultCredential:forProtectionSpace:");
+            credential.user should equal(email);
+            credential.password should equal(password);
         });
     });
 

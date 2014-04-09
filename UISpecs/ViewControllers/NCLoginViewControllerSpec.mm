@@ -113,8 +113,8 @@ describe(@"NCLoginViewController", ^{
             MBProgressHUD.currentHUD should_not be_nil;
         });
 
-        it(@"should ask the CurrentUser to save credentials", ^{
-            currentUser should have_received("saveCredentialsWithEmail:andPassword:").with(controller.emailTextField.text).and_with(controller.passwordTextField.text);
+        it(@"should ask the CurrentUser to save the new credentials", ^{
+            currentUser should have_received("saveCredentialWithEmail:password:").with(controller.emailTextField.text, controller.passwordTextField.text);
         });
 
         it(@"should ask the CurrentUser to fetch its info from the server", ^{
@@ -340,7 +340,7 @@ describe(@"NCLoginViewController", ^{
                     });
 
                     it(@"should not attempt to save credentials", ^{
-                        currentUser should_not have_received("saveCredentialsWithEmail:andPassword");
+                        currentUser should_not have_received("saveCredentialWithEmail:password");
                     });
 
                     it(@"should not resign first responder", ^{
