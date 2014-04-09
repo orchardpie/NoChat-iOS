@@ -10,6 +10,8 @@ static NSString * const BASE_HOST = @"nochat.herokuapp.com";
 static const int BASE_PORT = 0;
 #endif
 
+typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
+
 @interface NCWebService ()
 
 @property (strong, nonatomic) NSString *authToken;
@@ -43,8 +45,12 @@ static const int BASE_PORT = 0;
     return sessionConfiguration;
 }
 
-- (void)setCredential:(NSURLCredential *)credential
+- (void)saveCredentialWithEmail:(NSString *)email
+                       password:(NSString *)password
 {
+    NSURLCredential *credential = [NSURLCredential credentialWithUser:email
+                                                             password:password
+                                                          persistence:NSURLCredentialPersistencePermanent];
     [[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential:credential
                                                         forProtectionSpace:self.protectionSpace];
 }
@@ -64,11 +70,21 @@ static const int BASE_PORT = 0;
         // Set authorization token from headers
         success(responseObject);
 
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSHTTPURLResponse *failureResponse = (NSHTTPURLResponse *)task.response;
+    } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];
+}
 
-        [failureResponse statusCode] ? serverFailure(@"There was a problem with the NoChat server. Please try again later.") : networkFailure(error);
-    }];
+- (NSURLSessionDataTask *)POST:(NSString *)URLString
+                                        parameters:(NSDictionary *)parameters
+                                           success:(WebServiceSuccess)success
+                                     serverFailure:(WebServiceServerFailure)serverFailure
+                                    networkFailure:(WebServiceNetworkFailure)networkFailure {
+
+    return [super POST:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+
+        // Set authorization token from headers
+        success(responseObject);
+
+    } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];
 }
 
 #pragma mark - Private interface
@@ -89,6 +105,16 @@ static const int BASE_PORT = 0;
                                              protocol:BASE_SCHEME
                                                 realm:@"Application"
                                  authenticationMethod:NSURLAuthenticationMethodHTTPBasic];
+}
+
+- (AFFailureBlock)requestFailureWithServerFailure:(WebServiceServerFailure)serverFailure
+                                andNetworkFailure:(WebServiceNetworkFailure)networkFailure
+{
+    return ^(NSURLSessionDataTask *task, NSError *error) {
+        NSHTTPURLResponse *failureResponse = (NSHTTPURLResponse *)task.response;
+
+        [failureResponse statusCode] ? serverFailure(@"There was a problem with the NoChat server. Please try again later.") : networkFailure(error);
+    };
 }
 
 @end

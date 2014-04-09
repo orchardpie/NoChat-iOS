@@ -49,7 +49,7 @@
     [self.passwordTextField resignFirstResponder];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
+    [self.currentUser saveCredentialWithEmail:self.emailTextField.text password:self.passwordTextField.text];
     [self.currentUser fetchWithSuccess:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {

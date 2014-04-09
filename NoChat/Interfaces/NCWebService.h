@@ -6,12 +6,18 @@ typedef void(^WebServiceSuccess)(id responseBody);
 typedef void(^WebServiceServerFailure)(NSString *failureMessage);
 typedef void(^WebServiceNetworkFailure)(NSError *error);
 
-- (void)setCredential:(NSURLCredential *)credential;
+- (void)saveCredentialWithEmail:(NSString *)email
+                       password:(NSString *)password;
 - (BOOL)hasCredential;
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(NSDictionary *)parameters
                       success:(WebServiceSuccess)success
                 serverFailure:(WebServiceServerFailure)serverFailure
                networkFailure:(WebServiceNetworkFailure)networkFailure;
+- (NSURLSessionDataTask *)POST:(NSString *)URLString
+                    parameters:(NSDictionary *)parameters
+                       success:(WebServiceSuccess)success
+                 serverFailure:(WebServiceServerFailure)serverFailure
+                networkFailure:(WebServiceNetworkFailure)networkFailure;
 
 @end

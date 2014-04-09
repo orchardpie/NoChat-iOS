@@ -46,13 +46,29 @@
 - (IBAction)signUpButtonTapped:(id)sender {
     [self.passwordTextField resignFirstResponder];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.currentUser saveCredentialsWithEmail:self.emailTextField.text andPassword:self.passwordTextField.text];
-    [self.currentUser signUpWithSuccess:^{
-        // all gravy baby
+
+    [self.currentUser signUpWithEmail:self.emailTextField.text password:self.passwordTextField.text
+                              success:^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {
+            [self.delegate userDidAuthenticate];
+        }
+
     } serverFailure:^(NSString *failureMessage) {
-        // shameful failure
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[[UIAlertView alloc] initWithTitle:@"Oops"
+                                    message:failureMessage
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                          otherButtonTitles:nil] show];
+
     } networkFailure:^(NSError *error) {
-        // the failure of others
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                    message:error.localizedRecoverySuggestion
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                          otherButtonTitles:nil] show];
     }];
 }
 - (IBAction)switchToLoginButtonTapped:(id)sender {
