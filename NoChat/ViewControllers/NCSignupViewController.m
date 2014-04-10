@@ -1,6 +1,8 @@
 #import "NCSignupViewController.h"
 #import "NCCurrentUser.h"
 #import "MBProgressHUD.h"
+#import "NCDataValidator.h"
+#import "NCPasswordValidator.h"
 
 @interface NCSignupViewController ()
 
@@ -45,32 +47,69 @@
 
 - (IBAction)signUpButtonTapped:(id)sender {
     [self.passwordTextField resignFirstResponder];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    [self.currentUser signUpWithEmail:self.emailTextField.text password:self.passwordTextField.text
-                              success:^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {
-            [self.delegate userDidAuthenticate];
-        }
+    NCPasswordValidator *passwordValidator = [[NCPasswordValidator alloc] init];
+    passwordValidator.minLength = 8;
 
-    } serverFailure:^(NSString *failureMessage) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[[UIAlertView alloc] initWithTitle:@"Oops"
-                                    message:failureMessage
-                                   delegate:nil
-                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                          otherButtonTitles:nil] show];
+    NSError *error = [NCDataValidator validateEmail:self.emailTextField.text
+                                        andPassword:self.passwordTextField.text
+                                  passwordValidator:passwordValidator];
 
-    } networkFailure:^(NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[[UIAlertView alloc] initWithTitle:error.localizedDescription
-                                    message:error.localizedRecoverySuggestion
-                                   delegate:nil
-                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                          otherButtonTitles:nil] show];
-    }];
+    if (!error) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        [self.currentUser signUpWithEmail:self.emailTextField.text password:self.passwordTextField.text
+                                  success:^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {
+                [self.delegate userDidAuthenticate];
+            }
+
+        } serverFailure:^(NSString *failureMessage) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [[[UIAlertView alloc] initWithTitle:@"Oops"
+                                        message:failureMessage
+                                       delegate:nil
+                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                              otherButtonTitles:nil] show];
+
+        } networkFailure:^(NSError *error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                        message:error.localizedRecoverySuggestion
+                                       delegate:nil
+                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                              otherButtonTitles:nil] show];
+        }];
+    } else {
+        [self showValidationErrorWithErrorCode:error.code];
+    }
 }
+
+- (void)showValidationErrorWithErrorCode:(NSInteger)errorCode
+{
+    NSString *errorTitle;
+
+    switch (errorCode) {
+        case kNCErrorCodeInvalidEmail:
+            errorTitle = @"Please enter a valid e-mail";
+            break;
+
+        case kNCErrorCodePasswordTooShort:
+            errorTitle = @"Please enter a password with at least 8 characters";
+            break;
+
+        default:
+            break;
+    }
+
+    [[[UIAlertView alloc] initWithTitle:errorTitle
+                                message:nil
+                               delegate:nil
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil, nil] show];
+}
+
 - (IBAction)switchToLoginButtonTapped:(id)sender {
     if ([self.delegate respondsToSelector:@selector(userDidSwitchToLogin)]) {
         [self.delegate userDidSwitchToLogin];

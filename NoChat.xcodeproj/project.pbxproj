@@ -52,6 +52,14 @@
 		45B1077F18F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
 		45B1078018F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
 		45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */; };
+		45B1078E18F6F08300FA7428 /* NCDataValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078D18F6F08300FA7428 /* NCDataValidator.m */; };
+		45B1079318F6F0A600FA7428 /* NCEmailValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1079018F6F0A600FA7428 /* NCEmailValidator.m */; };
+		45B1079418F6F0A600FA7428 /* NCPasswordValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1079218F6F0A600FA7428 /* NCPasswordValidator.m */; };
+		45B1079818F6F14800FA7428 /* NSString+NoChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1079718F6F14800FA7428 /* NSString+NoChat.m */; };
+		45B1079918F6F6F800FA7428 /* NCDataValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078D18F6F08300FA7428 /* NCDataValidator.m */; };
+		45B1079B18F6F70900FA7428 /* NCPasswordValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1079218F6F0A600FA7428 /* NCPasswordValidator.m */; };
+		45B1079C18F6F73500FA7428 /* NCEmailValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1079018F6F0A600FA7428 /* NCEmailValidator.m */; };
+		45B1079D18F6F7B100FA7428 /* NSString+NoChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B1079718F6F14800FA7428 /* NSString+NoChat.m */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -107,6 +115,14 @@
 		45B1077B18F34ED700FA7428 /* NCSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCSignupViewController.m; sourceTree = "<group>"; };
 		45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCSignupViewController.xib; sourceTree = "<group>"; };
 		45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCSignupViewControllerSpec.mm; sourceTree = "<group>"; };
+		45B1078C18F6F08300FA7428 /* NCDataValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCDataValidator.h; sourceTree = "<group>"; };
+		45B1078D18F6F08300FA7428 /* NCDataValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCDataValidator.m; sourceTree = "<group>"; };
+		45B1078F18F6F0A600FA7428 /* NCEmailValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCEmailValidator.h; sourceTree = "<group>"; };
+		45B1079018F6F0A600FA7428 /* NCEmailValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCEmailValidator.m; sourceTree = "<group>"; };
+		45B1079118F6F0A600FA7428 /* NCPasswordValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCPasswordValidator.h; sourceTree = "<group>"; };
+		45B1079218F6F0A600FA7428 /* NCPasswordValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCPasswordValidator.m; sourceTree = "<group>"; };
+		45B1079618F6F14800FA7428 /* NSString+NoChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NoChat.h"; sourceTree = "<group>"; };
+		45B1079718F6F14800FA7428 /* NSString+NoChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NoChat.m"; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -199,8 +215,10 @@
 		454987A218DA3DC300CFC545 /* NoChat */ = {
 			isa = PBXGroup;
 			children = (
+				45B1079518F6F14000FA7428 /* Categories */,
 				45AB9F7818E0893500F7CA64 /* Interfaces */,
 				45AB9F7918E089CD00F7CA64 /* Models */,
+				45B1078618F6EF6700FA7428 /* Utilities */,
 				454987CB18DA496400CFC545 /* ViewControllers */,
 				454987AB18DA3DC300CFC545 /* NCAppDelegate.h */,
 				454987AC18DA3DC300CFC545 /* NCAppDelegate.m */,
@@ -293,6 +311,36 @@
 				45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		45B1078618F6EF6700FA7428 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				45B1078B18F6F08300FA7428 /* DataValidator */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		45B1078B18F6F08300FA7428 /* DataValidator */ = {
+			isa = PBXGroup;
+			children = (
+				45B1078C18F6F08300FA7428 /* NCDataValidator.h */,
+				45B1078D18F6F08300FA7428 /* NCDataValidator.m */,
+				45B1078F18F6F0A600FA7428 /* NCEmailValidator.h */,
+				45B1079018F6F0A600FA7428 /* NCEmailValidator.m */,
+				45B1079118F6F0A600FA7428 /* NCPasswordValidator.h */,
+				45B1079218F6F0A600FA7428 /* NCPasswordValidator.m */,
+			);
+			path = DataValidator;
+			sourceTree = "<group>";
+		};
+		45B1079518F6F14000FA7428 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				45B1079618F6F14800FA7428 /* NSString+NoChat.h */,
+				45B1079718F6F14800FA7428 /* NSString+NoChat.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		45EB035418DCED2B0012A621 /* UISpecs */ = {
@@ -580,15 +628,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45B1079318F6F0A600FA7428 /* NCEmailValidator.m in Sources */,
 				45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */,
 				454987A918DA3DC300CFC545 /* main.m in Sources */,
+				45B1078E18F6F08300FA7428 /* NCDataValidator.m in Sources */,
+				45B1079818F6F14800FA7428 /* NSString+NoChat.m in Sources */,
 				45AB9F9B18E1DC5100F7CA64 /* NCLoginViewController.m in Sources */,
 				4558D19218EB64670043418E /* NCMessage.m in Sources */,
 				454987AD18DA3DC300CFC545 /* NCAppDelegate.m in Sources */,
 				45AB9F9018E0D27400F7CA64 /* NoChat.m in Sources */,
 				45AB9F7C18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
 				45B1077D18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
+				45B1079418F6F0A600FA7428 /* NCPasswordValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,13 +654,17 @@
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
 				45AB9FA118E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm in Sources */,
 				45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */,
+				45B1079C18F6F73500FA7428 /* NCEmailValidator.m in Sources */,
 				45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */,
 				45AB9FA318E32A5900F7CA64 /* NCCurrentUser.m in Sources */,
+				45B1079B18F6F70900FA7428 /* NCPasswordValidator.m in Sources */,
+				45B1079918F6F6F800FA7428 /* NCDataValidator.m in Sources */,
 				45B1077E18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
 				4558D19618EC570C0043418E /* NCMessage.m in Sources */,
+				45B1079D18F6F7B100FA7428 /* NSString+NoChat.m in Sources */,
 				45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

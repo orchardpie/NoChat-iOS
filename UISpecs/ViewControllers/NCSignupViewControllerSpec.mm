@@ -14,8 +14,6 @@ describe(@"NCSignupViewController", ^{
     __block NCSignupViewController *controller;
     __block id<CedarDouble> currentUser;
     __block id<CedarDouble> delegate;
-    __block void (^signupSuccessBlock)();
-    __block bool signupSuccessBlockWasCalled;
 
     beforeEach(^{
         [UIGestureRecognizer whitelistClassForGestureSnooping:[NCSignupViewController class]];
@@ -135,6 +133,22 @@ describe(@"NCSignupViewController", ^{
             it(@"should dismiss the progress indicator", ^{
                 MBProgressHUD.currentHUD should be_nil;
             });
+        });
+    });
+
+
+    sharedExamplesFor(@"an action that does not sign up a user", ^(NSDictionary *sharedContext) {
+        it(@"should not show the progress indicator", ^{
+            MBProgressHUD.currentHUD should be_nil;
+        });
+
+        it(@"should not ask the CurrentUser to save itself to the server", ^{
+            currentUser should_not have_received("signUpWithEmail:password:success:serverFailure:networkFailure:").with(controller.emailTextField.text, controller.passwordTextField.text, Arguments::any([NSObject class]), Arguments::any([NSObject class]), Arguments::any([NSObject class]));
+        });
+
+        it(@"should show an error", ^{
+            UIAlertView.currentAlertView should_not be_nil;
+            UIAlertView.currentAlertView.title should_not be_nil;
         });
     });
 
@@ -340,16 +354,42 @@ describe(@"NCSignupViewController", ^{
     });
 
     describe(@"-signUpButtonTapped", ^{
+        __block NSString *email;
+        __block NSString *password;
+
         subjectAction(^{
+            controller.emailTextField.text = email;
+            controller.passwordTextField.text = password;
+
             [controller.signUpButton sendActionsForControlEvents:UIControlEventTouchUpInside];
         });
 
-        beforeEach(^{
-            controller.emailTextField.text = @"kevinwo@orchardpie.com";
-            controller.passwordTextField.text = @"ilikepie";
+        context(@"without a valid e-mail address", ^{
+            beforeEach(^{
+                email = @"noteventrying";
+                password = @"ilikepie";
+            });
+
+            itShouldBehaveLike(@"an action that does not sign up a user");
         });
 
-        itShouldBehaveLike(@"an action that attempts to save credentials and create current user");
+        fcontext(@"without a valid password", ^{
+            beforeEach(^{
+                email = @"kevinwo@orchardpie.com";
+                password = @"2short";
+            });
+
+            itShouldBehaveLike(@"an action that does not sign up a user");
+        });
+
+        context(@"with a valid e-mail and password", ^{
+            beforeEach(^{
+                email = @"kevinwo@orchardpie.com";
+                password = @"ilikepie!";
+            });
+
+            itShouldBehaveLike(@"an action that attempts to save credentials and create current user");
+        });
     });
 
     describe(@"-switchToLoginButtonTapped", ^{
