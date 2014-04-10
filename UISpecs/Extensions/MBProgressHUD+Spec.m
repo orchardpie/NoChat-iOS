@@ -4,6 +4,10 @@ static MBProgressHUD *__currentHUD;
 
 @implementation MBProgressHUD (Spec)
 
++ (void)afterEach {
+    [self.class setCurrentHUD:nil];
+}
+
 + (instancetype)currentHUD {
     return __currentHUD;
 }
