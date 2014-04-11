@@ -6,7 +6,7 @@ static NSString * const BASE_HOST = @"localhost";
 static const int BASE_PORT = 3000;
 #else
 static NSString * const BASE_SCHEME = @"https";
-static NSString * const BASE_HOST = @"nochat.herokuapp.com";
+static NSString * const BASE_HOST = @"nochat-dev.herokuapp.com";
 static const int BASE_PORT = 0;
 #endif
 
