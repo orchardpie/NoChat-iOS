@@ -27,14 +27,20 @@ PODS:
     - PivotalCoreKit/UIKit/Core
   - PivotalCoreKit/Foundation/Core (0.1.0)
   - PivotalCoreKit/UIKit/Core (0.1.0)
+  - PivotalCoreKit/UIKit/SpecHelper (0.1.0):
+    - PivotalCoreKit/UIKit/SpecHelper/Extensions
+    - PivotalCoreKit/UIKit/SpecHelper/Matchers
+    - PivotalCoreKit/UIKit/SpecHelper/Stubs
   - PivotalCoreKit/UIKit/SpecHelper/Extensions (0.1.0)
+  - PivotalCoreKit/UIKit/SpecHelper/Matchers (0.1.0)
+  - PivotalCoreKit/UIKit/SpecHelper/Stubs (0.1.0)
 
 DEPENDENCIES:
   - AFNetworking
   - Cedar
   - MBProgressHUD
   - PivotalCoreKit (from `https://github.com/pivotal/PivotalCoreKit`)
-  - PivotalCoreKit/UIKit/SpecHelper/Extensions (from `https://github.com/pivotal/PivotalCoreKit`)
+  - PivotalCoreKit/UIKit/SpecHelper (from `https://github.com/pivotal/PivotalCoreKit`)
 
 EXTERNAL SOURCES:
   PivotalCoreKit:

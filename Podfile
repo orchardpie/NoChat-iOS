@@ -9,7 +9,7 @@ target 'UISpecs', exclusive: true do
     pod 'Cedar'
     pod 'MBProgressHUD'
     pod 'PivotalCoreKit', git: 'https://github.com/pivotal/PivotalCoreKit'
-    pod 'PivotalCoreKit/UIKit/SpecHelper/Extensions', git: 'https://github.com/pivotal/PivotalCoreKit'
+    pod 'PivotalCoreKit/UIKit/SpecHelper', git: 'https://github.com/pivotal/PivotalCoreKit'
 end
 
 target 'Specs', exclusive: true do
