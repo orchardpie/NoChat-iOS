@@ -7,7 +7,7 @@ static const int BASE_PORT = 3000;
 #else
 static NSString * const BASE_SCHEME = @"https";
 static NSString * const BASE_HOST = @"nochat-dev.herokuapp.com";
-static const int BASE_PORT = 0;
+static const int BASE_PORT = 443;
 #endif
 
 typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
@@ -91,10 +91,7 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 - (NSURL *)baseURL
 {
-    NSString *hostAndPort = BASE_HOST;
-    if (BASE_PORT) {
-        hostAndPort = [NSString stringWithFormat:@"%@:%d", hostAndPort, BASE_PORT];
-    }
+    NSString *hostAndPort = [NSString stringWithFormat:@"%@:%d", BASE_HOST, BASE_PORT];
     return [[NSURL alloc] initWithScheme:BASE_SCHEME host:hostAndPort path:@"/"];
 }
 
