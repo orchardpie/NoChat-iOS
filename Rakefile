@@ -8,7 +8,7 @@ BUILD_DIR = File.join(PROJECT_ROOT, "build")
 TESTFLIGHT_API_TOKEN = "c7a2d337adb7e696c58a603e7973ce49_MTI2MjM4MDIwMTMtMDgtMjYgMTQ6NDY6NTMuODQ0ODc4"
 TESTFLIGHT_TEAM_TOKENS = { :staging => "3b03cc339fbe3cc18932fe8e625a023e_MzYzNDM4MjAxNC0wNC0wNCAxMDoyNTo0MC44NzIyNTE",
                            :production => "3b03cc339fbe3cc18932fe8e625a023e_MzYzNDM4MjAxNC0wNC0wNCAxMDoyNTo0MC44NzIyNTE" }
-TESTFLIGHT_DISTRIBUTION_LISTS = { :staging => "!stagingdistrib!", :production => "!productiondistrib!" }
+TESTFLIGHT_DISTRIBUTION_LISTS = { :staging => "NoChatTeam", :production => "NoChatTeam" }
 TRACKER_ID = "1040020"
 
 # Xcode 4.3 stores its /Developer inside /Applications/Xcode.app, Xcode 4.2 stored it in /Developer
@@ -130,7 +130,7 @@ namespace :testflight do
     notes     = "Please refer to Tracker (https://www.pivotaltracker.com/projects/#{TRACKER_ID}) for further information about this build"
     dysmzip   = "#{BUILD_DIR}/#{build_configuration}-iphoneos/#{EXECUTABLE_NAME}.app.dSYM.zip"
 
-    system_or_exit(%Q[curl http://testflightapp.com/api/builds.json -F file=@#{file} -F dsym=@#{dysmzip} -F api_token=#{TESTFLIGHT_API_TOKEN} -F team_token="#{TESTFLIGHT_TEAM_TOKENS[target_server]}" -F notes="#{notes}" -F notify=True])
+    system_or_exit(%Q[curl http://testflightapp.com/api/builds.json -F file=@#{file} -F dsym=@#{dysmzip} -F api_token=#{TESTFLIGHT_API_TOKEN} -F team_token="#{TESTFLIGHT_TEAM_TOKENS[target_server]}" -F notes="#{notes}" -F notify=True -F distribution_lists="#{TESTFLIGHT_DISTRIBUTION_LISTS[target_server]}"])
   end
 end
 
