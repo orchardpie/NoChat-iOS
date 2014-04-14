@@ -1,6 +1,5 @@
 #import "NCCurrentUser.h"
 #import "NoChat.h"
-#import "NCWebService.h"
 #import "NCMessage.h"
 
 static NSString const *EMAIL_KEY                    = @"email";

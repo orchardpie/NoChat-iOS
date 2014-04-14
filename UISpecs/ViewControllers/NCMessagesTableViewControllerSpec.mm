@@ -1,5 +1,6 @@
 #import "NCMessagesTableViewController.h"
 #import "NCComposeMessageViewController.h"
+#import "NCMessage.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -50,6 +51,23 @@ describe(@"NCMessagesTableViewController", ^{
             });
 
             beforeEach(^{
+                [controller presentViewController:[[UIViewController alloc] init] animated:NO completion:nil];
+            });
+
+            it(@"should dismiss the compose message modal", ^{
+                controller.presentedViewController should be_nil;
+            });
+        });
+
+        describe(@"userDidSendMessage", ^{
+            __block NCMessage *message;
+
+            subjectAction(^{
+                [controller userDidSendMessage:message];
+            });
+
+            beforeEach(^{
+                message = [[NCMessage alloc] init];
                 [controller presentViewController:[[UIViewController alloc] init] animated:NO completion:nil];
             });
 

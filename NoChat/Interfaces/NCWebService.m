@@ -74,13 +74,12 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 }
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
-                                        parameters:(NSDictionary *)parameters
-                                           success:(WebServiceSuccess)success
-                                     serverFailure:(WebServiceServerFailure)serverFailure
-                                    networkFailure:(WebServiceNetworkFailure)networkFailure {
+                    parameters:(NSDictionary *)parameters
+                       success:(WebServiceSuccess)success
+                 serverFailure:(WebServiceServerFailure)serverFailure
+                networkFailure:(WebServiceNetworkFailure)networkFailure {
 
     return [super POST:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-
         // Set authorization token from headers
         success(responseObject);
 

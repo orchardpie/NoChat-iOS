@@ -10,6 +10,7 @@
                 <outlet property="messageBodyTextView" destination="4YX-95-dta" id="mst-Wr-4ER"/>
                 <outlet property="navigationBar" destination="4fj-YY-dLk" id="rd6-VM-VvS"/>
                 <outlet property="recipientTextField" destination="Idq-ye-TzP" id="omw-o9-VUJ"/>
+                <outlet property="sendButton" destination="slw-Mo-44U" id="JY1-j6-ddN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -26,6 +27,11 @@
                             <barButtonItem key="leftBarButtonItem" title="Close" id="cRp-o1-JrY">
                                 <connections>
                                     <action selector="close:" destination="-1" id="SH2-6e-LEK"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem key="rightBarButtonItem" title="Send" id="slw-Mo-44U">
+                                <connections>
+                                    <action selector="sendMessage:" destination="-1" id="sjf-C2-aHm"/>
                                 </connections>
                             </barButtonItem>
                         </navigationItem>

@@ -1,5 +1,6 @@
 #import "NCMessagesTableViewController.h"
 #import "NCComposeMessageViewController.h"
+#import "NCMessage.h"
 
 @interface NCMessagesTableViewController ()
 
@@ -27,7 +28,8 @@
 
 - (void)composeMessage:(id)sender
 {
-    NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessage:nil
+    NCMessage *message = [[NCMessage alloc] init];
+    NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessage:message
                                                         delegate:self];
     [self presentViewController:composeMessageVC animated:YES completion:nil];
 }
@@ -35,6 +37,11 @@
 #pragma mark - NCComposeMessageViewController delegate methods
 
 - (void)composeMessageVCCloseButtonTapped
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)userDidSendMessage:(NCMessage *)message
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }

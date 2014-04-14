@@ -1,9 +1,11 @@
 #import "NCComposeMessageViewController.h"
 #import "NCMessage.h"
+#import "MBProgressHUD.h"
 
 @interface NCComposeMessageViewController ()
 
 @property (weak, nonatomic) id<NCComposeMessageDelegate> delegate;
+@property (strong, nonatomic) NCMessage *message;
 
 @end
 
@@ -12,6 +14,7 @@
 - (instancetype)initWithMessage:(NCMessage *)message delegate:(id)delegate
 {
     if (self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil]) {
+        self.message = message;
         self.delegate = delegate;
     }
     return self;
@@ -43,6 +46,35 @@
     if ([self.delegate respondsToSelector:@selector(composeMessageVCCloseButtonTapped)]) {
         [self.delegate composeMessageVCCloseButtonTapped];
     }
+}
+
+- (IBAction)sendMessage:(id)sender
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.message.receiver_email = self.recipientTextField.text;
+    self.message.body = self.messageBodyTextView.text;
+    [self.message saveWithSuccess:^{
+        if ([self.delegate respondsToSelector:@selector(userDidSendMessage:)]) {
+            [self.delegate userDidSendMessage:self.message];
+        }
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } serverFailure:^(NSString *failureMessage) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[[UIAlertView alloc] initWithTitle:@"Oops"
+                                    message:failureMessage
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                          otherButtonTitles:nil] show];
+
+    } networkFailure:^(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                    message:error.localizedRecoverySuggestion
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                          otherButtonTitles:nil] show];
+    }];
 }
 
 @end

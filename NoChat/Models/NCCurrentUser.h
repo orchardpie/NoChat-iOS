@@ -1,8 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "NCWebService.h"
 
-@class NCCurrentUser;
-
 @interface NCCurrentUser : NSObject
 
 @property (strong, nonatomic) NSString *name;
