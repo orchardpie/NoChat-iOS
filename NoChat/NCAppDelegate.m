@@ -48,9 +48,9 @@ NoChat *noChat;
 
 - (void)userDidSwitchToSignup
 {
-    NCSignupViewController *loginVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser
+    NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser
                                                                                delegate:self];
-    [self transitionToViewController:loginVC];
+    [self transitionToViewController:signupVC];
 }
 
 - (void)userDidAuthenticate

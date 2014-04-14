@@ -51,11 +51,19 @@ describe(@"NCAppDelegate", ^{
     });
 
     describe(@"-userDidSwitchToLogin", ^{
-        beforeEach(^{
+        subjectAction(^{
             [delegate userDidSwitchToLogin];
         });
 
+        it(@"should show the login view", PENDING);
+    });
 
+    describe(@"-userDidSwitchToSignup", ^{
+        subjectAction(^{
+            [delegate userDidSwitchToSignup];
+        });
+
+        it(@"should show the signup view", PENDING);
     });
 
     describe(@"-userDidAuthenticate", ^{
