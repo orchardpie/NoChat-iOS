@@ -1,38 +1,48 @@
-//
-//  NCComposeMessageViewController.m
-//  NoChat
-//
-//  Created by Orchard on 4/11/14.
-//  Copyright (c) 2014 Orchard. All rights reserved.
-//
-
 #import "NCComposeMessageViewController.h"
+#import "NCMessage.h"
 
 @interface NCComposeMessageViewController ()
+
+@property (weak, nonatomic) id<NCComposeMessageDelegate> delegate;
 
 @end
 
 @implementation NCComposeMessageViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithMessage:(NCMessage *)message delegate:(id)delegate
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil]) {
+        self.delegate = delegate;
     }
     return self;
+}
+
+- (instancetype) init {
+    [self doesNotRecognizeSelector:_cmd]; return nil;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    [self setUpMessageBodyTextView];
 }
 
-- (void)didReceiveMemoryWarning
+# pragma mark - private
+
+- (void)setUpMessageBodyTextView
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.messageBodyTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.messageBodyTextView.layer.borderWidth = 1.0;
+}
+
+# pragma mark - button actions
+
+- (IBAction)close:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(composeMessageVCCloseButtonTapped)]) {
+        [self.delegate composeMessageVCCloseButtonTapped];
+    }
 }
 
 @end

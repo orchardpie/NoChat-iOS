@@ -27,8 +27,16 @@
 
 - (void)composeMessage:(id)sender
 {
-    NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] init];
+    NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessage:nil
+                                                        delegate:self];
     [self presentViewController:composeMessageVC animated:YES completion:nil];
+}
+
+#pragma mark - NCComposeMessageViewController delegate methods
+
+- (void)composeMessageVCCloseButtonTapped
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

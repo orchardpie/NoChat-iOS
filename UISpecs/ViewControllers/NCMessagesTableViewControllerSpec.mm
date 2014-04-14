@@ -25,7 +25,7 @@ describe(@"NCMessagesTableViewController", ^{
         });
     });
 
-    describe(@"-composeMessage", ^{
+    describe(@"-composeMessage button action", ^{
         __block UIBarButtonItem *composeButton;
 
         subjectAction(^{
@@ -40,6 +40,22 @@ describe(@"NCMessagesTableViewController", ^{
 
         it(@"should push to a NCComposeMessageViewController", ^{
             controller.presentedViewController should be_instance_of([NCComposeMessageViewController class]);
+        });
+    });
+
+    describe(@"ComposeMessageViewControllerDelegate methods", ^{
+        describe(@"composeMessageVCCloseButtonTapped", ^{
+            subjectAction(^{
+                [controller composeMessageVCCloseButtonTapped];
+            });
+
+            beforeEach(^{
+                [controller presentViewController:[[UIViewController alloc] init] animated:NO completion:nil];
+            });
+
+            it(@"should dismiss the compose message modal", ^{
+                controller.presentedViewController should be_nil;
+            });
         });
     });
 });
