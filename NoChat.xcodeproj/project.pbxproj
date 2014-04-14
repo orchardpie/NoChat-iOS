@@ -16,6 +16,7 @@
 		450EB98118F888A800E188DF /* NCComposeMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 450EB97D18F888A200E188DF /* NCComposeMessageViewController.m */; };
 		450EB98318FC216000E188DF /* NCComposeMessageViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450EB98218FC216000E188DF /* NCComposeMessageViewControllerSpec.mm */; };
 		450EB98418FC282C00E188DF /* NCComposeMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 450EB97E18F888A200E188DF /* NCComposeMessageViewController.xib */; };
+		450EB98718FC408B00E188DF /* NCWebService+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 450EB98618FC408B00E188DF /* NCWebService+Spec.m */; };
 		4549879D18DA3DC300CFC545 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		4549879F18DA3DC300CFC545 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
 		454987A118DA3DC300CFC545 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
@@ -75,6 +76,8 @@
 		450EB97D18F888A200E188DF /* NCComposeMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCComposeMessageViewController.m; sourceTree = "<group>"; };
 		450EB97E18F888A200E188DF /* NCComposeMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCComposeMessageViewController.xib; sourceTree = "<group>"; };
 		450EB98218FC216000E188DF /* NCComposeMessageViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCComposeMessageViewControllerSpec.mm; sourceTree = "<group>"; };
+		450EB98518FC408B00E188DF /* NCWebService+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NCWebService+Spec.h"; sourceTree = "<group>"; };
+		450EB98618FC408B00E188DF /* NCWebService+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NCWebService+Spec.m"; sourceTree = "<group>"; };
 		4549879918DA3DC300CFC545 /* NoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4549879C18DA3DC300CFC545 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4549879E18DA3DC300CFC545 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -260,6 +263,8 @@
 				4558D19918EC99D30043418E /* MBProgressHUD+Spec.m */,
 				4558D19D18ECB3B70043418E /* UIAlertView+Spec.h */,
 				4558D19E18ECB3B70043418E /* UIAlertView+Spec.m */,
+				450EB98518FC408B00E188DF /* NCWebService+Spec.h */,
+				450EB98618FC408B00E188DF /* NCWebService+Spec.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -629,6 +634,7 @@
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
 				450EB98118F888A800E188DF /* NCComposeMessageViewController.m in Sources */,
+				450EB98718FC408B00E188DF /* NCWebService+Spec.m in Sources */,
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
 				4558D19618EC570C0043418E /* NCMessage.m in Sources */,
 				45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */,

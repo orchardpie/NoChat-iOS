@@ -21,10 +21,17 @@ NoChat *noChat;
     noChat = [[NoChat alloc] init];
     self.currentUser = [[NCCurrentUser alloc] init];
 
-    NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:signupVC];
-    self.window.rootViewController = navigationController;
+    UINavigationController *navigationController;
 
+    if (noChat.webService.hasCredential) {
+        NCMessagesTableViewController *messageTVC = [[NCMessagesTableViewController alloc] init];
+        navigationController = [[UINavigationController alloc] initWithRootViewController:messageTVC];
+    } else {
+        NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
+        navigationController = [[UINavigationController alloc] initWithRootViewController:signupVC];
+    }
+
+    self.window.rootViewController = navigationController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
