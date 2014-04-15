@@ -1,6 +1,7 @@
 #import "NCMessagesTableViewController.h"
 #import "NCComposeMessageViewController.h"
 #import "NCMessage.h"
+#import "NoChat.h"
 
 @interface NCMessagesTableViewController ()
 
@@ -14,6 +15,7 @@
 
     self.title = @"Chats";
 
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Log Out" style:UIBarButtonItemStylePlain target:self action:@selector(logout:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeMessage:)];
 }
 
@@ -32,6 +34,11 @@
     NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessage:message
                                                         delegate:self];
     [self presentViewController:composeMessageVC animated:YES completion:nil];
+}
+
+- (void)logout:(id)sender
+{
+    [noChat invalidateCurrentUser];
 }
 
 #pragma mark - NCComposeMessageViewController delegate methods

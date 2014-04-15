@@ -5,6 +5,8 @@
 
 @property (strong, nonatomic, readonly) NCWebService *webService;
 
+- (void)invalidateCurrentUser;
+
 @end
 
 extern NoChat *noChat;

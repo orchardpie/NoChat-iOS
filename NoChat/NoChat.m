@@ -17,4 +17,9 @@
     return self;
 }
 
+- (void)invalidateCurrentUser
+{
+
+}
+
 @end
