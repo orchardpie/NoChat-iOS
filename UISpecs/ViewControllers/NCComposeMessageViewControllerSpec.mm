@@ -166,6 +166,44 @@ describe(@"NCComposeMessageViewController", ^{
         });
     });
 
+    describe(@"-textFieldShouldReturn:", ^{
+        __block BOOL returnValue;
+
+        subjectAction(^{ returnValue = [controller textFieldShouldReturn:controller.receiverTextField]; });
+
+        beforeEach(^{
+            spy_on(controller.messageBodyTextView);
+        });
+
+        context(@"when the receiver email text field is empty", ^{
+            beforeEach(^{
+                controller.receiverTextField.text should be_empty;
+            });
+
+            it(@"should return NO", ^{
+                returnValue should_not be_truthy;
+            });
+
+            it(@"should not set the message body as first responder", ^{
+                controller.messageBodyTextView should_not have_received("becomeFirstResponder");
+            });
+        });
+
+        context(@"when the receiver email text field is not empty", ^{
+            beforeEach(^{
+                controller.receiverTextField.text = @"fhqwhgads@example.com";
+            });
+
+            it(@"should return NO", ^{
+                returnValue should_not be_truthy;
+            });
+
+            it(@"should set the message body as first responder", ^{
+                controller.messageBodyTextView should have_received("becomeFirstResponder");
+            });
+        });
+    });
+
     describe(@"close button action", ^{
         __block UIBarButtonItem *closeButton;
 

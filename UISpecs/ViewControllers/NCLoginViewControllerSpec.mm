@@ -299,8 +299,8 @@ describe(@"NCLoginViewController", ^{
                         textField.text should be_empty;
                     });
 
-                    it(@"should return YES", ^{
-                        returnValue should be_truthy;
+                    it(@"should return NO", ^{
+                        returnValue should_not be_truthy;
                     });
 
                     it(@"should not set the password field as first responder", ^{
@@ -313,8 +313,8 @@ describe(@"NCLoginViewController", ^{
                         textField.text = @"foo@example.com";
                     });
 
-                    it(@"should return YES", ^{
-                        returnValue should be_truthy;
+                    it(@"should return NO", ^{
+                        returnValue should_not be_truthy;
                     });
 
                     it(@"should set the password field as first responder", ^{
@@ -335,8 +335,8 @@ describe(@"NCLoginViewController", ^{
                         textField.text should be_empty;
                     });
 
-                    it(@"should return YES", ^{
-                        returnValue should be_truthy;
+                    it(@"should return NO", ^{
+                        returnValue should_not be_truthy;
                     });
 
                     it(@"should not attempt to save credentials", ^{
@@ -354,8 +354,8 @@ describe(@"NCLoginViewController", ^{
                         controller.emailTextField.text = @"sup@updog.com";
                     });
 
-                    it(@"should return YES", ^{
-                        returnValue should be_truthy;
+                    it(@"should return NO", ^{
+                        returnValue should_not be_truthy;
                     });
 
                     context(@"when the email text field is not empty", ^{

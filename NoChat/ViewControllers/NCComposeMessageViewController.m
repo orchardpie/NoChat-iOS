@@ -45,6 +45,15 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField.text.length) {
+        [self.messageBodyTextView becomeFirstResponder];
+    }
+
+    return NO;
+}
+
 #pragma mark - UITextView delegate implementation
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text

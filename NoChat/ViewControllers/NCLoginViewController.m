@@ -95,7 +95,7 @@
     } else if (textField.text.length) {
         [self.passwordTextField becomeFirstResponder];
     }
-    return YES;
+    return NO;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
