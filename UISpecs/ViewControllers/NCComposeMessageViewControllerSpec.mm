@@ -84,6 +84,7 @@ describe(@"NCComposeMessageViewController", ^{
             sendButton = controller.sendButton;
 
             spy_on(message);
+            spy_on(controller.view);
 
             controller.recipientTextField.text = @"comeon@fhqwgads.com";
             controller.messageBodyTextView.text = @"I see you tryin' to play like U NO ME";
@@ -91,6 +92,10 @@ describe(@"NCComposeMessageViewController", ^{
 
         it(@"should show the progress indicator", ^{
             MBProgressHUD.currentHUD should_not be_nil;
+        });
+
+        it(@"should dismiss the keyboard", ^{
+            controller.view should have_received("endEditing:");
         });
 
         it(@"should set the message recipient e-mail", ^{

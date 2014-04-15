@@ -51,6 +51,8 @@
 - (IBAction)sendMessage:(id)sender
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.view endEditing:YES];
+
     self.message.receiver_email = self.recipientTextField.text;
     self.message.body = self.messageBodyTextView.text;
     [self.message saveWithSuccess:^{
