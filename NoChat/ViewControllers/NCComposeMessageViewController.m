@@ -53,7 +53,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.view endEditing:YES];
 
-    self.message.receiver_email = self.recipientTextField.text;
+    self.message.receiver_email = self.receiverTextField.text;
     self.message.body = self.messageBodyTextView.text;
     [self.message saveWithSuccess:^{
         if ([self.delegate respondsToSelector:@selector(userDidSendMessage:)]) {

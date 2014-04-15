@@ -22,21 +22,21 @@ describe(@"NCComposeMessageViewController", ^{
     });
 
     describe(@"outlets", ^{
-        describe(@"-recipientTextField", ^{
+        describe(@"-receiverTextField", ^{
             it(@"should be", ^{
-                controller.recipientTextField should_not be_nil;
+                controller.receiverTextField should_not be_nil;
             });
 
             it(@"should have delegate set to controller", ^{
-                controller.recipientTextField.delegate should equal(controller);
+                controller.receiverTextField.delegate should equal(controller);
             });
 
             it(@"should bring up the e-mail keyboard", ^{
-                controller.recipientTextField.keyboardType should equal(UIKeyboardTypeEmailAddress);
+                controller.receiverTextField.keyboardType should equal(UIKeyboardTypeEmailAddress);
             });
 
             it(@"should set the Return key to 'Next'", ^{
-                controller.recipientTextField.returnKeyType should equal(UIReturnKeyNext);
+                controller.receiverTextField.returnKeyType should equal(UIReturnKeyNext);
             });
         });
 
@@ -86,7 +86,7 @@ describe(@"NCComposeMessageViewController", ^{
             spy_on(message);
             spy_on(controller.view);
 
-            controller.recipientTextField.text = @"comeon@fhqwgads.com";
+            controller.receiverTextField.text = @"comeon@fhqwgads.com";
             controller.messageBodyTextView.text = @"I see you tryin' to play like U NO ME";
         });
 
@@ -98,8 +98,8 @@ describe(@"NCComposeMessageViewController", ^{
             controller.view should have_received("endEditing:");
         });
 
-        it(@"should set the message recipient e-mail", ^{
-            message.receiver_email should equal(controller.recipientTextField.text);
+        it(@"should set the message receiver e-mail", ^{
+            message.receiver_email should equal(controller.receiverTextField.text);
         });
 
         it(@"should set the message body", ^{

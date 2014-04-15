@@ -9,7 +9,7 @@
                 <outlet property="closeButton" destination="cRp-o1-JrY" id="tB6-ie-wNo"/>
                 <outlet property="messageBodyTextView" destination="4YX-95-dta" id="mst-Wr-4ER"/>
                 <outlet property="navigationBar" destination="4fj-YY-dLk" id="rd6-VM-VvS"/>
-                <outlet property="recipientTextField" destination="Idq-ye-TzP" id="omw-o9-VUJ"/>
+                <outlet property="receiverTextField" destination="Idq-ye-TzP" id="byg-6O-pb9"/>
                 <outlet property="sendButton" destination="slw-Mo-44U" id="JY1-j6-ddN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
