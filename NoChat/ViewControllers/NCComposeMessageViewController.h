@@ -9,7 +9,7 @@
 
 @end
 
-@interface NCComposeMessageViewController : UIViewController
+@interface NCComposeMessageViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *closeButton;

@@ -199,7 +199,7 @@ describe(@"NCLoginViewController", ^{
                     textField = controller.emailTextField;
                 });
 
-                context(@"when the text field will be empty", ^{
+                context(@"when the text field is empty", ^{
                     beforeEach(^{
                         replacementString = @"";
                     });
@@ -212,7 +212,7 @@ describe(@"NCLoginViewController", ^{
                     });
                 });
 
-                context(@"when the text field will not be empty", ^{
+                context(@"when the text field is not empty", ^{
                     beforeEach(^{
                         replacementString = @"foo@example.com";
                     });

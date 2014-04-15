@@ -20,7 +20,8 @@
     return self;
 }
 
-- (instancetype) init {
+- (instancetype) init
+{
     [self doesNotRecognizeSelector:_cmd]; return nil;
 }
 
@@ -28,10 +29,34 @@
 {
     [super viewDidLoad];
 
+    self.sendButton.enabled = NO;
+
     [self setUpMessageBodyTextView];
 }
 
-# pragma mark - private
+#pragma mark - UITextField delegate implementation
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    NSString *otherText = self.messageBodyTextView.text;
+    self.sendButton.enabled = otherText.length > 0 && newText.length > 0;
+
+    return YES;
+}
+
+#pragma mark - UITextView delegate implementation
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSString *newText = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    NSString *otherText = self.receiverTextField.text;
+    self.sendButton.enabled = otherText.length > 0 && newText.length > 0;
+
+    return YES;
+}
+
+#pragma mark - Private interface
 
 - (void)setUpMessageBodyTextView
 {
@@ -39,7 +64,7 @@
     self.messageBodyTextView.layer.borderWidth = 0.5;
 }
 
-# pragma mark - button actions
+#pragma mark - Button actions
 
 - (IBAction)close:(id)sender
 {

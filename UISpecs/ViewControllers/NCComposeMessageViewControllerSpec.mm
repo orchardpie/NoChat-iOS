@@ -55,6 +55,115 @@ describe(@"NCComposeMessageViewController", ^{
         it(@"should set the send button's target to itself", ^{
             controller.sendButton.target should equal(controller);
         });
+
+        it(@"should disable the send button", ^{
+            controller.sendButton.enabled should_not be_truthy;
+        });
+    });
+
+    describe(@"enabling the send button", ^{
+        NSRange range = NSMakeRange(0, 0);
+        __block NSString *replacementString;
+
+        context(@"when email text field changes", ^{
+            __block UITextField *textField;
+
+            subjectAction(^{
+                [controller textField:textField shouldChangeCharactersInRange:range replacementString:replacementString];
+            });
+
+            beforeEach(^{
+                textField = controller.receiverTextField;
+            });
+
+            context(@"when the text field is empty", ^{
+                beforeEach(^{
+                    replacementString = @"";
+                });
+
+                it(@"should return YES", ^{
+                    [controller textField:textField shouldChangeCharactersInRange:range replacementString:replacementString] should be_truthy;
+                });
+                it(@"should not enable the sendButton", ^{
+                    controller.sendButton.enabled should_not be_truthy;
+                });
+            });
+
+            context(@"when the text field is not empty", ^{
+                beforeEach(^{
+                    replacementString = @"foo@example.com";
+                });
+
+                context(@"when the message body text view is empty", ^{
+                    beforeEach(^{
+                        controller.messageBodyTextView.text should be_empty;
+                    });
+                    it(@"should not enable the sendButton", ^{
+                        controller.sendButton.enabled should_not be_truthy;
+                    });
+                });
+                context(@"when the message body text view is not empty", ^{
+                    beforeEach(^{
+                        controller.messageBodyTextView.text = @"I like turtles.";
+                    });
+
+                    it(@"should enable the sendButton", ^{
+                        controller.sendButton.enabled should be_truthy;
+                    });
+                });
+            });
+        });
+
+        describe(@"when the message body changes", ^{
+            __block UITextView *textView;
+
+            subjectAction(^{
+                [controller textView:textView shouldChangeTextInRange:range replacementText:replacementString];
+            });
+
+            beforeEach(^{
+                textView = controller.messageBodyTextView;
+            });
+
+            context(@"when the text field is empty", ^{
+                beforeEach(^{
+                    replacementString = @"";
+                });
+
+                it(@"should return YES", ^{
+                    [controller textView:textView shouldChangeTextInRange:range replacementText:replacementString] should be_truthy;
+                });
+
+                it(@"should not enable the sendButton", ^{
+                    controller.sendButton.enabled should_not be_truthy;
+                });
+            });
+
+            context(@"when the text view will not be empty", ^{
+                beforeEach(^{
+                    replacementString = @"I hate turtles.";
+                });
+
+                context(@"when the receiver text field is empty", ^{
+                    beforeEach(^{
+                        controller.receiverTextField.text should be_empty;
+                    });
+
+                    it(@"should not enable the sendButton", ^{
+                        controller.sendButton.enabled should_not be_truthy;
+                    });
+                });
+                context(@"when the receiver text field is not empty", ^{
+                    beforeEach(^{
+                        controller.receiverTextField.text = @"bar@example.com";
+                    });
+
+                    it(@"should enable the sendButton", ^{
+                        controller.sendButton.enabled should be_truthy;
+                    });
+                });
+            });
+        });
     });
 
     describe(@"close button action", ^{
