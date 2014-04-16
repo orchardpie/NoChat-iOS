@@ -14,8 +14,6 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 @interface NCWebService ()
 
-@property (strong, nonatomic) NSString *authToken;
-
 @end
 
 @implementation NCWebService
@@ -70,6 +68,12 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
     }
 }
 
+- (void)setAuthTokenFromResponse:(NSURLResponse *)response
+{
+    NSHTTPURLResponse *httpURLResponse = (NSHTTPURLResponse *)response;
+    [self.requestSerializer setValue:httpURLResponse.allHeaderFields[@"X-User-Token"] forHTTPHeaderField:@"X-User-Token"];
+}
+
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(NSDictionary *)parameters
                       success:(WebServiceSuccess)success
@@ -77,9 +81,8 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
                networkFailure:(WebServiceNetworkFailure)networkFailure {
 
     return [super GET:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        // Set authorization token from headers
+        [self setAuthTokenFromResponse:task.response];
         success(responseObject);
-
     } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];
 }
 
@@ -90,7 +93,6 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
                 networkFailure:(WebServiceNetworkFailure)networkFailure {
 
     return [super POST:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        // Set authorization token from headers
         success(responseObject);
 
     } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];

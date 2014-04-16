@@ -103,8 +103,6 @@ describe(@"NCWebService", ^{
         it(@"should send an HTTP GET request to the specified path", ^{
             task.originalRequest.HTTPMethod should equal(@"GET");
         });
-
-        it(@"should include the auth token in the X-User-Token header", PENDING);
         
         it(@"should set the Accept header to application/json", PENDING);
     });
@@ -177,18 +175,34 @@ describe(@"NCWebService", ^{
         });
 
         describe(@"which completes with a 200 response", ^{
-            __block NSURLResponse *response;
+            __block NSMutableDictionary *headerFields;
             NSData *data = [NSJSONSerialization dataWithJSONObject:@{ @"key": @"value" } options:0 error:nil];
 
-            subjectAction(^{ [task completeWithResponse:response data:data error:nil]; });
+            subjectAction(^{
+                NSURL *url = [NSURL URLWithString:@"/"];
+                [task completeWithResponse:[[NSHTTPURLResponse alloc] initWithURL:url statusCode:200 HTTPVersion:@"1.0" headerFields:headerFields]
+                                      data:data
+                                     error:nil];
+            });
 
             beforeEach(^{
-                NSURL *url = [NSURL URLWithString:@"/"];
-                response = [[NSHTTPURLResponse alloc] initWithURL:url statusCode:200 HTTPVersion:@"1.0" headerFields:@{ @"Content-Type": @"application/json" }];
+                headerFields = [NSMutableDictionary dictionary];
+                headerFields[@"Content-Type"] = @"application/json";
             });
 
             it(@"should invoke the success callback block", ^{
                 called should be_truthy();
+            });
+
+            context(@"when the response contains a user authentication token", ^{
+                beforeEach(^{
+                    webService.session.configuration.HTTPAdditionalHeaders[@"X-User-Token"] should be_nil;
+                    headerFields[@"X-User-Token"] = @"wibble";
+                });
+
+                it(@"should set the user authentication token for the session", ^{
+                    webService.requestSerializer.HTTPRequestHeaders[@"X-User-Token"] should equal(@"wibble");
+                });
             });
         });
     });
