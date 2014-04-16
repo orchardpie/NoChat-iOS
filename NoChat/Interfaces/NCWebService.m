@@ -119,7 +119,11 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
     return ^(NSURLSessionDataTask *task, NSError *error) {
         NSHTTPURLResponse *failureResponse = (NSHTTPURLResponse *)task.response;
 
-        [failureResponse statusCode] ? serverFailure(@"There was a problem with the NoChat server. Please try again later.") : networkFailure(error);
+        if (failureResponse) {
+            if (serverFailure) { serverFailure(@"There was a problem with the NoChat server. Please try again later."); }
+        } else {
+            if (networkFailure) { networkFailure(error); }
+        }
     };
 }
 

@@ -1,4 +1,7 @@
 #import "NCWebService.h"
+#import "NSURLSession+Spec.h"
+#import "NSURLSessionDataTask+Spec.h"
+#import "SingleTrack/SpecHelpers.h"
 
 typedef NSURLSessionAuthChallengeDisposition (^AFURLSessionTaskDidReceiveAuthenticationChallengeBlock)(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential * __autoreleasing *credential);
 @interface AFURLSessionManager (Spec)
@@ -86,60 +89,106 @@ describe(@"NCWebService", ^{
     });
 
     describe(@"GET:parameters:success:failure:", ^{
-        it(@"should send an HTTP GET request to the specified path", PENDING);
-        it(@"should include the auth token in the X-NoChat-AuthToken header", PENDING);
+        __block NSURLSessionDataTask *task;
+
+        subjectAction(^{
+            [webService GET:@"/" parameters:@{} success:nil serverFailure:nil networkFailure:nil];
+            task = webService.tasks.firstObject;
+        });
+
+        afterEach(^{
+            [task removeObserver:webService forKeyPath:@"state"];
+        });
+
+        it(@"should send an HTTP GET request to the specified path", ^{
+            task.originalRequest.HTTPMethod should equal(@"GET");
+        });
+
+        it(@"should include the auth token in the X-User-Token header", PENDING);
+        
         it(@"should set the Accept header to application/json", PENDING);
     });
 
     context(@"with an active request", ^{
-        __block AFURLSessionTaskDidReceiveAuthenticationChallengeBlock challengeBlock;
         __block NSURLAuthenticationChallenge<CedarDouble> *challenge;
-        __block NSURLCredential *credential;
-        __block NSURLSessionAuthChallengeDisposition disposition;
+        __block NSURLSessionDataTask *task;
+        __block BOOL called;
 
         beforeEach(^{
             challenge = nice_fake_for([NSURLAuthenticationChallenge class]);
-            credential = [[NSURLCredential alloc] initWithUser:@"foo" password:@"bar" persistence:NSURLCredentialPersistenceNone];
+            called = NO;
+            task = [webService GET:@"/" parameters:@{} success:^(id responseBody) {
+                called = YES;
+            } serverFailure:nil networkFailure:nil];
+        });
 
-            [webService GET:@"/" parameters:@{} success:nil serverFailure:nil networkFailure:nil];
-            challengeBlock = [webService taskDidReceiveAuthenticationChallenge];
+        afterEach(^{
+            [webService.tasks enumerateObjectsUsingBlock:^(id task, NSUInteger idx, BOOL *stop) {
+                [task removeObserver:webService forKeyPath:@"state"];
+            }];
         });
 
         describe(@"which receives an authentication challenge", ^{
+            __block NSURLAuthenticationChallengeResponse *challengeResponse;
+
             subjectAction(^{
-                disposition = challengeBlock(nil, nil, challenge, &credential);
+                [task receiveAuthenticationChallenge:challenge];
+                challengeResponse = task.authenticationChallengeResponses.lastObject;
             });
 
             it(@"should return a default handling disposition", ^{
-                disposition should equal(NSURLSessionAuthChallengePerformDefaultHandling);
+                challengeResponse.disposition should equal(NSURLSessionAuthChallengePerformDefaultHandling);
+            });
+
+            it(@"should not provide a credential (the challenge should use the default credential in the credential store)", ^{
+                challengeResponse.credential should be_nil;
             });
         });
 
-        context(@"which has already responded to an authentication challenge", ^{
-            __block NSURLCredential<CedarDouble> *proposedCredential;
+        describe(@"which receives a second authentication challenge", ^{
+            __block NSURLCredential *proposedCredential;
+            __block NSURLAuthenticationChallengeResponse *challengeResponse;
+
+            subjectAction(^{
+                [task receiveAuthenticationChallenge:challenge];
+                challengeResponse = task.authenticationChallengeResponses.lastObject;
+            });
 
             beforeEach(^{
                 credentialStorage stub_method("removeCredential:forProtectionSpace:");
+                NSInteger previousFailureCount = 1;
                 proposedCredential = nice_fake_for([NSURLCredential class]);
 
-                NSInteger previousFailureCount = 1;
                 challenge stub_method("previousFailureCount").and_return(previousFailureCount);
                 challenge stub_method("proposedCredential").and_return(proposedCredential);
-                challengeBlock(nil, nil, challenge, &credential);
             });
 
-            describe(@"another authentication challenge", ^{
-                subjectAction(^{
-                    disposition = challengeBlock(nil, nil, challenge, &credential);
-                });
+            it(@"should clear the credentials", ^{
+                credentialStorage should have_received("removeCredential:forProtectionSpace:").with(proposedCredential, Arguments::any([NSURLProtectionSpace class]));
+            });
 
-                it(@"should clear the credentials", ^{
-                    credentialStorage should have_received("removeCredential:forProtectionSpace:").with(proposedCredential, Arguments::any([NSURLProtectionSpace class]));
-                });
+            it(@"should return a reject protection space disposition", ^{
+                challengeResponse.disposition should equal(NSURLSessionAuthChallengeRejectProtectionSpace);
+            });
 
-                it(@"should return a challenge reject disposition", ^{
-                    disposition should equal(NSURLSessionAuthChallengeRejectProtectionSpace);
-                });
+            it(@"should not provide credentials", ^{
+                challengeResponse.credential should be_nil;
+            });
+        });
+
+        describe(@"which completes with a 200 response", ^{
+            __block NSURLResponse *response;
+            NSData *data = [NSJSONSerialization dataWithJSONObject:@{ @"key": @"value" } options:0 error:nil];
+
+            subjectAction(^{ [task completeWithResponse:response data:data error:nil]; });
+
+            beforeEach(^{
+                NSURL *url = [NSURL URLWithString:@"/"];
+                response = [[NSHTTPURLResponse alloc] initWithURL:url statusCode:200 HTTPVersion:@"1.0" headerFields:@{ @"Content-Type": @"application/json" }];
+            });
+
+            it(@"should invoke the success callback block", ^{
+                called should be_truthy();
             });
         });
     });

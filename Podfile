@@ -1,6 +1,7 @@
 platform :ios, '7.0'
 
-pod 'AFNetworking'
+pod 'SingleTrack', git: 'https://github.com/orchardadam/SingleTrack'
+pod 'AFNetworking', git: 'https://github.com/orchardpie/AFNetworking'
 pod 'MBProgressHUD'
 
 target 'UISpecs', exclusive: true do
@@ -14,6 +15,8 @@ end
 
 target 'Specs', exclusive: true do
     platform :osx, '10.8'
-    pod 'AFNetworking'
+    pod 'AFNetworking', git: 'https://github.com/orchardpie/AFNetworking'
+    pod 'AFSpecWorking', git: 'https://github.com/orchardpie/AFSpecWorking'
+    pod 'SingleTrack/SpecHelpers', git: 'https://github.com/orchardadam/SingleTrack'
     pod 'Cedar'
 end
