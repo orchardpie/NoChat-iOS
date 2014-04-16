@@ -88,7 +88,7 @@ describe(@"NCWebService", ^{
         });
     });
 
-    describe(@"GET:parameters:success:failure:", ^{
+    describe(@"GET:parameters:success:serverFailure:networkFailure:", ^{
         __block NSURLSessionDataTask *task;
 
         subjectAction(^{
@@ -103,11 +103,31 @@ describe(@"NCWebService", ^{
         it(@"should send an HTTP GET request to the specified path", ^{
             task.originalRequest.HTTPMethod should equal(@"GET");
         });
-        
+
         it(@"should set the Accept header to application/json", PENDING);
     });
 
-    context(@"with an active request", ^{
+    describe(@"POST:parameters:success:serverFailure:networkFailure:", ^{
+        __block NSURLSessionDataTask *task;
+
+        subjectAction(^{
+            [webService POST:@"/messages/" parameters:@{} success:nil serverFailure:nil networkFailure:nil];
+            task = webService.tasks.firstObject;
+        });
+
+        afterEach(^{
+
+            [task removeObserver:webService forKeyPath:@"state"];
+        });
+
+        it(@"should send an HTTP POST request to the specified path", ^{
+            task.originalRequest.HTTPMethod should equal(@"POST");
+        });
+
+        it(@"should set the Accept header to application/json", PENDING);
+    });
+
+    sharedExamplesFor(@"valid responses to a request", ^(NSDictionary *sharedContext) {
         __block NSURLAuthenticationChallenge<CedarDouble> *challenge;
         __block NSURLSessionDataTask *task;
         __block BOOL called;
@@ -115,9 +135,10 @@ describe(@"NCWebService", ^{
         beforeEach(^{
             challenge = nice_fake_for([NSURLAuthenticationChallenge class]);
             called = NO;
-            task = [webService GET:@"/" parameters:@{} success:^(id responseBody) {
+            NSURLSessionDataTask *(^createTaskAction)(id, id, id) = sharedContext[@"createTaskAction"];
+            task = createTaskAction(^(id responseBody) {
                 called = YES;
-            } serverFailure:nil networkFailure:nil];
+            }, nil, nil);
         });
 
         afterEach(^{
@@ -174,19 +195,11 @@ describe(@"NCWebService", ^{
             });
         });
 
-        describe(@"which completes with a 200 response", ^{
+        sharedExamplesFor(@"a successful AFNetworking response", ^(NSDictionary *sharedContext) {
             __block NSMutableDictionary *headerFields;
-            NSData *data = [NSJSONSerialization dataWithJSONObject:@{ @"key": @"value" } options:0 error:nil];
-
-            subjectAction(^{
-                NSURL *url = [NSURL URLWithString:@"/"];
-                [task completeWithResponse:[[NSHTTPURLResponse alloc] initWithURL:url statusCode:200 HTTPVersion:@"1.0" headerFields:headerFields]
-                                      data:data
-                                     error:nil];
-            });
 
             beforeEach(^{
-                headerFields = [NSMutableDictionary dictionary];
+                headerFields = sharedContext[@"headerFields"];
                 headerFields[@"Content-Type"] = @"application/json";
             });
 
@@ -196,7 +209,7 @@ describe(@"NCWebService", ^{
 
             context(@"when the response contains a user authentication token", ^{
                 beforeEach(^{
-                    webService.session.configuration.HTTPAdditionalHeaders[@"X-User-Token"] should be_nil;
+                    webService.requestSerializer.HTTPRequestHeaders[@"X-User-Token"] should be_nil;
                     headerFields[@"X-User-Token"] = @"wibble";
                 });
 
@@ -204,7 +217,81 @@ describe(@"NCWebService", ^{
                     webService.requestSerializer.HTTPRequestHeaders[@"X-User-Token"] should equal(@"wibble");
                 });
             });
+
+            context(@"when the web service has previously saved an auth token", ^{
+                beforeEach(^{
+                    [webService.requestSerializer setValue:@"foobar" forHTTPHeaderField:@"X-User-Token"];
+                });
+
+                context(@"when the response does not contain an authentication token", ^{
+                    beforeEach(^{
+                        headerFields[@"X-User-Token"] should be_nil;
+                    });
+
+                    it(@"should not clear any previously saved auth token", ^{
+                        webService.requestSerializer.HTTPRequestHeaders[@"X-User-Token"] should equal(@"foobar");
+                    });
+                });
+            });
         });
+
+        describe(@"which completes with a 200 response", ^{
+            NSData *data = [NSJSONSerialization dataWithJSONObject:@{ @"key": @"value" } options:0 error:nil];
+            NSURL *url = [NSURL URLWithString:@"/"];
+            __block NSMutableDictionary *headerFields;
+
+            subjectAction(^{
+                [task completeWithResponse:[[NSHTTPURLResponse alloc] initWithURL:url statusCode:200 HTTPVersion:@"1.0" headerFields:headerFields]
+                                      data:data
+                                     error:nil];
+            });
+
+            beforeEach(^{
+                headerFields = [NSMutableDictionary dictionary];
+                SpecHelper.specHelper.sharedExampleContext[@"headerFields"] = headerFields;
+            });
+
+            itShouldBehaveLike(@"a successful AFNetworking response");
+        });
+
+        describe(@"which completes with a 422 response", ^{
+            NSData *data = [NSJSONSerialization dataWithJSONObject:@{ @"message": @"Error!" } options:0 error:nil];
+            NSURL *url = [NSURL URLWithString:@"/"];
+            __block NSMutableDictionary *headerFields;
+
+            subjectAction(^{
+                [task completeWithResponse:[[NSHTTPURLResponse alloc] initWithURL:url statusCode:422 HTTPVersion:@"1.0" headerFields:headerFields]
+                                      data:data
+                                     error:nil];
+            });
+
+            beforeEach(^{
+                headerFields = [NSMutableDictionary dictionary];
+                SpecHelper.specHelper.sharedExampleContext[@"headerFields"] = headerFields;
+            });
+
+            itShouldBehaveLike(@"a successful AFNetworking response");
+        });
+    });
+
+    context(@"with an active GET request", ^{
+        beforeEach(^{
+            SpecHelper.specHelper.sharedExampleContext[@"createTaskAction"] = [^NSURLSessionDataTask *(id success, id serverFailure, id networkFailure) {
+                return [webService GET:@"/" parameters:@{} success:success serverFailure:serverFailure networkFailure:networkFailure];
+            } copy];
+        });
+
+        itShouldBehaveLike(@"valid responses to a request");
+    });
+
+    context(@"with an active POST request", ^{
+        beforeEach(^{
+            SpecHelper.specHelper.sharedExampleContext[@"createTaskAction"] = [^NSURLSessionDataTask *(id success, id serverFailure, id networkFailure) {
+                return [webService POST:@"/" parameters:@{} success:success serverFailure:serverFailure networkFailure:networkFailure];
+            } copy];
+        });
+
+        itShouldBehaveLike(@"valid responses to a request");
     });
 });
 

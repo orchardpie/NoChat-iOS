@@ -22,6 +22,7 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 {
     if (self = [super initWithBaseURL:self.baseURL sessionConfiguration:self.sessionConfiguration]) {
         __weak __typeof(self)weakSelf = self;
+        self.responseSerializer.acceptableStatusCodes = nil;
         [self setTaskDidReceiveAuthenticationChallengeBlock:^NSURLSessionAuthChallengeDisposition(NSURLSession *session, NSURLSessionTask *task, NSURLAuthenticationChallenge *challenge, NSURLCredential *__autoreleasing *credential) {
             if (!challenge.previousFailureCount) {
                 return NSURLSessionAuthChallengePerformDefaultHandling;
@@ -68,10 +69,14 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
     }
 }
 
-- (void)setAuthTokenFromResponse:(NSURLResponse *)response
+- (void)setAuthTokenIfInsideResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse *httpURLResponse = (NSHTTPURLResponse *)response;
-    [self.requestSerializer setValue:httpURLResponse.allHeaderFields[@"X-User-Token"] forHTTPHeaderField:@"X-User-Token"];
+    NSString *authToken = httpURLResponse.allHeaderFields[@"X-User-Token"];
+
+    if (authToken && authToken.length > 0) {
+        [self.requestSerializer setValue:authToken forHTTPHeaderField:@"X-User-Token"];
+    }
 }
 
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
@@ -81,7 +86,7 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
                networkFailure:(WebServiceNetworkFailure)networkFailure {
 
     return [super GET:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self setAuthTokenFromResponse:task.response];
+        [self setAuthTokenIfInsideResponse:task.response];
         success(responseObject);
     } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];
 }
@@ -93,8 +98,8 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
                 networkFailure:(WebServiceNetworkFailure)networkFailure {
 
     return [super POST:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self setAuthTokenIfInsideResponse:task.response];
         success(responseObject);
-
     } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];
 }
 
