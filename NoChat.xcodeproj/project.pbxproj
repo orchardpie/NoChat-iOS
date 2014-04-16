@@ -59,6 +59,7 @@
 		45B1077F18F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
 		45B1078018F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
 		45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */; };
+		45CD5B0518FDC495000A8CA0 /* NoChatSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -121,6 +122,7 @@
 		45B1077B18F34ED700FA7428 /* NCSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCSignupViewController.m; sourceTree = "<group>"; };
 		45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCSignupViewController.xib; sourceTree = "<group>"; };
 		45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCSignupViewControllerSpec.mm; sourceTree = "<group>"; };
+		45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NoChatSpec.mm; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */,
 				45EB035518DCED2B0012A621 /* Supporting Files */,
 				45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */,
+				45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */,
 			);
 			path = UISpecs;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45CD5B0518FDC495000A8CA0 /* NoChatSpec.mm in Sources */,
 				45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */,
 				4558D19F18ECB3B70043418E /* UIAlertView+Spec.m in Sources */,
 				4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */,

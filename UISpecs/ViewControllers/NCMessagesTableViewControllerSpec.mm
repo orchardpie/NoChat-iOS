@@ -43,7 +43,7 @@ describe(@"NCMessagesTableViewController", ^{
 
             logoutButton = controller.navigationItem.leftBarButtonItem;
 
-            noChat = [[NoChat alloc] init];
+            noChat = [[NoChat alloc] initWithDelegate:nil];
             spy_on(noChat);
         });
 

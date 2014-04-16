@@ -10,7 +10,7 @@ NoChat *noChat;
 @implementation NCSpecHelper
 
 + (void)beforeEach {
-    noChat = [[NoChat alloc] init];
+    noChat = [[NoChat alloc] initWithDelegate:nil];
     spy_on(noChat);
 }
 
