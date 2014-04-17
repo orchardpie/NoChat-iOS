@@ -2,9 +2,9 @@
 
 @interface NCWebService : AFHTTPSessionManager
 
-typedef void(^WebServiceSuccess)(id responseBody);
-typedef void(^WebServiceServerFailure)(NSString *failureMessage);
-typedef void(^WebServiceNetworkFailure)(NSError *error);
+typedef void(^WebServiceCompletion)(id responseBody);
+typedef void(^WebServiceInvalid)(id responseBody);
+typedef void(^WebServiceError)(NSError *error);
 
 - (void)saveCredentialWithEmail:(NSString *)email
                        password:(NSString *)password;
@@ -13,13 +13,13 @@ typedef void(^WebServiceNetworkFailure)(NSError *error);
 
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(NSDictionary *)parameters
-                      success:(WebServiceSuccess)success
-                serverFailure:(WebServiceServerFailure)serverFailure
-               networkFailure:(WebServiceNetworkFailure)networkFailure;
+                   completion:(WebServiceCompletion)completion
+                      invalid:(WebServiceInvalid)invalid
+                        error:(WebServiceError)error;
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(NSDictionary *)parameters
-                       success:(WebServiceSuccess)success
-                 serverFailure:(WebServiceServerFailure)serverFailure
-                networkFailure:(WebServiceNetworkFailure)networkFailure;
+                    completion:(WebServiceCompletion)completion
+                       invalid:(WebServiceInvalid)invalid
+                         error:(WebServiceError)error;
 
 @end

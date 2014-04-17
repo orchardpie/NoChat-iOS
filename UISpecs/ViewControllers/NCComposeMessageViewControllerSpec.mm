@@ -290,7 +290,7 @@ describe(@"NCComposeMessageViewController", ^{
         context(@"when the save is unsuccessful because of a problem with the server", ^{
             beforeEach(^{
                 message stub_method("saveWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
-                    WebServiceServerFailure failureBlock;
+                    WebServiceInvalid failureBlock;
                     [invocation getArgument:&failureBlock atIndex:3];
                     NSString *failureMessage = @"shameful failure";
                     failureBlock(failureMessage);
@@ -303,7 +303,7 @@ describe(@"NCComposeMessageViewController", ^{
         context(@"when the save is unsuccessful because of a problem with the network", ^{
             beforeEach(^{
                 message stub_method("saveWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
-                    WebServiceNetworkFailure failureBlock;
+                    WebServiceError failureBlock;
                     [invocation getArgument:&failureBlock atIndex:4];
                     NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
                                                                                                         NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];                    failureBlock(error);

@@ -16,33 +16,33 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 }
 
 - (void)fetchWithSuccess:(void(^)())success
-           serverFailure:(WebServiceServerFailure)serverFailure
-          networkFailure:(WebServiceNetworkFailure)networkFailure
+           serverFailure:(WebServiceInvalid)serverFailure
+          networkFailure:(WebServiceError)networkFailure
 {
-    [noChat.webService GET:@"/" parameters:nil success:^(id responseBody) {
+    [noChat.webService GET:@"/" parameters:nil completion:^(id responseBody) {
         [self setMessagesFromResponse:responseBody];
         if (success) { success(); }
 
-    } serverFailure:serverFailure networkFailure:networkFailure];
+    } invalid:serverFailure error:networkFailure];
 }
 
 - (void)signUpWithEmail:(NSString *)email
                password:(NSString *)password
                 success:(void(^)())success
-          serverFailure:(WebServiceServerFailure)serverFailure
-         networkFailure:(WebServiceNetworkFailure)networkFailure
+          serverFailure:(WebServiceInvalid)serverFailure
+         networkFailure:(WebServiceError)networkFailure
 {
     NSDictionary *parameters = @{ @"user":@{ EMAIL_KEY : email,
                                              PASSWORD_KEY : password,
                                              PASSWORD_CONFIRMATION_KEY : password } };
 
-    [noChat.webService POST:@"/users" parameters:parameters success:^(id responseBody) {
+    [noChat.webService POST:@"/users" parameters:parameters completion:^(id responseBody) {
         [noChat.webService saveCredentialWithEmail:email password:password];
 
         [self setMessagesFromResponse:responseBody];
         if (success) { success(); }
 
-    } serverFailure:serverFailure networkFailure:networkFailure];
+    } invalid:serverFailure error:networkFailure];
 }
 
 - (void)setMessagesFromResponse:(id)responseObject

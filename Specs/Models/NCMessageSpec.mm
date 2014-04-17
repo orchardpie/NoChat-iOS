@@ -25,8 +25,8 @@ describe(@"NCMessage", ^{
 
     describe(@"-save", ^{
         __block void (^success)();
-        __block WebServiceServerFailure serverFailure;
-        __block WebServiceNetworkFailure networkFailure;
+        __block WebServiceInvalid serverFailure;
+        __block WebServiceError networkFailure;
         __block bool successWasCalled;
         __block BOOL serverFailureWasCalled;
         __block BOOL networkFailureWasCalled;
@@ -50,10 +50,10 @@ describe(@"NCMessage", ^{
         });
 
         context(@"when the save is successful", ^{
-            __block __unsafe_unretained WebServiceSuccess requestBlock;
+            __block __unsafe_unretained WebServiceCompletion requestBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:4];
                     requestBlock(nil);
                 });
@@ -73,10 +73,10 @@ describe(@"NCMessage", ^{
         });
 
         context(@"when the save yield a server failure", ^{
-            __block __unsafe_unretained WebServiceServerFailure requestBlock;
+            __block __unsafe_unretained WebServiceInvalid requestBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:5];
                     NSString *failureMessage = @"failure message";
                     requestBlock(failureMessage);
@@ -97,10 +97,10 @@ describe(@"NCMessage", ^{
         });
 
         context(@"when the fetch attempt yields a network failure", ^{
-            __block __unsafe_unretained WebServiceNetworkFailure requestBlock;
+            __block __unsafe_unretained WebServiceError requestBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:6];
                     NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
                                                                                                         NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];

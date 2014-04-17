@@ -9,7 +9,7 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 - (void)saveWithSuccess:(void(^)())success
-          serverFailure:(WebServiceServerFailure)serverFailure
-         networkFailure:(WebServiceNetworkFailure)networkFailure;
+          serverFailure:(WebServiceInvalid)serverFailure
+         networkFailure:(WebServiceError)networkFailure;
 
 @end

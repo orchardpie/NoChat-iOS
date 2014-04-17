@@ -88,11 +88,11 @@ describe(@"NCWebService", ^{
         });
     });
 
-    describe(@"GET:parameters:success:serverFailure:networkFailure:", ^{
+    describe(@"GET:parameters:completion:invalid:error:", ^{
         __block NSURLSessionDataTask *task;
 
         subjectAction(^{
-            [webService GET:@"/" parameters:@{} success:nil serverFailure:nil networkFailure:nil];
+            [webService GET:@"/" parameters:@{} completion:nil invalid:nil error:nil];
             task = webService.tasks.firstObject;
         });
 
@@ -107,11 +107,11 @@ describe(@"NCWebService", ^{
         it(@"should set the Accept header to application/json", PENDING);
     });
 
-    describe(@"POST:parameters:success:serverFailure:networkFailure:", ^{
+    describe(@"POST:parameters:completion:invalid:error:", ^{
         __block NSURLSessionDataTask *task;
 
         subjectAction(^{
-            [webService POST:@"/messages/" parameters:@{} success:nil serverFailure:nil networkFailure:nil];
+            [webService POST:@"/messages/" parameters:@{} completion:nil invalid:nil error:nil];
             task = webService.tasks.firstObject;
         });
 
@@ -130,15 +130,23 @@ describe(@"NCWebService", ^{
     sharedExamplesFor(@"valid responses to a request", ^(NSDictionary *sharedContext) {
         __block NSURLAuthenticationChallenge<CedarDouble> *challenge;
         __block NSURLSessionDataTask *task;
-        __block BOOL called;
+        __block BOOL completionCalled;
+        __block BOOL invalidCalled;
+        __block BOOL errorCalled;
 
         beforeEach(^{
             challenge = nice_fake_for([NSURLAuthenticationChallenge class]);
-            called = NO;
+            completionCalled = NO;
+            invalidCalled = NO;
+            errorCalled = NO;
             NSURLSessionDataTask *(^createTaskAction)(id, id, id) = sharedContext[@"createTaskAction"];
             task = createTaskAction(^(id responseBody) {
-                called = YES;
-            }, nil, nil);
+                completionCalled = YES;
+            }, ^(NSString *failureMessage) {
+                invalidCalled = YES;
+            }, ^(NSError *) {
+                errorCalled = YES;
+            });
         });
 
         afterEach(^{
@@ -200,11 +208,6 @@ describe(@"NCWebService", ^{
 
             beforeEach(^{
                 headerFields = sharedContext[@"headerFields"];
-                headerFields[@"Content-Type"] = @"application/json";
-            });
-
-            it(@"should invoke the success callback block", ^{
-                called should be_truthy();
             });
 
             context(@"when the response contains a user authentication token", ^{
@@ -247,8 +250,20 @@ describe(@"NCWebService", ^{
             });
 
             beforeEach(^{
-                headerFields = [NSMutableDictionary dictionary];
+                headerFields = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"Content-Type", nil];
                 SpecHelper.specHelper.sharedExampleContext[@"headerFields"] = headerFields;
+            });
+
+            it(@"should invoke the completion callback block", ^{
+                completionCalled should be_truthy;
+            });
+
+            it(@"should not invoke the invalid callback block", ^{
+                invalidCalled should_not be_truthy;
+            });
+
+            it(@"should not invoke the error callback block", ^{
+                errorCalled should_not be_truthy;
             });
 
             itShouldBehaveLike(@"a successful AFNetworking response");
@@ -266,8 +281,52 @@ describe(@"NCWebService", ^{
             });
 
             beforeEach(^{
-                headerFields = [NSMutableDictionary dictionary];
+                headerFields = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"Content-Type", nil];
                 SpecHelper.specHelper.sharedExampleContext[@"headerFields"] = headerFields;
+            });
+
+            it(@"should invoke the invalid callback block", ^{
+                invalidCalled should be_truthy;
+            });
+
+
+            it(@"should not invoke the error callback block", ^{
+                errorCalled should_not be_truthy;
+            });
+
+            it(@"should not invoke the completion callback block", ^{
+                completionCalled should_not be_truthy;
+            });
+
+            itShouldBehaveLike(@"a successful AFNetworking response");
+        });
+
+        describe(@"which completes with a 500 response", ^{
+            NSData *data = [NSJSONSerialization dataWithJSONObject:@{ @"Does not": @"matter" } options:0 error:nil];
+            NSURL *url = [NSURL URLWithString:@"/"];
+            __block NSMutableDictionary *headerFields;
+
+            subjectAction(^{
+                [task completeWithResponse:[[NSHTTPURLResponse alloc] initWithURL:url statusCode:500 HTTPVersion:@"1.0" headerFields:headerFields]
+                                      data:data
+                                     error:nil];
+            });
+
+            beforeEach(^{
+                headerFields = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"Content-Type", nil];
+                SpecHelper.specHelper.sharedExampleContext[@"headerFields"] = headerFields;
+            });
+
+            it(@"should invoke the error callback block", ^{
+                errorCalled should be_truthy;
+            });
+
+            it(@"should not invoke the invalid callback block", ^{
+                invalidCalled should_not be_truthy;
+            });
+
+            it(@"should not invoke the completion callback block", ^{
+                completionCalled should_not be_truthy;
             });
 
             itShouldBehaveLike(@"a successful AFNetworking response");
@@ -276,8 +335,8 @@ describe(@"NCWebService", ^{
 
     context(@"with an active GET request", ^{
         beforeEach(^{
-            SpecHelper.specHelper.sharedExampleContext[@"createTaskAction"] = [^NSURLSessionDataTask *(id success, id serverFailure, id networkFailure) {
-                return [webService GET:@"/" parameters:@{} success:success serverFailure:serverFailure networkFailure:networkFailure];
+            SpecHelper.specHelper.sharedExampleContext[@"createTaskAction"] = [^NSURLSessionDataTask *(id completion, id invalid, id error) {
+                return [webService GET:@"/" parameters:@{} completion:completion invalid:invalid error:error];
             } copy];
         });
 
@@ -286,8 +345,8 @@ describe(@"NCWebService", ^{
 
     context(@"with an active POST request", ^{
         beforeEach(^{
-            SpecHelper.specHelper.sharedExampleContext[@"createTaskAction"] = [^NSURLSessionDataTask *(id success, id serverFailure, id networkFailure) {
-                return [webService POST:@"/" parameters:@{} success:success serverFailure:serverFailure networkFailure:networkFailure];
+            SpecHelper.specHelper.sharedExampleContext[@"createTaskAction"] = [^NSURLSessionDataTask *(id completion, id invalid, id error) {
+                return [webService POST:@"/" parameters:@{} completion:completion invalid:invalid error:error];
             } copy];
         });
 

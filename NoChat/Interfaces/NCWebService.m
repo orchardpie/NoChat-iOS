@@ -10,6 +10,7 @@ static NSString * const BASE_HOST = @"nochat-dev.herokuapp.com";
 static const int BASE_PORT = 443;
 #endif
 
+typedef void(^AFSuccessBlock)(NSURLSessionDataTask *task, id responseObject);
 typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 @interface NCWebService ()
@@ -81,26 +82,22 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(NSDictionary *)parameters
-                      success:(WebServiceSuccess)success
-                serverFailure:(WebServiceServerFailure)serverFailure
-               networkFailure:(WebServiceNetworkFailure)networkFailure {
+                   completion:(WebServiceCompletion)completion
+                      invalid:(WebServiceInvalid)invalid
+                        error:(WebServiceError)error {
 
-    return [super GET:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self setAuthTokenIfInsideResponse:task.response];
-        success(responseObject);
-    } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];
+    return [super GET:URLString parameters:parameters success:[self successWithCompletion:completion invalid:invalid error:error]
+                                                      failure:[self failureWithErrorCompletion:error]];
 }
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(NSDictionary *)parameters
-                       success:(WebServiceSuccess)success
-                 serverFailure:(WebServiceServerFailure)serverFailure
-                networkFailure:(WebServiceNetworkFailure)networkFailure {
+                    completion:(WebServiceCompletion)completion
+                       invalid:(WebServiceInvalid)invalid
+                         error:(WebServiceError)error {
 
-    return [super POST:URLString parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self setAuthTokenIfInsideResponse:task.response];
-        success(responseObject);
-    } failure:[self requestFailureWithServerFailure:serverFailure andNetworkFailure:networkFailure]];
+    return [super POST:URLString parameters:parameters success:[self successWithCompletion:completion invalid:invalid error:error]
+                                                       failure:[self failureWithErrorCompletion:error]];
 }
 
 #pragma mark - Private interface
@@ -120,17 +117,36 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
                                  authenticationMethod:NSURLAuthenticationMethodHTTPBasic];
 }
 
-- (AFFailureBlock)requestFailureWithServerFailure:(WebServiceServerFailure)serverFailure
-                                andNetworkFailure:(WebServiceNetworkFailure)networkFailure
+- (AFSuccessBlock)successWithCompletion:(WebServiceCompletion)completion
+                                invalid:(WebServiceInvalid)invalid
+                                  error:(WebServiceError)error
+{
+    return ^(NSURLSessionDataTask *task, id responseObject) {
+        [self setAuthTokenIfInsideResponse:task.response];
+
+        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+        switch (response.statusCode) {
+            case 200 ... 299:
+                completion(responseObject);
+                break;
+            case 422:
+                invalid(responseObject);
+                break;
+            default: {
+                NSError *anError = [NSError errorWithDomain:@"com.nochat.mobile"
+                                                       code:0
+                                                   userInfo:@{ @"message": @"We are so sorry, but an error occurred" }];
+                error(anError);
+            }
+                break;
+        }
+    };
+}
+
+- (AFFailureBlock)failureWithErrorCompletion:(WebServiceError)completion
 {
     return ^(NSURLSessionDataTask *task, NSError *error) {
-        NSHTTPURLResponse *failureResponse = (NSHTTPURLResponse *)task.response;
-
-        if (failureResponse) {
-            if (serverFailure) { serverFailure(@"There was a problem with the NoChat server. Please try again later."); }
-        } else {
-            if (networkFailure) { networkFailure(error); }
-        }
+        if (completion) { completion(error); }
     };
 }
 

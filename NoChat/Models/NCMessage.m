@@ -12,17 +12,17 @@
 }
 
 - (void)saveWithSuccess:(void(^)())success
-          serverFailure:(WebServiceServerFailure)serverFailure
-         networkFailure:(WebServiceNetworkFailure)networkFailure
+          serverFailure:(WebServiceInvalid)serverFailure
+         networkFailure:(WebServiceError)networkFailure
 {
     NSDictionary *parameters = @{ @"message" : @{
                                           @"receiver_email" : self.receiver_email,
                                           @"body" : self.body } };
 
     [noChat.webService POST:@"/messages" parameters:parameters
-                    success:success
-              serverFailure:serverFailure
-             networkFailure:networkFailure];
+                    completion:success
+                    invalid:serverFailure
+                    error:networkFailure];
 }
 
 @end

@@ -16,8 +16,8 @@ SPEC_BEGIN(NCCurrentUserSpec)
 describe(@"NCCurrentUser", ^{
     __block NCCurrentUser *user;
     __block void (^success)();
-    __block WebServiceServerFailure serverFailure;
-    __block WebServiceNetworkFailure networkFailure;
+    __block WebServiceInvalid serverFailure;
+    __block WebServiceError networkFailure;
     __block bool successWasCalled;
     __block BOOL serverFailureWasCalled;
     __block BOOL networkFailureWasCalled;
@@ -43,10 +43,10 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the fetch is successful", ^{
-            __block __unsafe_unretained WebServiceSuccess requestBlock;
+            __block __unsafe_unretained WebServiceCompletion requestBlock;
 
             beforeEach(^{
-                    noChat.webService stub_method("GET:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                    noChat.webService stub_method("GET:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:4];
                     requestBlock(validJSONFromFetchUserResponse());
                 });
@@ -70,10 +70,10 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the fetch attempt yields a server failure", ^{
-            __block __unsafe_unretained WebServiceServerFailure requestBlock;
+            __block __unsafe_unretained WebServiceInvalid requestBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("GET:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("GET:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:5];
                     NSString *failureMessage = @"failure message";
                     requestBlock(failureMessage);
@@ -96,10 +96,10 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the fetch attempt yields a network failure", ^{
-            __block __unsafe_unretained WebServiceNetworkFailure requestBlock;
+            __block __unsafe_unretained WebServiceError requestBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("GET:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("GET:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:6];
                     NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
                                                                                                         NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
@@ -123,7 +123,7 @@ describe(@"NCCurrentUser", ^{
         });
     });
 
-    describe(@"-signUpWithEmail:password:success:serverFailure:networkFailure:", ^{
+    describe(@"-signUpWithEmail:password:completion:invalid:error:", ^{
         NSString *email = @"wibble@example.com", *password = @"password123";
 
         subjectAction(^{ [user signUpWithEmail:email password:password success:success serverFailure:serverFailure networkFailure:networkFailure]; });
@@ -141,7 +141,7 @@ describe(@"NCCurrentUser", ^{
         });
 
         it(@"should POST to /users", ^{
-            noChat.webService should have_received("POST:parameters:success:serverFailure:networkFailure:");
+            noChat.webService should have_received("POST:parameters:completion:invalid:error:");
         });
 
         it(@"should send the email and password to the server", ^{
@@ -149,10 +149,10 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the signup is successful", ^{
-            __block __unsafe_unretained WebServiceSuccess successBlock;
+            __block __unsafe_unretained WebServiceCompletion successBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&successBlock atIndex:4];
                     successBlock(validJSONFromFetchUserResponse());
                 });
@@ -180,10 +180,10 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the signup attempt yields a server failure", ^{
-            __block __unsafe_unretained WebServiceServerFailure requestBlock;
+            __block __unsafe_unretained WebServiceInvalid requestBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:5];
                     NSString *failureMessage = @"failure message";
                     requestBlock(failureMessage);
@@ -206,10 +206,10 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the signup attempt yields a network failure", ^{
-            __block __unsafe_unretained WebServiceNetworkFailure requestBlock;
+            __block __unsafe_unretained WebServiceError requestBlock;
 
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:success:serverFailure:networkFailure:").and_do(^(NSInvocation*invocation){
+                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
                     [invocation getArgument:&requestBlock atIndex:6];
                     NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
                                                                                                         NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
