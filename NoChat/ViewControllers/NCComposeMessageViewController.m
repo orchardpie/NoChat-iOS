@@ -87,7 +87,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.view endEditing:YES];
 
-    self.message.receiver_email = self.receiverTextField.text;
+    self.message.receiverEmail = self.receiverTextField.text;
     self.message.body = self.messageBodyTextView.text;
     [self.message saveWithSuccess:^{
         if ([self.delegate respondsToSelector:@selector(userDidSendMessage:)]) {
@@ -95,15 +95,7 @@
         }
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } serverFailure:^(NSString *failureMessage) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[[UIAlertView alloc] initWithTitle:@"Oops"
-                                    message:failureMessage
-                                   delegate:nil
-                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                          otherButtonTitles:nil] show];
-
-    } networkFailure:^(NSError *error) {
+    } failure:^(NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                     message:error.localizedRecoverySuggestion

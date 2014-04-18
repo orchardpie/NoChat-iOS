@@ -6,23 +6,35 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary
 {
     if (self = [super init]) {
-        self.time_saved = dictionary[@"time_saved"];
+        self.timeSaved = dictionary[@"time_saved"];
     }
     return self;
 }
 
 - (void)saveWithSuccess:(void(^)())success
-          serverFailure:(WebServiceInvalid)serverFailure
-         networkFailure:(WebServiceError)networkFailure
+         failure:(void(^)(NSError *))failure
 {
     NSDictionary *parameters = @{ @"message" : @{
-                                          @"receiver_email" : self.receiver_email,
+                                          @"receiver_email" : self.receiverEmail,
                                           @"body" : self.body } };
 
     [noChat.webService POST:@"/messages" parameters:parameters
                     completion:success
-                    invalid:serverFailure
-                    error:networkFailure];
+                    invalid:[self invalidWithFailure:failure]
+                    error:failure];
+}
+
+- (WebServiceInvalid)invalidWithFailure:(void(^)(NSError *))failure
+{
+    return ^(id responseBody) {
+        NSDictionary *responseDict = (NSDictionary *)responseBody;
+        NSDictionary *errors = responseDict[@"errors"];
+        NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", errors.allKeys[0], errors[errors.allKeys[0]][0]];
+
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
+        NSError *error = [NSError errorWithDomain:@"WAT" code:666 userInfo:userInfo];
+        failure(error);
+    };
 }
 
 @end

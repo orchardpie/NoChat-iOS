@@ -2,6 +2,8 @@
 #import "MBProgressHUD+Spec.h"
 #import "UIAlertView+Spec.h"
 #import "NCMessage.h"
+#import "NoChat.h"
+#import "NCWebService.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -233,6 +235,9 @@ describe(@"NCComposeMessageViewController", ^{
             spy_on(message);
             spy_on(controller.view);
 
+            spy_on(noChat.webService);
+            noChat.webService stub_method("POST:parameters:completion:invalid:error:");
+
             controller.receiverTextField.text = @"comeon@fhqwgads.com";
             controller.messageBodyTextView.text = @"I see you tryin' to play like U NO ME";
         });
@@ -246,7 +251,7 @@ describe(@"NCComposeMessageViewController", ^{
         });
 
         it(@"should set the message receiver e-mail", ^{
-            message.receiver_email should equal(controller.receiverTextField.text);
+            message.receiverEmail should equal(controller.receiverTextField.text);
         });
 
         it(@"should set the message body", ^{
@@ -254,12 +259,12 @@ describe(@"NCComposeMessageViewController", ^{
         });
 
         it(@"should ask the new message to save itself", ^{
-            message should have_received("saveWithSuccess:serverFailure:networkFailure:");
+            message should have_received("saveWithSuccess:failure:");
         });
 
         context(@"when the save is successful", ^{
             beforeEach(^{
-                message stub_method("saveWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                message stub_method("saveWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
                     void (^successBlock)();
                     [invocation getArgument:&successBlock atIndex:2];
                     successBlock();
@@ -275,7 +280,18 @@ describe(@"NCComposeMessageViewController", ^{
             });
         });
 
-        sharedExamplesFor(@"an action that fails to save the message", ^(NSDictionary *sharedContext) {
+        context(@"when the save is unsuccessful", ^{
+            beforeEach(^{
+                message stub_method("saveWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
+                    WebServiceError failureBlock;
+                    [invocation getArgument:&failureBlock atIndex:3];
+                    NSError<CedarDouble> *error = nice_fake_for([NSError class]);
+                    error stub_method("localizedDescription").and_return(@"Something went wrong");
+                    error stub_method("localizedRecoverySuggestion").and_return(@"try turning it on and off again");
+                    failureBlock(error);
+                });
+            });
+
             it(@"should not tell the delegate it sent the message", ^{
                 delegate should_not have_received("userDidSendMessage:");
             });
@@ -285,32 +301,6 @@ describe(@"NCComposeMessageViewController", ^{
                 UIAlertView.currentAlertView.title should_not be_nil;
                 UIAlertView.currentAlertView.message should_not be_nil;
             });
-        });
-
-        context(@"when the save is unsuccessful because of a problem with the server", ^{
-            beforeEach(^{
-                message stub_method("saveWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
-                    WebServiceInvalid failureBlock;
-                    [invocation getArgument:&failureBlock atIndex:3];
-                    NSString *failureMessage = @"shameful failure";
-                    failureBlock(failureMessage);
-                });
-            });
-
-            itShouldBehaveLike(@"an action that fails to save the message");
-        });
-
-        context(@"when the save is unsuccessful because of a problem with the network", ^{
-            beforeEach(^{
-                message stub_method("saveWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
-                    WebServiceError failureBlock;
-                    [invocation getArgument:&failureBlock atIndex:4];
-                    NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
-                                                                                                        NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];                    failureBlock(error);
-                });
-            });
-
-            itShouldBehaveLike(@"an action that fails to save the message");
         });
     });
 });

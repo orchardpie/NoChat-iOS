@@ -3,13 +3,12 @@
 
 @interface NCMessage : NSObject
 
-@property (strong, nonatomic) NSNumber *time_saved;
+@property (strong, nonatomic) NSNumber *timeSaved;
 @property (strong, nonatomic) NSString *body;
-@property (strong, nonatomic) NSString *receiver_email;
+@property (strong, nonatomic) NSString *receiverEmail;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 - (void)saveWithSuccess:(void(^)())success
-          serverFailure:(WebServiceInvalid)serverFailure
-         networkFailure:(WebServiceError)networkFailure;
+         failure:(WebServiceError)failure;
 
 @end

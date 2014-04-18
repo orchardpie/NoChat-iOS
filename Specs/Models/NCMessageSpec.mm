@@ -1,9 +1,24 @@
 #import "NCMessage.h"
 #import "NoChat.h"
 #import "NCWebService.h"
+#import "NSURLSession+Spec.h"
+#import "NSURLSessionDataTask+Spec.h"
+#import "SingleTrack/SpecHelpers.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
+
+NSHTTPURLResponse *makeResponse(int statusCode)
+{
+    NSDictionary *headerFields = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"Content-Type", nil];
+    NSURL *url = [NSURL URLWithString:@"/"];
+
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:url
+                                           statusCode:statusCode
+                                          HTTPVersion:@"1.0"
+                                         headerFields:headerFields];
+    return response;
+}
 
 SPEC_BEGIN(NCMessageSpec)
 
@@ -19,105 +34,82 @@ describe(@"NCMessage", ^{
         subjectAction(^{ message = [[NCMessage alloc] initWithDictionary:dictionary]; });
 
         it(@"should set time saved in milliseconds", ^{
-            message.time_saved should equal(500);
+            message.timeSaved should equal(500);
         });
     });
 
-    describe(@"-save", ^{
+    describe(@"-saveWithSuccess:failure:", ^{
         __block void (^success)();
-        __block WebServiceInvalid serverFailure;
-        __block WebServiceError networkFailure;
-        __block bool successWasCalled;
-        __block BOOL serverFailureWasCalled;
-        __block BOOL networkFailureWasCalled;
+        __block WebServiceError failure;
+        __block BOOL successWasCalled;
+        __block NSString *failureMessage;
 
-        subjectAction(^{ [message saveWithSuccess:success serverFailure:serverFailure networkFailure:networkFailure]; });
+        __block NSURLSessionDataTask *task;
+        __block NSHTTPURLResponse *response;
+        __block NSData *responseData;
+
+        subjectAction(^{
+            [message saveWithSuccess:success failure:failure];
+            task = noChat.webService.tasks.firstObject;
+            [task completeWithResponse:response data:responseData error:nil];
+        });
 
         beforeEach(^{
-            spy_on(noChat.webService);
-
             message = [[NCMessage alloc] init];
-            message.receiver_email = @"whoanelly@orchardpie.com";
+            message.receiverEmail = @"whoanelly@orchardpie.com";
             message.body = @"I like turtles.";
 
             successWasCalled = NO;
-            serverFailureWasCalled = NO;
-            networkFailureWasCalled = NO;
+            failureMessage = nil;
 
             success = [^() { successWasCalled = YES; } copy];
-            serverFailure = [^(NSError *error) { serverFailureWasCalled = YES; } copy];
-            networkFailure = [^(NSError *error) { networkFailureWasCalled = YES; } copy];
+            failure = [^(NSError *error) { failureMessage = [error localizedDescription]; } copy];
+
         });
 
         context(@"when the save is successful", ^{
-            __block __unsafe_unretained WebServiceCompletion requestBlock;
-
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:4];
-                    requestBlock(nil);
-                });
+                response = makeResponse(201);
+                responseData = [NSJSONSerialization dataWithJSONObject:@{} options:0 error:nil];
             });
 
             it(@"should call the success completion block", ^{
                 successWasCalled should be_truthy;
             });
 
-            it(@"should not call the server failure block", ^{
-                serverFailureWasCalled should_not be_truthy;
-            });
-
-            it(@"should not call the network failure block", ^{
-                networkFailureWasCalled should_not be_truthy;
+            it(@"should not call the failure block", ^{
+                failureMessage should be_nil;
             });
         });
 
-        context(@"when the save yield a server failure", ^{
-            __block __unsafe_unretained WebServiceInvalid requestBlock;
-
+        context(@"when the save yields a validation error", ^{
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:5];
-                    NSString *failureMessage = @"failure message";
-                    requestBlock(failureMessage);
-                });
+                response = makeResponse(422);
+                responseData = [NSJSONSerialization dataWithJSONObject:@{@"errors": @{@"email": @[@"is invalid"] } } options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
                 successWasCalled should_not be_truthy;
             });
 
-            it(@"should call the server failure block with an error", ^{
-                serverFailureWasCalled should be_truthy;
-            });
-
-            it(@"should not call the network failure block with an error", ^{
-                networkFailureWasCalled should_not be_truthy;
+            it(@"should call the failure block with an error", ^{
+                failureMessage should equal(@"email is invalid");
             });
         });
 
-        context(@"when the fetch attempt yields a network failure", ^{
-            __block __unsafe_unretained WebServiceError requestBlock;
-
+        context(@"when the fetch attempt yields a non-validation failure", ^{
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:6];
-                    NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
-                                                                                                        NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
-                    requestBlock(error);
-                });
+                response = makeResponse(500);
+                responseData = [NSJSONSerialization dataWithJSONObject:@{} options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
                 successWasCalled should_not be_truthy;
             });
 
-            it(@"should not call the server failure block with an error", ^{
-                serverFailureWasCalled should_not be_truthy;
-            });
 
-            it(@"should call the network failure block with an error", ^{
-                networkFailureWasCalled should be_truthy;
+            it(@"should call the failure block with an error", ^{
+                failureMessage should_not be_nil;
             });
         });
     });
