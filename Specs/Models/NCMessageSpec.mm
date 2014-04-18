@@ -3,22 +3,11 @@
 #import "NCWebService.h"
 #import "NSURLSession+Spec.h"
 #import "NSURLSessionDataTask+Spec.h"
-#import "SingleTrack/SpecHelpers.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-NSHTTPURLResponse *makeResponse(int statusCode)
-{
-    NSDictionary *headerFields = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"Content-Type", nil];
-    NSURL *url = [NSURL URLWithString:@"/"];
 
-    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:url
-                                           statusCode:statusCode
-                                          HTTPVersion:@"1.0"
-                                         headerFields:headerFields];
-    return response;
-}
 
 SPEC_BEGIN(NCMessageSpec)
 
@@ -44,13 +33,12 @@ describe(@"NCMessage", ^{
         __block BOOL successWasCalled;
         __block NSString *failureMessage;
 
-        __block NSURLSessionDataTask *task;
         __block NSHTTPURLResponse *response;
         __block NSData *responseData;
 
         subjectAction(^{
             [message saveWithSuccess:success failure:failure];
-            task = noChat.webService.tasks.firstObject;
+            NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
             [task completeWithResponse:response data:responseData error:nil];
         });
 

@@ -9,11 +9,9 @@ SPEC_BEGIN(NoChatSpec)
 
 describe(@"NoChat", ^{
     __block NoChat *noChat = nil;
-    __block NCAppDelegate<CedarDouble> *delegate = nil;
 
     beforeEach(^{
-        delegate = nice_fake_for([NCAppDelegate class]);
-        noChat = [[NoChat alloc] initWithDelegate:delegate];
+        noChat = [[NoChat alloc] init];
 
         spy_on(noChat.webService);
     });
@@ -23,10 +21,6 @@ describe(@"NoChat", ^{
 
         it(@"should invalidate stored credentials", ^{
             noChat.webService should have_received("clearAllCredentials");
-        });
-
-        it(@"should ask the app delegate to show the login screen", ^{
-            delegate should have_received("userDidSwitchToLogin");
         });
     });
 });

@@ -118,12 +118,12 @@ describe(@"NCLoginViewController", ^{
         });
 
         it(@"should ask the CurrentUser to fetch its info from the server", ^{
-            currentUser should have_received("fetchWithSuccess:serverFailure:networkFailure:");
+            currentUser should have_received("fetchWithSuccess:failure:");
         });
 
         context(@"when the fetch is successful", ^{
             beforeEach(^{
-                currentUser stub_method("fetchWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                currentUser stub_method("fetchWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
                     void (^fetchBlock)();
                     [invocation getArgument:&fetchBlock atIndex:2];
                     fetchBlock();
@@ -155,24 +155,11 @@ describe(@"NCLoginViewController", ^{
             });
         });
 
-        context(@"when the fetch attempt yields a server failure", ^{
+        context(@"when the fetch attempt yields a failure", ^{
             beforeEach(^{
-                currentUser stub_method("fetchWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                currentUser stub_method("fetchWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
                     WebServiceInvalid fetchBlock;
                     [invocation getArgument:&fetchBlock atIndex:3];
-                    NSString *failureMessage = @"shameful failure";
-                    fetchBlock(failureMessage);
-                });
-            });
-
-            itShouldBehaveLike(@"an action which displays an alert message for an error");
-        });
-
-        context(@"when the fetch attempt yields a server failure", ^{
-            beforeEach(^{
-                currentUser stub_method("fetchWithSuccess:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
-                    WebServiceError fetchBlock;
-                    [invocation getArgument:&fetchBlock atIndex:4];
                     NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
                                                                                                         NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
                     fetchBlock(error);

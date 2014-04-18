@@ -13,8 +13,6 @@
 
 - (void)invalidateCurrentUser;
 
-- (instancetype)initWithDelegate:(id)delegate;
-
 @end
 
 extern NoChat *noChat;

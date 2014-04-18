@@ -127,10 +127,10 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
         NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
         switch (response.statusCode) {
             case 200 ... 299:
-                completion(responseObject);
+                if (completion) { completion(responseObject); }
                 break;
             case 422:
-                invalid(responseObject);
+                if (invalid) { invalid(responseObject); }
                 break;
             default: {
                 NSError *anError = [NSError errorWithDomain:@"com.nochat.mobile"

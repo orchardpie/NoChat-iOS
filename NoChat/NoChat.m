@@ -4,17 +4,21 @@
 @interface NoChat ()
 
 @property (strong, nonatomic, readwrite) NCWebService *webService;
-@property (weak, nonatomic) id<NoChatDelegate> delegate;
+
+@end
+
+@interface NoChat (QuietCompiler)
+
+- (void)userDidSwitchToLogin;
 
 @end
 
 @implementation NoChat
 
-- (instancetype)initWithDelegate:(id)delegate
+- (instancetype)init
 {
     if (self = [super init]) {
         self.webService = [[NCWebService alloc] init];
-        self.delegate = delegate;
     }
     return self;
 }
@@ -22,7 +26,7 @@
 - (void)invalidateCurrentUser
 {
     [self.webService clearAllCredentials];
-    [self.delegate userDidSwitchToLogin];
+    [self userDidSwitchToLogin];
 }
 
 @end

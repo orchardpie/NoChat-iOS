@@ -9,13 +9,11 @@
 - (BOOL)saveCredentialWithEmail:(NSString *)email password:(NSString *)password;
 
 - (void)fetchWithSuccess:(void(^)())success
-           serverFailure:(WebServiceInvalid)serverFailure
-          networkFailure:(WebServiceError)networkFailure;
+                 failure:(void(^)(NSError *error))failure;
 
 - (void)signUpWithEmail:(NSString *)email
                password:(NSString *)password
                 success:(void(^)())success
-          serverFailure:(WebServiceInvalid)serverFailure
-         networkFailure:(WebServiceError)networkFailure;
+                failure:(void(^)(NSError *error))failure;
 
 @end

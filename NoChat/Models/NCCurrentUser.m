@@ -16,21 +16,19 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 }
 
 - (void)fetchWithSuccess:(void(^)())success
-           serverFailure:(WebServiceInvalid)serverFailure
-          networkFailure:(WebServiceError)networkFailure
+                 failure:(void(^)(NSError *error))failure
 {
     [noChat.webService GET:@"/" parameters:nil completion:^(id responseBody) {
         [self setMessagesFromResponse:responseBody];
         if (success) { success(); }
 
-    } invalid:serverFailure error:networkFailure];
+    } invalid:failure error:failure];
 }
 
 - (void)signUpWithEmail:(NSString *)email
                password:(NSString *)password
                 success:(void(^)())success
-          serverFailure:(WebServiceInvalid)serverFailure
-         networkFailure:(WebServiceError)networkFailure
+                failure:(void(^)(NSError *error))failure
 {
     NSDictionary *parameters = @{ @"user":@{ EMAIL_KEY : email,
                                              PASSWORD_KEY : password,
@@ -42,7 +40,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
         [self setMessagesFromResponse:responseBody];
         if (success) { success(); }
 
-    } invalid:serverFailure error:networkFailure];
+    } invalid:failure error:failure];
 }
 
 - (void)setMessagesFromResponse:(id)responseObject

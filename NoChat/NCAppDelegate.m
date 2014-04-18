@@ -17,8 +17,6 @@ NoChat *noChat;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    noChat = [[NoChat alloc] initWithDelegate:self];
     self.currentUser = [[NCCurrentUser alloc] init];
 
     UINavigationController *navigationController;

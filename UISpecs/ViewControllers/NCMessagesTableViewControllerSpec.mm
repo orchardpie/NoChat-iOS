@@ -42,9 +42,6 @@ describe(@"NCMessagesTableViewController", ^{
             controller.view should_not be_nil;
 
             logoutButton = controller.navigationItem.leftBarButtonItem;
-
-            noChat = [[NoChat alloc] initWithDelegate:nil];
-            spy_on(noChat);
         });
 
         it(@"should log out the current user", ^{

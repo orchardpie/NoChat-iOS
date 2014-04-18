@@ -114,12 +114,12 @@ describe(@"NCSignupViewController", ^{
         });
 
         it(@"should ask the CurrentUser to save itself to the server", ^{
-            currentUser should have_received("signUpWithEmail:password:success:serverFailure:networkFailure:").with(controller.emailTextField.text, controller.passwordTextField.text, Arguments::any([NSObject class]), Arguments::any([NSObject class]), Arguments::any([NSObject class]));
+            currentUser should have_received("signUpWithEmail:password:success:failure:").with(controller.emailTextField.text, controller.passwordTextField.text, Arguments::any([NSObject class]), Arguments::any([NSObject class]));
         });
 
         context(@"when the fetch is successful", ^{
             beforeEach(^{
-                currentUser stub_method("signUpWithEmail:password:success:serverFailure:networkFailure:").and_do(^(NSInvocation *invocation) {
+                currentUser stub_method("signUpWithEmail:password:success:failure:").and_do(^(NSInvocation *invocation) {
                     void (^signUpBlock)();
                     [invocation getArgument:&signUpBlock atIndex:4];
                     signUpBlock();

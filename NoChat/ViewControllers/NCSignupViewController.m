@@ -53,16 +53,7 @@
         if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {
             [self.delegate userDidAuthenticate];
         }
-
-    } serverFailure:^(NSString *failureMessage) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[[UIAlertView alloc] initWithTitle:@"Oops"
-                                    message:failureMessage
-                                   delegate:nil
-                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                          otherButtonTitles:nil] show];
-
-    } networkFailure:^(NSError *error) {
+    } failure:^(NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                     message:error.localizedRecoverySuggestion

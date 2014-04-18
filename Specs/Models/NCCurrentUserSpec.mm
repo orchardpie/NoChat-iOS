@@ -1,5 +1,8 @@
 #import "NCCurrentUser.h"
 #import "NoChat.h"
+#import "NCWebService.h"
+#import "NSURLSession+Spec.h"
+#import "NSURLSessionDataTask+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -10,17 +13,17 @@ id validJSONFromFetchUserResponse() {
     return [NSJSONSerialization JSONObjectWithData:userFixtureData options:0 error:nil];
 }
 
-
 SPEC_BEGIN(NCCurrentUserSpec)
 
 describe(@"NCCurrentUser", ^{
     __block NCCurrentUser *user;
     __block void (^success)();
-    __block WebServiceInvalid serverFailure;
-    __block WebServiceError networkFailure;
+    __block WebServiceError failure;
     __block bool successWasCalled;
-    __block BOOL serverFailureWasCalled;
-    __block BOOL networkFailureWasCalled;
+    __block BOOL failureWasCalled;
+
+    __block NSHTTPURLResponse *response;
+    __block NSData *responseData;
 
     beforeEach(^{
         spy_on(noChat.webService);
@@ -29,27 +32,25 @@ describe(@"NCCurrentUser", ^{
         user = [[NCCurrentUser alloc] init];
     });
 
-    describe(@"-fetchWithSuccess:serverFailure:networkFailure:", ^{
-        subjectAction(^{ [user fetchWithSuccess:success serverFailure:serverFailure networkFailure:networkFailure]; });
+    describe(@"-fetchWithSuccess:invalid:failure:", ^{
+        subjectAction(^{
+            [user fetchWithSuccess:success failure:failure];
+            NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
+            [task completeWithResponse:response data:responseData error:nil];
+        });
 
         beforeEach(^{
             successWasCalled = NO;
-            serverFailureWasCalled = NO;
-            networkFailureWasCalled = NO;
+            failureWasCalled = NO;
 
             success = [^() { successWasCalled = YES; } copy];
-            serverFailure = [^(NSError *error) { serverFailureWasCalled = YES; } copy];
-            networkFailure = [^(NSError *error) { networkFailureWasCalled = YES; } copy];
+            failure = [^(NSError *error) { failureWasCalled = YES; } copy];
         });
 
         context(@"when the fetch is successful", ^{
-            __block __unsafe_unretained WebServiceCompletion requestBlock;
-
             beforeEach(^{
-                    noChat.webService stub_method("GET:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:4];
-                    requestBlock(validJSONFromFetchUserResponse());
-                });
+                response = makeResponse(201);
+                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromFetchUserResponse() options:0 error:nil];
             });
 
             it(@"should parse the JSON dictionaries into NCMessage objects", ^{
@@ -60,61 +61,23 @@ describe(@"NCCurrentUser", ^{
                 successWasCalled should be_truthy;
             });
 
-            it(@"should not call the server failure block", ^{
-                serverFailureWasCalled should_not be_truthy;
-            });
-
-            it(@"should not call the network failure block", ^{
-                networkFailureWasCalled should_not be_truthy;
+            it(@"should not call the failure block", ^{
+                failureWasCalled should_not be_truthy;
             });
         });
 
-        context(@"when the fetch attempt yields a server failure", ^{
-            __block __unsafe_unretained WebServiceInvalid requestBlock;
-
+        context(@"when the fetch attempt yields a failure", ^{
             beforeEach(^{
-                noChat.webService stub_method("GET:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:5];
-                    NSString *failureMessage = @"failure message";
-                    requestBlock(failureMessage);
-                });
+                response = makeResponse(500);
+                responseData = [NSJSONSerialization dataWithJSONObject:@{} options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
                 successWasCalled should_not be_truthy;
             });
-            it(@"should call the server failure block with an error", ^{
-                serverFailureWasCalled should be_truthy;
-            });
-            it(@"should not call the network failure block with an error", ^{
-                networkFailureWasCalled should_not be_truthy;
-            });
 
-            it(@"should not change the user messages collection", ^{
-                user.messages should be_empty;
-            });
-        });
-
-        context(@"when the fetch attempt yields a network failure", ^{
-            __block __unsafe_unretained WebServiceError requestBlock;
-
-            beforeEach(^{
-                noChat.webService stub_method("GET:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:6];
-                    NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
-                                                                                                        NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
-                    requestBlock(error);
-                });
-            });
-
-            it(@"should not call the success block", ^{
-                successWasCalled should_not be_truthy;
-            });
-            it(@"should not call the server failure block with an error", ^{
-                serverFailureWasCalled should_not be_truthy;
-            });
-            it(@"should call the network failure block with an error", ^{
-                networkFailureWasCalled should be_truthy;
+            it(@"should call the failure block with an error", ^{
+                failureWasCalled should be_truthy;
             });
 
             it(@"should not change the user messages collection", ^{
@@ -126,16 +89,18 @@ describe(@"NCCurrentUser", ^{
     describe(@"-signUpWithEmail:password:completion:invalid:error:", ^{
         NSString *email = @"wibble@example.com", *password = @"password123";
 
-        subjectAction(^{ [user signUpWithEmail:email password:password success:success serverFailure:serverFailure networkFailure:networkFailure]; });
+        subjectAction(^{
+            [user signUpWithEmail:email password:password success:success failure:failure];
+            NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
+            [task completeWithResponse:response data:responseData error:nil];
+        });
 
         beforeEach(^{
             successWasCalled = NO;
-            serverFailureWasCalled = NO;
-            networkFailureWasCalled = NO;
+            failureWasCalled = NO;
 
             success = [^() { successWasCalled = YES; } copy];
-            serverFailure = [^(NSError *error) { serverFailureWasCalled = YES; } copy];
-            networkFailure = [^(NSError *error) { networkFailureWasCalled = YES; } copy];
+            failure = [^(NSError *error) { failureWasCalled = YES; } copy];
 
             spy_on(noChat.webService);
         });
@@ -149,13 +114,9 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the signup is successful", ^{
-            __block __unsafe_unretained WebServiceCompletion successBlock;
-
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&successBlock atIndex:4];
-                    successBlock(validJSONFromFetchUserResponse());
-                });
+                response = makeResponse(201);
+                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromFetchUserResponse() options:0 error:nil];
             });
 
             it(@"should set the credentials", ^{
@@ -170,34 +131,23 @@ describe(@"NCCurrentUser", ^{
                 successWasCalled should be_truthy;
             });
 
-            it(@"should not call the server failure block", ^{
-                serverFailureWasCalled should_not be_truthy;
-            });
-
-            it(@"should not call the network failure block", ^{
-                networkFailureWasCalled should_not be_truthy;
+            it(@"should not call the failure block", ^{
+                failureWasCalled should_not be_truthy;
             });
         });
 
-        context(@"when the signup attempt yields a server failure", ^{
-            __block __unsafe_unretained WebServiceInvalid requestBlock;
-
+        context(@"when the signup attempt yields a 422 unprocessable response", ^{
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:5];
-                    NSString *failureMessage = @"failure message";
-                    requestBlock(failureMessage);
-                });
+                response = makeResponse(422);
+                responseData = [NSJSONSerialization dataWithJSONObject:@{} options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
                 successWasCalled should_not be_truthy;
             });
-            it(@"should call the server failure block with an error", ^{
-                serverFailureWasCalled should be_truthy;
-            });
-            it(@"should not call the network failure block with an error", ^{
-                networkFailureWasCalled should_not be_truthy;
+
+            it(@"should call the failure block with an error", ^{
+                failureWasCalled should be_truthy;
             });
 
             it(@"should not change the user messages collection", ^{
@@ -205,26 +155,18 @@ describe(@"NCCurrentUser", ^{
             });
         });
 
-        context(@"when the signup attempt yields a network failure", ^{
-            __block __unsafe_unretained WebServiceError requestBlock;
-
+        context(@"when the signup attempt yields a failure", ^{
             beforeEach(^{
-                noChat.webService stub_method("POST:parameters:completion:invalid:error:").and_do(^(NSInvocation*invocation){
-                    [invocation getArgument:&requestBlock atIndex:6];
-                    NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
-                                                                                                        NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
-                    requestBlock(error);
-                });
+                response = makeResponse(500);
+                responseData = [NSJSONSerialization dataWithJSONObject:@{} options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
                 successWasCalled should_not be_truthy;
             });
-            it(@"should not call the server failure block with an error", ^{
-                serverFailureWasCalled should_not be_truthy;
-            });
-            it(@"should call the network failure block with an error", ^{
-                networkFailureWasCalled should be_truthy;
+
+            it(@"should call the failure block with an error", ^{
+                failureWasCalled should be_truthy;
             });
 
             it(@"should not change the user messages collection", ^{

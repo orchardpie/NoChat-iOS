@@ -10,7 +10,7 @@ describe(@"NoChat", ^{
     __block NoChat *noChat = nil;
 
     beforeEach(^{
-        noChat = [[NoChat alloc] initWithDelegate:nil];
+        noChat = [[NoChat alloc] init];
     });
 
     describe(@"-webService", ^{
