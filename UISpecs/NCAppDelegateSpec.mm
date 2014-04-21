@@ -1,8 +1,10 @@
 #import "NCAppDelegate.h"
 #import "NCSignupViewController.h"
+#import "NCLoginViewController.h"
 #import "NCMessagesTableViewController.h"
 #import "NoChat.h"
 #import "NCWebService+Spec.h"
+#import "UIAlertView+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -18,7 +20,7 @@ describe(@"NCAppDelegate", ^{
 
     describe(@"application:didFinishLaunchingWithOptions", ^{
         subjectAction(^{
-            [delegate application: nil didFinishLaunchingWithOptions: nil];
+            [delegate application:nil didFinishLaunchingWithOptions:nil];
         });
 
         it(@"should initialize a global NoChat object", ^{
@@ -55,7 +57,7 @@ describe(@"NCAppDelegate", ^{
             [delegate userDidSwitchToLogin];
         });
 
-
+        it(@"should do something", PENDING);
     });
 
     describe(@"-userDidAuthenticate", ^{
@@ -64,6 +66,45 @@ describe(@"NCAppDelegate", ^{
         });
 
         it(@"should do something", PENDING);
+    });
+
+    describe(@"-userDidFailAuthentication", ^{
+        subjectAction(^{
+            [delegate userDidFailAuthentication];
+        });
+
+        beforeEach(^{
+            [delegate application:nil didFinishLaunchingWithOptions:nil];
+        });
+
+        context(@"when the user is on the login screen", ^{
+            __block NCLoginViewController *loginVC;
+
+            beforeEach(^{
+                loginVC = [[NCLoginViewController alloc] initWithCurrentUser:nil
+                                                                    delegate:delegate];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
+                delegate.window.rootViewController = navigationController;
+                spy_on(loginVC);
+            });
+
+            it(@"should alert the user that their credentials are bad", ^{
+                loginVC should have_received("badCredentialAlert");
+            });
+        });
+
+        context(@"when the user is anywhere else in the app", ^{
+            beforeEach(^{
+                NCMessagesTableViewController *messagesVC = [[NCMessagesTableViewController alloc] init];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesVC];
+                delegate.window.rootViewController = navigationController;
+            });
+
+            it(@"should show the login screen", ^{
+                UINavigationController *navigationController = (id)delegate.window.rootViewController;
+                navigationController.topViewController should be_instance_of([NCLoginViewController class]);
+            });
+        });
     });
 });
 

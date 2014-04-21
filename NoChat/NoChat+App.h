@@ -2,4 +2,6 @@
 
 @interface NoChat (App)
 
+- (void)userDidFailAuthentication;
+
 @end

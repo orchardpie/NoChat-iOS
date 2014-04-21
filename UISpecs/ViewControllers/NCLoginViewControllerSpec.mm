@@ -393,6 +393,25 @@ describe(@"NCLoginViewController", ^{
             delegate should have_received("userDidSwitchToSignup");
         });
     });
+
+    describe(@"-badCredentialAlert", ^{
+        subjectAction(^{
+            [controller badCredentialAlert];
+        });
+
+        beforeEach(^{
+            [MBProgressHUD showHUDAddedTo:controller.view animated:YES];
+        });
+
+        it(@"should dismiss the progress indicator", ^{
+            MBProgressHUD.currentHUD should be_nil;
+        });
+
+        it(@"should alert the user that their credentials are bad and they should feel bad", ^{
+            UIAlertView.currentAlertView should_not be_nil;
+            UIAlertView.currentAlertView.title should_not be_nil;
+        });
+    });
 });
 
 SPEC_END

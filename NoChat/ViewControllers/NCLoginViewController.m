@@ -71,6 +71,16 @@
     }
 }
 
+- (void)badCredentialAlert
+{
+    [[[UIAlertView alloc] initWithTitle:@"The e-mail or password you entered is incorrect. Please check and try again."
+                                message:nil
+                               delegate:nil
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil, nil] show];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
 #pragma mark - UITextField delegate implementation
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

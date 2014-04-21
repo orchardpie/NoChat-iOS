@@ -1,4 +1,5 @@
 #import "NCWebService.h"
+#import "NoChat.h"
 #import "NSURLSession+Spec.h"
 #import "NSURLSessionDataTask+Spec.h"
 #import "SingleTrack/SpecHelpers.h"
@@ -264,6 +265,41 @@ describe(@"NCWebService", ^{
 
             it(@"should not invoke the error callback block", ^{
                 errorCalled should_not be_truthy;
+            });
+
+            itShouldBehaveLike(@"a successful AFNetworking response");
+        });
+
+        describe(@"which completes with a 401 response", ^{
+            NSData *data = [NSJSONSerialization dataWithJSONObject:@{} options:0 error:nil];
+            NSURL *url = [NSURL URLWithString:@"/"];
+            __block NSMutableDictionary *headerFields;
+
+            subjectAction(^{
+                [task completeWithResponse:[[NSHTTPURLResponse alloc] initWithURL:url statusCode:401 HTTPVersion:@"1.0" headerFields:headerFields]
+                                      data:data
+                                     error:nil];
+            });
+
+            beforeEach(^{
+                headerFields = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"Content-Type", nil];
+                SpecHelper.specHelper.sharedExampleContext[@"headerFields"] = headerFields;
+            });
+
+            it(@"should not invoke the completion callback block", ^{
+                completionCalled should_not be_truthy;
+            });
+
+            it(@"should not invoke the invalid callback block", ^{
+                invalidCalled should_not be_truthy;
+            });
+
+            it(@"should not invoke the error callback block", ^{
+                errorCalled should_not be_truthy;
+            });
+
+            it(@"should notify the NoChat global that the user failed authentication", ^{
+                noChat should have_received("userDidFailAuthentication");
             });
 
             itShouldBehaveLike(@"a successful AFNetworking response");

@@ -9,4 +9,10 @@
     [appDelegate userDidSwitchToLogin];
 }
 
+- (void)userDidFailAuthentication
+{
+    NCAppDelegate *appDelegate = (NCAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate userDidFailAuthentication];
+}
+
 @end

@@ -63,6 +63,7 @@
 		45D751841901D44C00D3D763 /* NoChat+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751831901D44C00D3D763 /* NoChat+Spec.m */; };
 		45D751851901D68500D3D763 /* NoChatSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */; };
 		45D751881901D87700D3D763 /* NoChat+App.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751871901D87700D3D763 /* NoChat+App.m */; };
+		45D7518C19059D8600D3D763 /* NoChat+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751831901D44C00D3D763 /* NoChat+Spec.m */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -672,6 +673,7 @@
 				45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				45AB9FA518E4756E00F7CA64 /* NCSpecHelper.mm in Sources */,
 				45AB9F7D18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
+				45D7518C19059D8600D3D763 /* NoChat+Spec.m in Sources */,
 				45AB9F9418E0D83F00F7CA64 /* NoChat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,4 +1,5 @@
 #import "NCWebService.h"
+#import "NoChat+App.h"
 
 #if DEBUG
 static NSString * const BASE_SCHEME = @"http";
@@ -131,6 +132,9 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
                 break;
             case 422:
                 if (invalid) { invalid(responseObject); }
+                break;
+            case 401:
+                [noChat userDidFailAuthentication];
                 break;
             default: {
                 NSError *anError = [NSError errorWithDomain:@"com.nochat.mobile"

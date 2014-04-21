@@ -57,6 +57,18 @@ NoChat *noChat;
     [self transitionToViewController:messagesTVC];
 }
 
+- (void)userDidFailAuthentication
+{
+    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+
+    if ([navigationController.topViewController isKindOfClass:[NCLoginViewController class]]) {
+        NCLoginViewController *loginVC = (id)navigationController.topViewController;
+        [loginVC badCredentialAlert];
+    } else {
+        [self userDidSwitchToLogin];
+    }
+}
+
 - (void)transitionToViewController:(UIViewController *)viewController
 {
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];

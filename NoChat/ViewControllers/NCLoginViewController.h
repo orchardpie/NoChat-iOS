@@ -18,5 +18,6 @@
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
                  delegate:(id)delegate;
+- (void)badCredentialAlert;
 
 @end
