@@ -19,8 +19,8 @@ describe(@"NCCurrentUser", ^{
     __block NCCurrentUser *user;
     __block void (^success)();
     __block WebServiceError failure;
-    __block bool successWasCalled;
-    __block BOOL failureWasCalled;
+    __block BOOL successWasCalled;
+    __block NSString *failureMessage;
 
     __block NSHTTPURLResponse *response;
     __block NSData *responseData;
@@ -41,10 +41,10 @@ describe(@"NCCurrentUser", ^{
 
         beforeEach(^{
             successWasCalled = NO;
-            failureWasCalled = NO;
+            failureMessage = nil;
 
             success = [^() { successWasCalled = YES; } copy];
-            failure = [^(NSError *error) { failureWasCalled = YES; } copy];
+            failure = [^(NSError *error) { failureMessage = [error localizedDescription]; } copy];
         });
 
         context(@"when the fetch is successful", ^{
@@ -62,7 +62,7 @@ describe(@"NCCurrentUser", ^{
             });
 
             it(@"should not call the failure block", ^{
-                failureWasCalled should_not be_truthy;
+                failureMessage should be_nil;
             });
         });
 
@@ -77,7 +77,7 @@ describe(@"NCCurrentUser", ^{
             });
 
             it(@"should call the failure block with an error", ^{
-                failureWasCalled should be_truthy;
+                failureMessage should_not be_nil;
             });
 
             it(@"should not change the user messages collection", ^{
@@ -97,10 +97,10 @@ describe(@"NCCurrentUser", ^{
 
         beforeEach(^{
             successWasCalled = NO;
-            failureWasCalled = NO;
+            failureMessage = nil;
 
             success = [^() { successWasCalled = YES; } copy];
-            failure = [^(NSError *error) { failureWasCalled = YES; } copy];
+            failure = [^(NSError *error) { failureMessage = [error localizedDescription]; } copy];
 
             spy_on(noChat.webService);
         });
@@ -132,14 +132,14 @@ describe(@"NCCurrentUser", ^{
             });
 
             it(@"should not call the failure block", ^{
-                failureWasCalled should_not be_truthy;
+                failureMessage should be_nil;
             });
         });
 
         context(@"when the signup attempt yields a 422 unprocessable response", ^{
             beforeEach(^{
                 response = makeResponse(422);
-                responseData = [NSJSONSerialization dataWithJSONObject:@{} options:0 error:nil];
+                responseData = [NSJSONSerialization dataWithJSONObject:@{@"errors": @{@"email": @[@"is invalid"] } } options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
@@ -147,7 +147,7 @@ describe(@"NCCurrentUser", ^{
             });
 
             it(@"should call the failure block with an error", ^{
-                failureWasCalled should be_truthy;
+                failureMessage should equal(@"email is invalid");
             });
 
             it(@"should not change the user messages collection", ^{
@@ -166,7 +166,7 @@ describe(@"NCCurrentUser", ^{
             });
 
             it(@"should call the failure block with an error", ^{
-                failureWasCalled should be_truthy;
+                failureMessage should_not be_nil;
             });
 
             it(@"should not change the user messages collection", ^{

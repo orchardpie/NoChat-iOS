@@ -22,7 +22,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
         [self setMessagesFromResponse:responseBody];
         if (success) { success(); }
 
-    } invalid:failure error:failure];
+    } invalid:nil error:failure];
 }
 
 - (void)signUpWithEmail:(NSString *)email
@@ -40,7 +40,17 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
         [self setMessagesFromResponse:responseBody];
         if (success) { success(); }
 
-    } invalid:failure error:failure];
+    } invalid:^(id responseBody) {
+        if (failure) {
+            NSDictionary *responseDict = (NSDictionary *)responseBody;
+            NSDictionary *errors = responseDict[@"errors"];
+            NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", errors.allKeys[0], errors[errors.allKeys[0]][0]];
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
+            NSError *error = [NSError errorWithDomain:@"com.nochat.mobile" code:0 userInfo:userInfo];
+
+            failure(error);
+        }
+    } error:failure];
 }
 
 - (void)setMessagesFromResponse:(id)responseObject
