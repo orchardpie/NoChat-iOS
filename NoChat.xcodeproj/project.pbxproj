@@ -64,6 +64,11 @@
 		45D751851901D68500D3D763 /* NoChatSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */; };
 		45D751881901D87700D3D763 /* NoChat+App.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751871901D87700D3D763 /* NoChat+App.m */; };
 		45D7518C19059D8600D3D763 /* NoChat+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751831901D44C00D3D763 /* NoChat+Spec.m */; };
+		45D751911907112400D3D763 /* NCMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7518F1907112400D3D763 /* NCMessageTableViewCell.m */; };
+		45D751921907112400D3D763 /* NCMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7518F1907112400D3D763 /* NCMessageTableViewCell.m */; };
+		45D751931907112400D3D763 /* NCMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D751901907112400D3D763 /* NCMessageTableViewCell.xib */; };
+		45D751941907112400D3D763 /* NCMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D751901907112400D3D763 /* NCMessageTableViewCell.xib */; };
+		45D7519A190715DA00D3D763 /* NCMessageTableViewCellSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45D75199190715DA00D3D763 /* NCMessageTableViewCellSpec.mm */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -131,6 +136,10 @@
 		45D751831901D44C00D3D763 /* NoChat+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NoChat+Spec.m"; sourceTree = "<group>"; };
 		45D751861901D87700D3D763 /* NoChat+App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NoChat+App.h"; sourceTree = "<group>"; };
 		45D751871901D87700D3D763 /* NoChat+App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NoChat+App.m"; sourceTree = "<group>"; };
+		45D7518E1907112400D3D763 /* NCMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCMessageTableViewCell.h; sourceTree = "<group>"; };
+		45D7518F1907112400D3D763 /* NCMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCMessageTableViewCell.m; sourceTree = "<group>"; };
+		45D751901907112400D3D763 /* NCMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCMessageTableViewCell.xib; sourceTree = "<group>"; };
+		45D75199190715DA00D3D763 /* NCMessageTableViewCellSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCMessageTableViewCellSpec.mm; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -225,6 +234,7 @@
 			children = (
 				45AB9F7818E0893500F7CA64 /* Interfaces */,
 				45AB9F7918E089CD00F7CA64 /* Models */,
+				45D7518D190710DE00D3D763 /* Views */,
 				454987CB18DA496400CFC545 /* ViewControllers */,
 				454987AB18DA3DC300CFC545 /* NCAppDelegate.h */,
 				454987AC18DA3DC300CFC545 /* NCAppDelegate.m */,
@@ -329,10 +339,29 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		45D7518D190710DE00D3D763 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				45D7518E1907112400D3D763 /* NCMessageTableViewCell.h */,
+				45D7518F1907112400D3D763 /* NCMessageTableViewCell.m */,
+				45D751901907112400D3D763 /* NCMessageTableViewCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		45D75198190715DA00D3D763 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				45D75199190715DA00D3D763 /* NCMessageTableViewCellSpec.mm */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		45EB035418DCED2B0012A621 /* UISpecs */ = {
 			isa = PBXGroup;
 			children = (
 				4558D19718EC999D0043418E /* Extensions */,
+				45D75198190715DA00D3D763 /* Views */,
 				45AB9F9F18E1E06600F7CA64 /* ViewControllers */,
 				45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */,
 				45EB035518DCED2B0012A621 /* Supporting Files */,
@@ -485,6 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				450EB98018F888A200E188DF /* NCComposeMessageViewController.xib in Resources */,
+				45D751931907112400D3D763 /* NCMessageTableViewCell.xib in Resources */,
 				454987A718DA3DC300CFC545 /* InfoPlist.strings in Resources */,
 				454987AF18DA3DC300CFC545 /* Images.xcassets in Resources */,
 				454987D118DB2B9100CFC545 /* NCMessagesTableViewController.xib in Resources */,
@@ -499,6 +529,7 @@
 			files = (
 				45EB035918DCED2B0012A621 /* InfoPlist.strings in Resources */,
 				450EB98418FC282C00E188DF /* NCComposeMessageViewController.xib in Resources */,
+				45D751941907112400D3D763 /* NCMessageTableViewCell.xib in Resources */,
 				45B1078018F34ED700FA7428 /* NCSignupViewController.xib in Resources */,
 				45AB9F9D18E1DC5800F7CA64 /* NCLoginViewController.xib in Resources */,
 				4558D19C18ECA42C0043418E /* Default-568h@2x.png in Resources */,
@@ -618,6 +649,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45D751911907112400D3D763 /* NCMessageTableViewCell.m in Sources */,
 				450EB97F18F888A200E188DF /* NCComposeMessageViewController.m in Sources */,
 				45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */,
@@ -648,6 +680,8 @@
 				45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */,
 				45AB9FA318E32A5900F7CA64 /* NCCurrentUser.m in Sources */,
 				45B1077E18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
+				45D7519A190715DA00D3D763 /* NCMessageTableViewCellSpec.mm in Sources */,
+				45D751921907112400D3D763 /* NCMessageTableViewCell.m in Sources */,
 				45D751841901D44C00D3D763 /* NoChat+Spec.m in Sources */,
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
