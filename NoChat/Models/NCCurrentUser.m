@@ -56,7 +56,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 - (void)setMessagesFromResponse:(id)responseObject
 {
     NSDictionary *responseDict = (NSDictionary *)responseObject;
-    NSArray *responseMessages = responseDict[@"messages"];
+    NSArray *responseMessages = responseDict[@"messages"][@"resource"];
 
     if (responseMessages && responseMessages.count > 0) {
         NSMutableArray *messages = [NSMutableArray array];
