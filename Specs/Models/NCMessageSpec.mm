@@ -16,11 +16,22 @@ describe(@"NCMessage", ^{
     __block NSDictionary *dictionary;
 
     beforeEach(^{
-        dictionary = @{ @"time_saved": @500, @"disposition": @"sent"};
+        dictionary = @{ @"id": @42,
+                        @"created_at": @"4/14/14",
+                        @"time_saved": @500
+                      };
     });
 
     describe(@"-init", ^{
         subjectAction(^{ message = [[NCMessage alloc] initWithDictionary:dictionary]; });
+
+        it(@"should set the ID", ^{
+            message.messageId should equal(42);
+        });
+
+        it(@"should set the created at date string", ^{
+            message.createdAt should equal(@"4/14/14");
+        });
 
         it(@"should set time saved in milliseconds", ^{
             message.timeSaved should equal(500);

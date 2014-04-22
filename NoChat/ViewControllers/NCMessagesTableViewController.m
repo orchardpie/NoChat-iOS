@@ -19,7 +19,7 @@
     return self;
 }
 
-- (instancetype) init
+- (instancetype)init
 {
     [self doesNotRecognizeSelector:_cmd]; return nil;
 }

@@ -6,13 +6,15 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary
 {
     if (self = [super init]) {
+        self.messageId = dictionary[@"id"];
+        self.createdAt = dictionary[@"created_at"];
         self.timeSaved = dictionary[@"time_saved"];
     }
     return self;
 }
 
 - (void)saveWithSuccess:(void(^)())success
-         failure:(void(^)(NSError *))failure
+                failure:(void(^)(NSError *))failure
 {
     NSDictionary *parameters = @{ @"message" : @{
                                           @"receiver_email" : self.receiverEmail,
