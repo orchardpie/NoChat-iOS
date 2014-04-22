@@ -139,7 +139,7 @@ describe(@"NCCurrentUser", ^{
         context(@"when the signup attempt yields a 422 unprocessable response", ^{
             beforeEach(^{
                 response = makeResponse(422);
-                responseData = [NSJSONSerialization dataWithJSONObject:@{@"errors": @{@"email": @[@"is invalid"] } } options:0 error:nil];
+                responseData = [NSJSONSerialization dataWithJSONObject:@{@"errors": @{@"email": @[@"E-mail is invalid"] } } options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
@@ -147,7 +147,7 @@ describe(@"NCCurrentUser", ^{
             });
 
             it(@"should call the failure block with an error", ^{
-                failureMessage should equal(@"email is invalid");
+                failureMessage should equal(@"E-mail is invalid");
             });
 
             it(@"should not change the user messages collection", ^{

@@ -73,7 +73,7 @@ describe(@"NCMessage", ^{
         context(@"when the save yields a validation error", ^{
             beforeEach(^{
                 response = makeResponse(422);
-                responseData = [NSJSONSerialization dataWithJSONObject:@{@"errors": @{@"email": @[@"is invalid"] } } options:0 error:nil];
+                responseData = [NSJSONSerialization dataWithJSONObject:@{@"errors": @{@"email": @[@"E-mail is invalid"] } } options:0 error:nil];
             });
 
             it(@"should not call the success block", ^{
@@ -81,7 +81,7 @@ describe(@"NCMessage", ^{
             });
 
             it(@"should call the failure block with an error", ^{
-                failureMessage should equal(@"email is invalid");
+                failureMessage should equal(@"E-mail is invalid");
             });
         });
 

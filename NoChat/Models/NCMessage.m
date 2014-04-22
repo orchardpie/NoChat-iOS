@@ -30,7 +30,7 @@
         if (failure) {
             NSDictionary *responseDict = (NSDictionary *)responseBody;
             NSDictionary *errors = responseDict[@"errors"];
-            NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", errors.allKeys[0], errors[errors.allKeys[0]][0]];
+            NSString *errorMessage = errors[errors.allKeys[0]][0];
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
             NSError *error = [NSError errorWithDomain:@"com.nochat.mobile" code:0 userInfo:userInfo];
 
