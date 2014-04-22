@@ -11,10 +11,15 @@ SPEC_BEGIN(NCMessagesTableViewControllerSpec)
 describe(@"NCMessagesTableViewController", ^{
     __block NCMessagesTableViewController *controller;
     __block UINavigationController *navigationController;
+    __block NSArray *messages;
 
     beforeEach(^{
-        controller = [[NCMessagesTableViewController alloc] init];
+        messages = [NSArray array];
+
+        controller = [[NCMessagesTableViewController alloc] initWithMessages:messages];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+
+        controller.view should_not be_nil;
     });
 
     describe(@"-viewDidLoad", ^{

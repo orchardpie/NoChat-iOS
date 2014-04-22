@@ -3,4 +3,6 @@
 
 @interface NCMessagesTableViewController : UITableViewController<NCComposeMessageDelegate>
 
+- (instancetype)initWithMessages:(NSArray *)messages;
+
 @end

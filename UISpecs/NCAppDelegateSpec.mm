@@ -53,19 +53,39 @@ describe(@"NCAppDelegate", ^{
     });
 
     describe(@"-userDidSwitchToLogin", ^{
-        beforeEach(^{
+        subjectAction(^{
             [delegate userDidSwitchToLogin];
         });
 
-        it(@"should do something", PENDING);
+        beforeEach(^{
+            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            NCMessagesTableViewController *messagesVC = [[NCMessagesTableViewController alloc] initWithMessages:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesVC];
+            delegate.window.rootViewController = navigationController;
+        });
+
+        it(@"should show the login screen", ^{
+            UINavigationController *navigationController = (id)delegate.window.rootViewController;
+            navigationController.topViewController should be_instance_of([NCLoginViewController class]);
+        });
     });
 
     describe(@"-userDidAuthenticate", ^{
-        beforeEach(^{
+        subjectAction(^{
             [delegate userDidAuthenticate];
         });
 
-        it(@"should do something", PENDING);
+        beforeEach(^{
+            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            NCLoginViewController *messagesVC = [[NCLoginViewController alloc] initWithCurrentUser:nil delegate:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesVC];
+            delegate.window.rootViewController = navigationController;
+        });
+
+        it(@"should show the login screen", ^{
+            UINavigationController *navigationController = (id)delegate.window.rootViewController;
+            navigationController.topViewController should be_instance_of([NCMessagesTableViewController class]);
+        });
     });
 
     describe(@"-userDidFailAuthentication", ^{
@@ -95,7 +115,7 @@ describe(@"NCAppDelegate", ^{
 
         context(@"when the user is anywhere else in the app", ^{
             beforeEach(^{
-                NCMessagesTableViewController *messagesVC = [[NCMessagesTableViewController alloc] init];
+                NCMessagesTableViewController *messagesVC = [[NCMessagesTableViewController alloc] initWithMessages:nil];
                 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesVC];
                 delegate.window.rootViewController = navigationController;
             });

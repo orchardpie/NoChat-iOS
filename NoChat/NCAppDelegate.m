@@ -22,7 +22,7 @@ NoChat *noChat;
     UINavigationController *navigationController;
 
     if (noChat.webService.hasCredential) {
-        NCMessagesTableViewController *messageTVC = [[NCMessagesTableViewController alloc] init];
+        NCMessagesTableViewController *messageTVC = [[NCMessagesTableViewController alloc] initWithMessages:self.currentUser.messages];
         navigationController = [[UINavigationController alloc] initWithRootViewController:messageTVC];
     } else {
         NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
@@ -53,7 +53,7 @@ NoChat *noChat;
 
 - (void)userDidAuthenticate
 {
-    NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] init];
+    NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] initWithMessages:self.currentUser.messages];
     [self transitionToViewController:messagesTVC];
 }
 

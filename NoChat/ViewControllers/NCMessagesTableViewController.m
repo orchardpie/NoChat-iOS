@@ -5,9 +5,24 @@
 
 @interface NCMessagesTableViewController ()
 
+@property (strong, nonatomic) NSArray *messages;
+
 @end
 
 @implementation NCMessagesTableViewController
+
+- (instancetype)initWithMessages:(NSArray *)messages
+{
+    if (self = [super init]) {
+        self.messages = messages;
+    }
+    return self;
+}
+
+- (instancetype) init
+{
+    [self doesNotRecognizeSelector:_cmd]; return nil;
+}
 
 - (void)viewDidLoad
 {
