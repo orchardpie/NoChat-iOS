@@ -1,6 +1,7 @@
 #import "NCMessagesTableViewController.h"
 #import "NCComposeMessageViewController.h"
 #import "NCMessage.h"
+#import "NCMessageTableViewCell.h"
 #import "NoChat.h"
 
 using namespace Cedar::Matchers;
@@ -33,6 +34,20 @@ describe(@"NCMessagesTableViewController", ^{
 
         it(@"should set the compose button's target to itself", ^{
             controller.navigationItem.rightBarButtonItem.target should equal(controller);
+        });
+    });
+
+    describe(@"-tableView:tableView:cellForRowAtIndexPath:", ^{
+        subjectAction(^{
+            NCMessageTableViewCell *cell = (NCMessageTableViewCell *)[controller.tableView cellForRowAtIndexPath:nil];
+
+            it(@"should set the time saved label", ^{
+                cell.timeSavedLabel.text should_not be_nil;
+            });
+
+            it(@"should set the created at label", ^{
+                cell.createdAtLabel.text should_not be_nil;
+            });
         });
     });
 

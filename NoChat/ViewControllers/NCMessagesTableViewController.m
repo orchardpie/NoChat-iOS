@@ -1,6 +1,7 @@
 #import "NCMessagesTableViewController.h"
 #import "NCComposeMessageViewController.h"
 #import "NCMessage.h"
+#import "NCMessageTableViewCell.h"
 #import "NoChat.h"
 
 @interface NCMessagesTableViewController ()
@@ -29,6 +30,7 @@
     [super viewDidLoad];
 
     self.title = @"Chats";
+    [self.tableView registerNib:[UINib nibWithNibName:@"NCMessageTableViewCell" bundle:nil] forCellReuseIdentifier:NCMessageTableViewCell.cellIdentifier];
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Log Out" style:UIBarButtonItemStylePlain target:self action:@selector(logout:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeMessage:)];
@@ -38,7 +40,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.messages.count;
+}
+
+#pragma mark - Table view delegate implementation
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [NCMessageTableViewCell cellHeight];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NCMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[NCMessageTableViewCell cellIdentifier]];
+
+    NCMessage *message = self.messages[indexPath.row];
+    cell.message = message;
+
+    return cell;
 }
 
 #pragma mark - UIBarButtonItem actions
