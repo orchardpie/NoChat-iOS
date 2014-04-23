@@ -1,4 +1,6 @@
 #import "NCMessagesCollection.h"
+#import "NoChat.h"
+#import "NCMessage.h"
 
 @interface NCMessagesCollection ()
 
@@ -20,6 +22,34 @@
     }
     return self;
 }
+
+- (void)fetchWithSuccess:(void(^)())success
+                 failure:(void(^)(NSError *error))failure
+{
+    [noChat.webService GET:self.location parameters:nil completion:^(id responseBody) {
+        [self setMessagesFromResponse:responseBody];
+        if (success) { success(); }
+
+    } invalid:nil error:failure];
+}
+
+- (void)setMessagesFromResponse:(id)responseBody
+{
+    NSDictionary *responseDict = (NSDictionary *)responseBody;
+    NSArray *responseMessages = responseDict[@"messages"][@"resource"];
+
+    if (responseMessages && responseMessages.count > 0) {
+        NSMutableArray *messages = [NSMutableArray array];
+
+        for (NSDictionary *messageDict in responseMessages) {
+            [messages addObject:[[NCMessage alloc] initWithDictionary:messageDict]];
+        }
+
+        self.messages = messages;
+    }
+}
+
+#pragma mark - Forward invocation
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {

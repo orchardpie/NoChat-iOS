@@ -1,0 +1,19 @@
+{ "messages": {
+    "resource": [
+                 {
+                 "id": 1,
+                 "word_count": 5,
+                 "created_at": "display date",
+                 "time_saved": 1200,
+                 "disposition": "sent"
+                 },
+                 {
+                 "id": 1,
+                 "word_count": 5,
+                 "created_at": "display date",
+                 "time_saved": 1200,
+                 "disposition": "received"
+                 }
+                 ]
+    }
+}

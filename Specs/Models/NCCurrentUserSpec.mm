@@ -7,18 +7,12 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-id validJSONFromFetchUserResponse() {
-    NSString *userFixturePath = [NSString stringWithFormat:@"%@/%@", FIXTURES_DIR, @"get_fetch_user_response_200.json"];
-    NSData *userFixtureData = [NSData dataWithContentsOfFile:userFixturePath options:0 error:nil];
-    return [NSJSONSerialization JSONObjectWithData:userFixtureData options:0 error:nil];
-}
-
 SPEC_BEGIN(NCCurrentUserSpec)
 
 describe(@"NCCurrentUser", ^{
     __block NCCurrentUser *user;
     __block void (^success)();
-    __block WebServiceError failure;
+    __block void (^failure)(NSError *error);
     __block BOOL successWasCalled;
     __block NSString *failureMessage;
 
@@ -32,7 +26,7 @@ describe(@"NCCurrentUser", ^{
         user = [[NCCurrentUser alloc] init];
     });
 
-    describe(@"-fetchWithSuccess:invalid:failure:", ^{
+    describe(@"-fetchWithSuccess:success:failure:", ^{
         subjectAction(^{
             [user fetchWithSuccess:success failure:failure];
             NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
@@ -50,7 +44,7 @@ describe(@"NCCurrentUser", ^{
         context(@"when the fetch is successful", ^{
             beforeEach(^{
                 response = makeResponse(201);
-                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromFetchUserResponse() options:0 error:nil];
+                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json") options:0 error:nil];
             });
 
             it(@"should parse the JSON dictionaries into NCMessage objects", ^{
@@ -116,7 +110,7 @@ describe(@"NCCurrentUser", ^{
         context(@"when the signup is successful", ^{
             beforeEach(^{
                 response = makeResponse(201);
-                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromFetchUserResponse() options:0 error:nil];
+                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json") options:0 error:nil];
             });
 
             it(@"should set the credentials", ^{

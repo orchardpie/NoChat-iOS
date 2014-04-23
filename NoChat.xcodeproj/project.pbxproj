@@ -91,6 +91,7 @@
 		450EB98218FC216000E188DF /* NCComposeMessageViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCComposeMessageViewControllerSpec.mm; sourceTree = "<group>"; };
 		450EB98518FC408B00E188DF /* NCWebService+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NCWebService+Spec.h"; sourceTree = "<group>"; };
 		450EB98618FC408B00E188DF /* NCWebService+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NCWebService+Spec.m"; sourceTree = "<group>"; };
+		4546EEE319085A3B000C6A2C /* get_fetch_messages_response_200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_fetch_messages_response_200.json; sourceTree = "<group>"; };
 		4549879918DA3DC300CFC545 /* NoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4549879C18DA3DC300CFC545 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4549879E18DA3DC300CFC545 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -332,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				45AB9F9618E0DC0E00F7CA64 /* get_fetch_user_response_200.json */,
+				4546EEE319085A3B000C6A2C /* get_fetch_messages_response_200.json */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -852,6 +854,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
 				);
 				INFOPLIST_FILE = "UISpecs/UISpecs-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -877,6 +880,11 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UISpecs/UISpecs-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
+				);
 				INFOPLIST_FILE = "UISpecs/UISpecs-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (

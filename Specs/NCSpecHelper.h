@@ -4,5 +4,6 @@
 #import <Foundation/Foundation.h>
 
 extern NSHTTPURLResponse *makeResponse(int statusCode);
+extern id validJSONFromResponseFixtureWithFileName(NSString *fileName);
 
 #endif
