@@ -7,7 +7,7 @@ pod 'MBProgressHUD'
 target 'UISpecs', exclusive: true do
     platform :ios, '6.0'
     pod 'AFNetworking'
-    pod 'Cedar'
+    pod 'Cedar', git: 'https://github.com/orchardpie/Cedar'
     pod 'MBProgressHUD'
     pod 'PivotalCoreKit', git: 'https://github.com/pivotal/PivotalCoreKit'
     pod 'PivotalCoreKit/UIKit/SpecHelper', git: 'https://github.com/pivotal/PivotalCoreKit'
@@ -18,5 +18,5 @@ target 'Specs', exclusive: true do
     pod 'AFNetworking', git: 'https://github.com/orchardpie/AFNetworking'
     pod 'AFSpecWorking', git: 'https://github.com/orchardpie/AFSpecWorking'
     pod 'SingleTrack/SpecHelpers', git: 'https://github.com/orchardadam/SingleTrack'
-    pod 'Cedar'
+    pod 'Cedar', git: 'https://github.com/orchardpie/Cedar'
 end
