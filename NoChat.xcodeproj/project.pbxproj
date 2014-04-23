@@ -469,7 +469,6 @@
 			buildConfigurationList = 45F1388918DB3B6300D09454 /* Build configuration list for PBXNativeTarget "Specs" */;
 			buildPhases = (
 				3F617992C4F141E4861165E2 /* Check Pods Manifest.lock */,
-				45F1387818DB3B6300D09454 /* ShellScript */,
 				45F1387918DB3B6300D09454 /* Sources */,
 				45F1387A18DB3B6300D09454 /* Frameworks */,
 				D9640C6C5EA74492A9DC6035 /* Copy Pods Resources */,
@@ -577,19 +576,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
-		};
-		45F1387818DB3B6300D09454 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp -R \"${TARGET_NAME}\"/Frameworks/Cedar.framework \"${BUILT_PRODUCTS_DIR}\"";
 		};
 		697714693A4F4CCFAE6D24BE /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -913,10 +899,6 @@
 			baseConfigurationReference = D3E210AA640F4DCC831758A6 /* Pods-Specs.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/orchard/.cedar/build/Release,
-				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Specs/Specs-Prefix.pch";
@@ -946,10 +928,6 @@
 			baseConfigurationReference = D3E210AA640F4DCC831758A6 /* Pods-Specs.xcconfig */;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/orchard/.cedar/build/Release,
-				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Specs/Specs-Prefix.pch";
