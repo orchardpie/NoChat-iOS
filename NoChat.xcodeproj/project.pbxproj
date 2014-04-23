@@ -69,6 +69,9 @@
 		45D751931907112400D3D763 /* NCMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D751901907112400D3D763 /* NCMessageTableViewCell.xib */; };
 		45D751941907112400D3D763 /* NCMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45D751901907112400D3D763 /* NCMessageTableViewCell.xib */; };
 		45D7519A190715DA00D3D763 /* NCMessageTableViewCellSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45D75199190715DA00D3D763 /* NCMessageTableViewCellSpec.mm */; };
+		45D7519D190816B800D3D763 /* NCMessagesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519C190816B800D3D763 /* NCMessagesCollection.m */; };
+		45D7519E190816B800D3D763 /* NCMessagesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519C190816B800D3D763 /* NCMessagesCollection.m */; };
+		45D751A0190816DE00D3D763 /* NCMessagesCollectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519F190816DE00D3D763 /* NCMessagesCollectionSpec.mm */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -140,6 +143,9 @@
 		45D7518F1907112400D3D763 /* NCMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCMessageTableViewCell.m; sourceTree = "<group>"; };
 		45D751901907112400D3D763 /* NCMessageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCMessageTableViewCell.xib; sourceTree = "<group>"; };
 		45D75199190715DA00D3D763 /* NCMessageTableViewCellSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCMessageTableViewCellSpec.mm; sourceTree = "<group>"; };
+		45D7519B190816B800D3D763 /* NCMessagesCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCMessagesCollection.h; sourceTree = "<group>"; };
+		45D7519C190816B800D3D763 /* NCMessagesCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCMessagesCollection.m; sourceTree = "<group>"; };
+		45D7519F190816DE00D3D763 /* NCMessagesCollectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCMessagesCollectionSpec.mm; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -308,6 +314,8 @@
 				45AB9F7B18E08A1E00F7CA64 /* NCCurrentUser.m */,
 				4558D19018EB64670043418E /* NCMessage.h */,
 				4558D19118EB64670043418E /* NCMessage.m */,
+				45D7519B190816B800D3D763 /* NCMessagesCollection.h */,
+				45D7519C190816B800D3D763 /* NCMessagesCollection.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -410,6 +418,7 @@
 			children = (
 				45AB9F7E18E08A4E00F7CA64 /* NCCurrentUserSpec.mm */,
 				4558D19418EB655B0043418E /* NCMessageSpec.mm */,
+				45D7519F190816DE00D3D763 /* NCMessagesCollectionSpec.mm */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -660,6 +669,7 @@
 				454987AD18DA3DC300CFC545 /* NCAppDelegate.m in Sources */,
 				45AB9F9018E0D27400F7CA64 /* NoChat.m in Sources */,
 				45AB9F7C18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
+				45D7519D190816B800D3D763 /* NCMessagesCollection.m in Sources */,
 				45B1077D18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,8 +712,10 @@
 				45F1388418DB3B6300D09454 /* main.m in Sources */,
 				45AB9F8D18E0BB9600F7CA64 /* NCWebServiceSpec.mm in Sources */,
 				45AB9F9318E0D62300F7CA64 /* NoChatSpec.mm in Sources */,
+				45D751A0190816DE00D3D763 /* NCMessagesCollectionSpec.mm in Sources */,
 				4558D19318EB64800043418E /* NCMessage.m in Sources */,
 				4558D19518EB655B0043418E /* NCMessageSpec.mm in Sources */,
+				45D7519E190816B800D3D763 /* NCMessagesCollection.m in Sources */,
 				45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				45AB9FA518E4756E00F7CA64 /* NCSpecHelper.mm in Sources */,
 				45AB9F7D18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
