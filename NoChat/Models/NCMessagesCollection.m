@@ -12,6 +12,8 @@
 - (instancetype)initWithLocation:(NSString *)location
                         messages:(NSArray *)messages
 {
+    NCParameterAssert(location);
+
     if (self = [super init]) {
         self.location = location;
         self.messages = messages;

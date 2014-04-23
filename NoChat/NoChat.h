@@ -9,4 +9,6 @@
 
 @end
 
+extern void NCParameterAssert(id parameter);
 extern NoChat *noChat;
+

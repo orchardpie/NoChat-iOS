@@ -9,6 +9,31 @@ SPEC_BEGIN(NCMessagesCollectionSpec)
 describe(@"NCMessagesCollection", ^{
     __block NCMessagesCollection *messages;
 
+    describe(@"-initWithLocation:messages", ^{
+        __block NSString *location;
+        __block NSArray *messages;
+
+        beforeEach(^{
+            messages = @[];
+        });
+
+        subjectAction(^{ [[NCMessagesCollection alloc] initWithLocation:location messages:messages]; });
+
+        context(@"with a nil location", ^{
+            beforeEach(^{
+                location = nil;
+            });
+
+            itShouldRaiseException();
+        });
+    });
+
+    describe(@"-fetchWithSuccess:success:failure:", ^{
+        __block void (
+
+        subjectAction(^{ [messages fetchWithSuccess:<#^(void)success#> failure:<#^(NSError *error)failure#>]; });
+    });
+
     describe(@"-count", ^{
         context(@"when the collection has been initialized with messages", ^{
             beforeEach(^{

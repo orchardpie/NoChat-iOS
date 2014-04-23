@@ -1,6 +1,11 @@
 #import "NoChat.h"
 #import "NCWebService.h"
 
+
+void NCParameterAssert(id parameter) {
+    if (!parameter) { @throw @"NULL parameter!"; }
+}
+
 @interface NoChat ()
 
 @property (strong, nonatomic, readwrite) NCWebService *webService;
