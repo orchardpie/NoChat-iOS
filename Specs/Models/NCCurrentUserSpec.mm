@@ -2,6 +2,7 @@
 #import "NoChat.h"
 #import "NCWebService.h"
 #import "NCMessagesCollection.h"
+#import "NCMessage.h"
 #import "NSURLSession+Spec.h"
 #import "NSURLSessionDataTask+Spec.h"
 
@@ -27,6 +28,55 @@ describe(@"NCCurrentUser", ^{
         user = [[NCCurrentUser alloc] init];
     });
 
+    afterEach(^{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults removeObjectForKey:@"currentUser"];
+        [userDefaults synchronize];
+    });
+
+    describe(@"-init", ^{
+        __block NSUserDefaults *userDefaults;
+
+        subjectAction(^{ user = [[NCCurrentUser alloc] init]; });
+
+        beforeEach(^{
+            userDefaults = [NSUserDefaults standardUserDefaults];
+        });
+
+        context(@"when the current user has archived data", ^{
+            beforeEach(^{
+                NCCurrentUser *aCurrentUser = [[NCCurrentUser alloc] init];
+                NCMessage *message = [[NCMessage alloc] init];
+                aCurrentUser.messages = [[NCMessagesCollection alloc] initWithLocation:@"sup" messages:@[message]];
+                NCMessagesCollection *stupidMessages = [[NCMessagesCollection alloc] initWithLocation:@"sup" messages:@[message]];
+
+                NSMutableData *data = [NSMutableData data];
+                NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+
+                [encoder encodeObject:aCurrentUser.messages forKey:@"messages"];
+                [encoder finishEncoding];
+
+                [userDefaults setObject:data forKey:@"currentUser"];
+                [userDefaults synchronize];
+
+            });
+
+            it(@"should set the messages collection", ^{
+                user.messages.count should equal(1);
+            });
+        });
+
+        context(@"when the current user has no archived data", ^{
+            beforeEach(^{
+                [userDefaults objectForKey:@"currentUser"] should be_nil;
+            });
+
+            it(@"should not set the messages collection", ^{
+                user.messages should be_nil;
+            });
+        });
+    });
+
     describe(@"-fetchWithSuccess:success:failure:", ^{
         subjectAction(^{
             [user fetchWithSuccess:success failure:failure];
@@ -43,13 +93,21 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the fetch is successful", ^{
+            __block NSUserDefaults *userDefaults;
+
             beforeEach(^{
                 response = makeResponse(201);
                 responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json") options:0 error:nil];
+                userDefaults = [NSUserDefaults standardUserDefaults];
             });
 
             it(@"should parse the JSON dictionaries into NCMessage objects", ^{
                 user.messages.count should equal(2);
+            });
+
+            it(@"should archive current user", ^{
+                NSData *data = [userDefaults objectForKey:@"currentUser"];
+                data should_not be_nil;
             });
 
             it(@"should call the success completion block", ^{
@@ -109,9 +167,12 @@ describe(@"NCCurrentUser", ^{
         });
 
         context(@"when the signup is successful", ^{
+            __block NSUserDefaults *userDefaults;
+
             beforeEach(^{
                 response = makeResponse(201);
                 responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json") options:0 error:nil];
+                userDefaults = [NSUserDefaults standardUserDefaults];
             });
 
             it(@"should set the credentials", ^{
@@ -120,6 +181,11 @@ describe(@"NCCurrentUser", ^{
 
             it(@"should parse the JSON dictionaries into NCMessage objects", ^{
                 user.messages.count should equal(2);
+            });
+
+            it(@"should archive current user", ^{
+                NSData *data = [userDefaults objectForKey:@"currentUser"];
+                data should_not be_nil;
             });
 
             it(@"should call the success completion block", ^{

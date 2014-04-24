@@ -2,7 +2,7 @@
 #import "NoChat.h"
 #import "NCMessage.h"
 
-@interface NCMessagesCollection ()
+@interface NCMessagesCollection () <NSCoding>
 
 @property (strong, nonatomic) NSString *location;
 @property (strong, nonatomic) NSArray *messages;
@@ -21,6 +21,25 @@
         self.messages = messages;
     }
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    self.location = [decoder decodeObjectForKey:@"location"];
+    self.messages = [decoder decodeObjectForKey:@"messages"];
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:self.location forKey:@"location"];
+    [encoder encodeObject:self.messages forKey:@"messages"];
 }
 
 - (void)fetchWithSuccess:(void(^)())success

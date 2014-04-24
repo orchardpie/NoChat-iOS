@@ -9,6 +9,17 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
 @implementation NCCurrentUser
 
+- (id)init
+{
+    if (self = [super init]) {
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"];
+        if (data.length) {
+            [self unarchiveWithData:data];
+        }
+    }
+    return self;
+}
+
 - (BOOL)saveCredentialWithEmail:(NSString *)email password:(NSString *)password
 {
     [noChat.webService saveCredentialWithEmail:email password:password];
@@ -21,6 +32,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 {
     [noChat.webService GET:@"/" parameters:nil completion:^(id responseBody) {
         [self setMessagesFromResponse:responseBody];
+        [self archive];
         if (success) { success(); }
 
     } invalid:nil error:failure];
@@ -39,6 +51,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
         [noChat.webService saveCredentialWithEmail:email password:password];
 
         [self setMessagesFromResponse:responseBody];
+        [self archive];
         if (success) { success(); }
 
     } invalid:^(id responseBody) {
@@ -68,6 +81,27 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
         self.messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:messages];
     }
+}
+
+- (void)unarchiveWithData:(NSData *)data
+{
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    self.messages = [decoder decodeObjectForKey:@"messages"];
+    [decoder finishDecoding];
+}
+
+- (void)archive
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [encoder encodeObject:self.messages forKey:@"messages"];
+
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [encoder finishEncoding];
+
+    [userDefaults setObject:data forKey:@"currentUser"];
+    [userDefaults synchronize];
+
 }
 
 @end

@@ -5,7 +5,6 @@
 
 @interface NCCurrentUser : NSObject
 
-@property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NCMessagesCollection *messages;
 
 - (BOOL)saveCredentialWithEmail:(NSString *)email password:(NSString *)password;

@@ -1,6 +1,10 @@
 #import "NCMessage.h"
 #import "NoChat.h"
 
+@interface NCMessage () <NSCoding>
+
+@end
+
 @implementation NCMessage
 
 - (id)initWithDictionary:(NSDictionary *)dictionary
@@ -11,6 +15,31 @@
         self.timeSaved = dictionary[@"time_saved"];
     }
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    self.messageId = [decoder decodeObjectForKey:@"messageId"];
+    self.createdAt = [decoder decodeObjectForKey:@"createdAt"];
+    self.timeSaved = [decoder decodeObjectForKey:@"timeSaved"];
+    self.body = [decoder decodeObjectForKey:@"body"];
+    self.receiverEmail = [decoder decodeObjectForKey:@"receiverEmail"];
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:self.messageId forKey:@"messageId"];
+    [encoder encodeObject:self.createdAt forKey:@"createdAt"];
+    [encoder encodeObject:self.timeSaved forKey:@"timeSaved"];
+    [encoder encodeObject:self.body forKey:@"body"];
+    [encoder encodeObject:self.receiverEmail forKey:@"receiverEmail"];
 }
 
 - (void)saveWithSuccess:(void(^)())success

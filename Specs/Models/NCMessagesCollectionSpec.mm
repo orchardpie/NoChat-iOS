@@ -15,13 +15,13 @@ describe(@"NCMessagesCollection", ^{
 
     describe(@"-initWithLocation:messages", ^{
         __block NSString *location;
-        __block NSArray *messages;
+        __block NSArray *messagesAry;
 
         beforeEach(^{
-            messages = @[];
+            messagesAry = @[];
         });
 
-        subjectAction(^{ [[NCMessagesCollection alloc] initWithLocation:location messages:messages]; });
+        subjectAction(^{ messages = [[NCMessagesCollection alloc] initWithLocation:location messages:messagesAry]; });
 
         context(@"with a nil location", ^{
             beforeEach(^{
