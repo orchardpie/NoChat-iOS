@@ -1,18 +1,19 @@
 #import "NCMessagesTableViewController.h"
 #import "NCComposeMessageViewController.h"
+#import "NCMessagesCollection.h"
 #import "NCMessage.h"
 #import "NCMessageTableViewCell.h"
 #import "NoChat.h"
 
 @interface NCMessagesTableViewController ()
 
-@property (strong, nonatomic) NSArray *messages;
+@property (strong, nonatomic) NCMessagesCollection *messages;
 
 @end
 
 @implementation NCMessagesTableViewController
 
-- (instancetype)initWithMessages:(NSArray *)messages
+- (instancetype)initWithMessages:(NCMessagesCollection *)messages
 {
     if (self = [super init]) {
         self.messages = messages;
@@ -36,6 +37,19 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeMessage:)];
 }
 
+- (void)refreshMessages
+{
+    [self.messages fetchWithSuccess:^{
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        [[[UIAlertView alloc] initWithTitle:@"Messages could not be retrieved"
+                                    message:@"Please ensure you are connected to the Internet and try again."
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil, nil] show];
+    }];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -54,7 +68,7 @@
 {
     NCMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[NCMessageTableViewCell cellIdentifier]];
 
-    NCMessage *message = self.messages[indexPath.row];
+    NCMessage *message = [self.messages objectAtIndex:indexPath.row];
     cell.message = message;
 
     return cell;

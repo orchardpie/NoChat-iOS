@@ -17,6 +17,7 @@
 		450EB98318FC216000E188DF /* NCComposeMessageViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450EB98218FC216000E188DF /* NCComposeMessageViewControllerSpec.mm */; };
 		450EB98418FC282C00E188DF /* NCComposeMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 450EB97E18F888A200E188DF /* NCComposeMessageViewController.xib */; };
 		450EB98718FC408B00E188DF /* NCWebService+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 450EB98618FC408B00E188DF /* NCWebService+Spec.m */; };
+		4546EEE4190865A3000C6A2C /* NCMessagesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519C190816B800D3D763 /* NCMessagesCollection.m */; };
 		4549879D18DA3DC300CFC545 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		4549879F18DA3DC300CFC545 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
 		454987A118DA3DC300CFC545 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
@@ -672,6 +673,7 @@
 				45D751851901D68500D3D763 /* NoChatSpec.mm in Sources */,
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
 				450EB97B18F8833600E188DF /* NCMessagesTableViewControllerSpec.mm in Sources */,
+				4546EEE4190865A3000C6A2C /* NCMessagesCollection.m in Sources */,
 				450EB98318FC216000E188DF /* NCComposeMessageViewControllerSpec.mm in Sources */,
 				45AB9FA118E1E0C300F7CA64 /* NCLoginViewControllerSpec.mm in Sources */,
 				45AB9F9118E0D54400F7CA64 /* NoChat.m in Sources */,
@@ -845,10 +847,7 @@
 			baseConfigurationReference = 426D41A41B3541E19DC67647 /* Pods-UISpecs.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/UISpecs/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UISpecs/UISpecs-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -874,10 +873,7 @@
 			baseConfigurationReference = 426D41A41B3541E19DC67647 /* Pods-UISpecs.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/UISpecs/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UISpecs/UISpecs-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (

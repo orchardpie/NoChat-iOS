@@ -1,6 +1,7 @@
 #import "NCCurrentUser.h"
 #import "NoChat.h"
 #import "NCMessage.h"
+#import "NCMessagesCollection.h"
 
 static NSString const *EMAIL_KEY                    = @"email";
 static NSString const *PASSWORD_KEY                 = @"password";
@@ -65,7 +66,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
             [messages addObject:[[NCMessage alloc] initWithDictionary:messageDict]];
         }
 
-        self.messages = messages;
+        self.messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:messages];
     }
 }
 

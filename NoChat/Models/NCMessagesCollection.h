@@ -12,5 +12,6 @@
 @interface NCMessagesCollection (CollectionInterface)
 
 - (NSUInteger)count;
+- (id)objectAtIndex:(NSUInteger)index;
 
 @end

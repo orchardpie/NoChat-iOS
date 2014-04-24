@@ -1,8 +1,10 @@
 #import "NCMessagesTableViewController.h"
 #import "NCComposeMessageViewController.h"
 #import "NCMessage.h"
+#import "NCMessagesCollection.h"
 #import "NCMessageTableViewCell.h"
 #import "NoChat.h"
+#import "UIAlertView+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -12,10 +14,11 @@ SPEC_BEGIN(NCMessagesTableViewControllerSpec)
 describe(@"NCMessagesTableViewController", ^{
     __block NCMessagesTableViewController *controller;
     __block UINavigationController *navigationController;
-    __block NSArray *messages;
+    __block NCMessagesCollection *messages;
 
     beforeEach(^{
-        messages = [NSArray array];
+        messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:@[]];
+        spy_on(messages);
 
         controller = [[NCMessagesTableViewController alloc] initWithMessages:messages];
         navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -34,6 +37,47 @@ describe(@"NCMessagesTableViewController", ^{
 
         it(@"should set the compose button's target to itself", ^{
             controller.navigationItem.rightBarButtonItem.target should equal(controller);
+        });
+    });
+
+    describe(@"-refreshMessages", ^{
+        subjectAction(^{ [controller refreshMessages]; });
+
+        it(@"should ask the messages collection to fetch itself", ^{
+            messages should have_received("fetchWithSuccess:failure:");
+        });
+
+        context(@"when the fetch is successful", ^{
+            beforeEach(^{
+                messages stub_method("fetchWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
+                    void (^fetchBlock)();
+                    [invocation getArgument:&fetchBlock atIndex:2];
+                    fetchBlock();
+                });
+                spy_on(controller.tableView);
+            });
+
+            it(@"should refresh the tableview", ^{
+                controller.tableView should have_received("reloadData");
+            });
+        });
+
+        context(@"when the fetch is unsuccessful", ^{
+            beforeEach(^{
+                messages stub_method("fetchWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
+                    WebServiceInvalid fetchBlock;
+                    [invocation getArgument:&fetchBlock atIndex:3];
+                    NSError *error = [NSError errorWithDomain:@"TestErrorDomain" code:-1004 userInfo:@{ NSLocalizedDescriptionKey: @"Could not connect to server",
+                                                                                                        NSLocalizedRecoverySuggestionErrorKey: @"Try harder" }];
+                    fetchBlock(error);
+                });
+            });
+
+            it(@"should show an error", ^{
+                UIAlertView.currentAlertView should_not be_nil;
+                UIAlertView.currentAlertView.title should_not be_nil;
+                UIAlertView.currentAlertView.message should_not be_nil;
+            });
         });
     });
 

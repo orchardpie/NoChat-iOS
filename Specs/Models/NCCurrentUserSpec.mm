@@ -1,6 +1,7 @@
 #import "NCCurrentUser.h"
 #import "NoChat.h"
 #import "NCWebService.h"
+#import "NCMessagesCollection.h"
 #import "NSURLSession+Spec.h"
 #import "NSURLSessionDataTask+Spec.h"
 
