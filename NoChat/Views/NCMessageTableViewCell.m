@@ -1,5 +1,6 @@
 #import "NCMessageTableViewCell.h"
 #import "NCMessage.h"
+#import "NSDate+NVTimeAgo.h"
 
 @implementation NCMessageTableViewCell
 
@@ -23,7 +24,13 @@
 - (void)setMessage:(NCMessage *)message
 {
     _message = message;
-    self.createdAtLabel.text = message.createdAt;
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    NSDate *createdAtDate = [formatter dateFromString:message.createdAt];
+
+    self.createdAtLabel.text = [createdAtDate formattedAsTimeAgo];
     self.timeSavedLabel.text = message.timeSavedDescription;
 }
 

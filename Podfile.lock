@@ -28,6 +28,7 @@ PODS:
   - AFSpecWorking (0.1)
   - Cedar (0.9.6)
   - MBProgressHUD (0.8)
+  - NSDate-Time-Ago (1.0)
   - PivotalCoreKit (0.1.0):
     - PivotalCoreKit/Core
   - PivotalCoreKit/Core (0.1.0):
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - AFSpecWorking (from `https://github.com/orchardpie/AFSpecWorking`)
   - Cedar (from `https://github.com/orchardpie/Cedar`)
   - MBProgressHUD
+  - NSDate-Time-Ago
   - PivotalCoreKit (from `https://github.com/pivotal/PivotalCoreKit`)
   - PivotalCoreKit/UIKit/SpecHelper (from `https://github.com/pivotal/PivotalCoreKit`)
   - SingleTrack (from `https://github.com/orchardadam/SingleTrack`)
@@ -76,6 +78,7 @@ SPEC CHECKSUMS:
   AFSpecWorking: 1621cdb20a0e40a4e3c906d2f12241bae2261362
   Cedar: 0a470fd062666218c3ac1a38503584d1e9a68b88
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  NSDate-Time-Ago: 5f2986ab55db3c0dcde39c4da8aed914633580e4
   PivotalCoreKit: 2bd87d30a7dd44fa69c67001b4020ef919066bdd
   SingleTrack: 1b4c91902dcdbe99b0eab2f273d5af7356491a84
 

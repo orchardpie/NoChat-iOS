@@ -1,5 +1,6 @@
 #import "NCMessageTableViewCell.h"
 #import "NCMessage.h"
+#import "NSDate+NVTimeAgo.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -51,11 +52,12 @@ describe(@"NCMessageTableViewCell", ^{
 
     describe(@"-setMessage:", ^{
         __block NCMessage *message;
+        NSString *rawDate = @"2014-04-25T20:43:33.760Z";
 
         subjectAction(^{ cell.message = message; });
 
         beforeEach(^{
-            message = [[NCMessage alloc] initWithDictionary:@{@"time_saved_description": @"666 seconds saved", @"created_at": @"7 hours ago"}];
+            message = [[NCMessage alloc] initWithDictionary:@{@"time_saved_description": @"666 seconds saved", @"created_at": rawDate}];
         });
 
         it(@"should set the time saved label", ^{
@@ -63,7 +65,12 @@ describe(@"NCMessageTableViewCell", ^{
         });
 
         it(@"should set the created at label", ^{
-            cell.createdAtLabel.text should equal(@"7 hours ago");
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+            [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+            NSDate *createdAtDate = [formatter dateFromString:rawDate];
+
+            cell.createdAtLabel.text should equal([createdAtDate formattedAsTimeAgo]);
         });
     });
 });
