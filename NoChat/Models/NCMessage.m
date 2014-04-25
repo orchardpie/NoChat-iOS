@@ -12,7 +12,7 @@
     if (self = [super init]) {
         self.messageId = dictionary[@"id"];
         self.createdAt = dictionary[@"created_at"];
-        self.timeSaved = dictionary[@"time_saved"];
+        self.timeSavedDescription = dictionary[@"time_saved_description"];
     }
     return self;
 }
@@ -26,7 +26,7 @@
 
     self.messageId = [decoder decodeObjectForKey:@"messageId"];
     self.createdAt = [decoder decodeObjectForKey:@"createdAt"];
-    self.timeSaved = [decoder decodeObjectForKey:@"timeSaved"];
+    self.timeSavedDescription = [decoder decodeObjectForKey:@"timeSavedDescription"];
     self.body = [decoder decodeObjectForKey:@"body"];
     self.receiverEmail = [decoder decodeObjectForKey:@"receiverEmail"];
 
@@ -37,7 +37,7 @@
 {
     [encoder encodeObject:self.messageId forKey:@"messageId"];
     [encoder encodeObject:self.createdAt forKey:@"createdAt"];
-    [encoder encodeObject:self.timeSaved forKey:@"timeSaved"];
+    [encoder encodeObject:self.timeSavedDescription forKey:@"timeSavedDescription"];
     [encoder encodeObject:self.body forKey:@"body"];
     [encoder encodeObject:self.receiverEmail forKey:@"receiverEmail"];
 }

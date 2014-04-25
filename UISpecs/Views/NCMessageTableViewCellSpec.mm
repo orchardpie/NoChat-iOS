@@ -32,7 +32,7 @@ describe(@"NCMessageTableViewCell", ^{
         subjectAction(^{ [cell prepareForReuse]; });
 
         beforeEach(^{
-            message = [[NCMessage alloc] initWithDictionary:@{@"time_saved": @3000, @"created_at": @"7 hours ago"}];
+            message = [[NCMessage alloc] initWithDictionary:@{@"time_saved_description": @"666 seconds saved", @"created_at": @"7 hours ago"}];
             [cell setMessage:message];
         });
 
@@ -55,11 +55,11 @@ describe(@"NCMessageTableViewCell", ^{
         subjectAction(^{ cell.message = message; });
 
         beforeEach(^{
-            message = [[NCMessage alloc] initWithDictionary:@{@"time_saved": @3000, @"created_at": @"7 hours ago"}];
+            message = [[NCMessage alloc] initWithDictionary:@{@"time_saved_description": @"666 seconds saved", @"created_at": @"7 hours ago"}];
         });
 
         it(@"should set the time saved label", ^{
-            cell.timeSavedLabel.text should equal(@"3 seconds saved");
+            cell.timeSavedLabel.text should equal(@"666 seconds saved");
         });
 
         it(@"should set the created at label", ^{

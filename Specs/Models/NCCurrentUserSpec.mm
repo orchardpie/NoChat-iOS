@@ -48,7 +48,6 @@ describe(@"NCCurrentUser", ^{
                 NCCurrentUser *aCurrentUser = [[NCCurrentUser alloc] init];
                 NCMessage *message = [[NCMessage alloc] init];
                 aCurrentUser.messages = [[NCMessagesCollection alloc] initWithLocation:@"sup" messages:@[message]];
-                NCMessagesCollection *stupidMessages = [[NCMessagesCollection alloc] initWithLocation:@"sup" messages:@[message]];
 
                 NSMutableData *data = [NSMutableData data];
                 NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

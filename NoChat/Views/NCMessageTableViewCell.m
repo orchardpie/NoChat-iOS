@@ -24,7 +24,7 @@
 {
     _message = message;
     self.createdAtLabel.text = message.createdAt;
-    self.timeSavedLabel.text = [NSString stringWithFormat:@"%d seconds saved", [message.timeSaved intValue] / 1000];
+    self.timeSavedLabel.text = message.timeSavedDescription;
 }
 
 @end

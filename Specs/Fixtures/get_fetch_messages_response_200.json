@@ -5,6 +5,7 @@
                  "word_count": 5,
                  "created_at": "display date",
                  "time_saved": 1200,
+                 "time_saved_description": "1 second saved",
                  "disposition": "sent"
                  },
                  {
@@ -12,6 +13,7 @@
                  "word_count": 5,
                  "created_at": "display date",
                  "time_saved": 1200,
+                 "time_saved_description": "1 second saved",
                  "disposition": "received"
                  }
                  ]
