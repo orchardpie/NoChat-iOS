@@ -6,6 +6,12 @@
 #import "NoChat.h"
 #import "UIAlertView+Spec.h"
 
+
+// Ignore "Unknown selector may cause a leak" warning.  We use performSelector: to
+// invoke IBActions, which we know return void.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
@@ -166,3 +172,5 @@ describe(@"NCMessagesTableViewController", ^{
 });
 
 SPEC_END
+
+#pragma clang diagnostic pop

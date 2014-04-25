@@ -8,6 +8,11 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
+// Ignore "Unknown selector may cause a leak" warning.  We use performSelector: to
+// invoke IBActions, which we know return void.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 SPEC_BEGIN(NCComposeMessageViewControllerSpec)
 
 describe(@"NCComposeMessageViewController", ^{
@@ -306,3 +311,5 @@ describe(@"NCComposeMessageViewController", ^{
 });
 
 SPEC_END
+
+#pragma clang diagnostic pop
