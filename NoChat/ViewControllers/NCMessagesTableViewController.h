@@ -6,6 +6,6 @@
 @interface NCMessagesTableViewController : UITableViewController<NCComposeMessageDelegate>
 
 - (instancetype)initWithMessages:(NCMessagesCollection *)messages;
-- (void)refreshMessages;
+- (void)refreshMessagesWithIndicator;
 
 @end

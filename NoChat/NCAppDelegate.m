@@ -18,7 +18,7 @@ NoChat *noChat;
     if (noChat.webService.hasCredential) {
         NCMessagesTableViewController *messageTVC = [[NCMessagesTableViewController alloc] initWithMessages:self.currentUser.messages];
         navigationController = [[UINavigationController alloc] initWithRootViewController:messageTVC];
-        [messageTVC refreshMessages];
+        [messageTVC refreshMessagesWithIndicator];
     } else {
         NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
         navigationController = [[UINavigationController alloc] initWithRootViewController:signupVC];

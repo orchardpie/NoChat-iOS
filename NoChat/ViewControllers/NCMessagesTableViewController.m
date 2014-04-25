@@ -36,22 +36,14 @@
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Log Out" style:UIBarButtonItemStylePlain target:self action:@selector(logout:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeMessage:)];
+
+    [self enablePullToRefresh];
 }
 
-- (void)refreshMessages
+- (void)refreshMessagesWithIndicator
 {
     [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    [self.messages fetchWithSuccess:^{
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-        [self.tableView reloadData];
-    } failure:^(NSError *error) {
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-        [[[UIAlertView alloc] initWithTitle:@"Messages could not be retrieved"
-                                    message:@"Please ensure you are connected to the Internet and try again."
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil, nil] show];
-    }];
+    [self refreshMessages];
 }
 
 #pragma mark - Table view data source
@@ -103,6 +95,31 @@
 - (void)userDidSendMessage:(NCMessage *)message
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark Private interface
+
+- (void)refreshMessages {
+    [self.messages fetchWithSuccess:^{
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+        [self.refreshControl endRefreshing];
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+        [self.refreshControl endRefreshing];
+        [[[UIAlertView alloc] initWithTitle:@"Messages could not be retrieved"
+                                    message:@"Please ensure you are connected to the Internet and try again."
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil, nil] show];
+    }];
+}
+
+- (void)enablePullToRefresh
+{
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshMessages) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
 }
 
 @end
