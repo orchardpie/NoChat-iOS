@@ -5,6 +5,7 @@
 #import "NCMessageTableViewCell.h"
 #import "NoChat.h"
 #import "UIAlertView+Spec.h"
+#import "MBProgressHUD+Spec.h"
 
 
 // Ignore "Unknown selector may cause a leak" warning.  We use performSelector: to
@@ -53,6 +54,10 @@ describe(@"NCMessagesTableViewController", ^{
             messages should have_received("fetchWithSuccess:failure:");
         });
 
+        it(@"should show a progress indicator", ^{
+            MBProgressHUD.currentHUD should_not be_nil;
+        });
+
         context(@"when the fetch is successful", ^{
             beforeEach(^{
                 messages stub_method("fetchWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
@@ -66,6 +71,11 @@ describe(@"NCMessagesTableViewController", ^{
             it(@"should refresh the tableview", ^{
                 controller.tableView should have_received("reloadData");
             });
+
+            it(@"should hide the progress indicator", ^{
+                MBProgressHUD.currentHUD should be_nil;
+            });
+
         });
 
         context(@"when the fetch is unsuccessful", ^{
@@ -83,6 +93,10 @@ describe(@"NCMessagesTableViewController", ^{
                 UIAlertView.currentAlertView should_not be_nil;
                 UIAlertView.currentAlertView.title should_not be_nil;
                 UIAlertView.currentAlertView.message should_not be_nil;
+            });
+
+            it(@"should hide the progress indicator", ^{
+                MBProgressHUD.currentHUD should be_nil;
             });
         });
     });

@@ -4,6 +4,7 @@
 #import "NCMessage.h"
 #import "NCMessageTableViewCell.h"
 #import "NoChat.h"
+#import "MBProgressHUD.h"
 
 @interface NCMessagesTableViewController ()
 
@@ -39,9 +40,12 @@
 
 - (void)refreshMessages
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.messages fetchWithSuccess:^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self.tableView reloadData];
     } failure:^(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [[[UIAlertView alloc] initWithTitle:@"Messages could not be retrieved"
                                     message:@"Please ensure you are connected to the Internet and try again."
                                    delegate:nil
