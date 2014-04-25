@@ -17,4 +17,6 @@
                 success:(void(^)())success
                 failure:(void(^)(NSError *error))failure;
 
+- (void)archive;
+
 @end

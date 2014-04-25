@@ -6,12 +6,6 @@ NoChat *noChat;
 #import "NCMessagesTableViewController.h"
 #import "NCCurrentUser.h"
 
-@interface NCAppDelegate ()
-
-@property (strong, nonatomic) NCCurrentUser *currentUser;
-
-@end
-
 @implementation NCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -96,6 +90,8 @@ NoChat *noChat;
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
+    [self.currentUser archive];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

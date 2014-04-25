@@ -76,6 +76,22 @@ describe(@"NCCurrentUser", ^{
         });
     });
 
+    describe(@"-archive", ^{
+        __block NSUserDefaults *userDefaults;
+
+        subjectAction(^{ [user archive]; });
+
+        beforeEach(^{
+            userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults objectForKey:@"currentUser"] should be_nil;
+        });
+
+        it(@"should archive the current user", ^{
+            NSData *data = [userDefaults objectForKey:@"currentUser"];
+            data should_not be_nil;
+        });
+    });
+
     describe(@"-fetchWithSuccess:success:failure:", ^{
         subjectAction(^{
             [user fetchWithSuccess:success failure:failure];
@@ -102,11 +118,6 @@ describe(@"NCCurrentUser", ^{
 
             it(@"should parse the JSON dictionaries into NCMessage objects", ^{
                 user.messages.count should equal(2);
-            });
-
-            it(@"should archive current user", ^{
-                NSData *data = [userDefaults objectForKey:@"currentUser"];
-                data should_not be_nil;
             });
 
             it(@"should call the success completion block", ^{
@@ -180,11 +191,6 @@ describe(@"NCCurrentUser", ^{
 
             it(@"should parse the JSON dictionaries into NCMessage objects", ^{
                 user.messages.count should equal(2);
-            });
-
-            it(@"should archive current user", ^{
-                NSData *data = [userDefaults objectForKey:@"currentUser"];
-                data should_not be_nil;
             });
 
             it(@"should call the success completion block", ^{

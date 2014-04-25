@@ -32,7 +32,6 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 {
     [noChat.webService GET:@"/" parameters:nil completion:^(id responseBody) {
         [self setMessagesFromResponse:responseBody];
-        [self archive];
         if (success) { success(); }
 
     } invalid:nil error:failure];
@@ -51,7 +50,6 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
         [noChat.webService saveCredentialWithEmail:email password:password];
 
         [self setMessagesFromResponse:responseBody];
-        [self archive];
         if (success) { success(); }
 
     } invalid:^(id responseBody) {
@@ -101,7 +99,6 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
     [userDefaults setObject:data forKey:@"currentUser"];
     [userDefaults synchronize];
-
 }
 
 @end

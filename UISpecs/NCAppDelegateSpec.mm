@@ -52,6 +52,21 @@ describe(@"NCAppDelegate", ^{
         });
     });
 
+    describe(@"-applicationDidEnterBackground:", ^{
+        subjectAction(^{
+            [delegate applicationDidEnterBackground:nil];
+        });
+
+        beforeEach(^{
+            [delegate application:nil didFinishLaunchingWithOptions:@{}];
+            spy_on(delegate.currentUser);
+        });
+
+        it(@"should archive current user", ^{
+            delegate.currentUser should have_received("archive");
+        });
+    });
+
     describe(@"-userDidSwitchToLogin", ^{
         subjectAction(^{
             [delegate userDidSwitchToLogin];
