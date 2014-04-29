@@ -42,7 +42,7 @@
 
 - (void)refreshMessagesWithIndicator
 {
-    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self.refreshControl beginRefreshing];
     [self refreshMessages];
 }
 
@@ -101,11 +101,9 @@
 
 - (void)refreshMessages {
     [self.messages fetchWithSuccess:^{
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     } failure:^(NSError *error) {
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         [self.refreshControl endRefreshing];
         [[[UIAlertView alloc] initWithTitle:@"Messages could not be retrieved"
                                     message:@"Please ensure you are connected to the Internet and try again."

@@ -5,8 +5,6 @@
 #import "NCMessageTableViewCell.h"
 #import "NoChat.h"
 #import "UIAlertView+Spec.h"
-#import "MBProgressHUD+Spec.h"
-
 
 // Ignore "Unknown selector may cause a leak" warning.  We use performSelector: to
 // invoke IBActions, which we know return void.
@@ -54,15 +52,14 @@ describe(@"NCMessagesTableViewController", ^{
     });
 
     describe(@"-refreshMessagesWithIndicator:", ^{
-
         subjectAction(^{ [controller refreshMessagesWithIndicator]; });
 
         it(@"should ask the messages collection to fetch itself", ^{
             messages should have_received("fetchWithSuccess:failure:");
         });
 
-        it(@"should show a progress indicator", ^{
-            MBProgressHUD.currentHUD should_not be_nil;
+        it(@"should show the refresh indicator", ^{
+            controller.refreshControl.isRefreshing should be_truthy;
         });
 
         context(@"when the fetch is successful", ^{
@@ -79,8 +76,8 @@ describe(@"NCMessagesTableViewController", ^{
                 controller.tableView should have_received("reloadData");
             });
 
-            it(@"should hide the progress indicator", ^{
-                MBProgressHUD.currentHUD should be_nil;
+            it(@"should hide the refresh indicator", ^{
+                controller.refreshControl.isRefreshing should_not be_truthy;
             });
         });
 
@@ -101,8 +98,8 @@ describe(@"NCMessagesTableViewController", ^{
                 UIAlertView.currentAlertView.message should_not be_nil;
             });
 
-            it(@"should hide the progress indicator", ^{
-                MBProgressHUD.currentHUD should be_nil;
+            it(@"should hide the refresh indicator", ^{
+                controller.refreshControl.isRefreshing should_not be_truthy;
             });
         });
     });
@@ -164,10 +161,6 @@ describe(@"NCMessagesTableViewController", ^{
 
         it(@"should ask the messages collection to fetch itself", ^{
             messages should have_received("fetchWithSuccess:failure:");
-        });
-
-        it(@"should not show a progress indicator", ^{
-            MBProgressHUD.currentHUD should be_nil;
         });
 
         context(@"when the fetch is successful", ^{
