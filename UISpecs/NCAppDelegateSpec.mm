@@ -74,14 +74,32 @@ describe(@"NCAppDelegate", ^{
 
         beforeEach(^{
             [delegate application:nil didFinishLaunchingWithOptions:nil];
-            NCMessagesTableViewController *messagesVC = [[NCMessagesTableViewController alloc] initWithMessages:nil];
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesVC];
+            UIViewController *otherController = [[NCSignupViewController alloc] initWithCurrentUser:delegate.currentUser delegate:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:otherController];
             delegate.window.rootViewController = navigationController;
         });
 
         it(@"should show the login screen", ^{
             UINavigationController *navigationController = (id)delegate.window.rootViewController;
             navigationController.topViewController should be_instance_of([NCLoginViewController class]);
+        });
+    });
+
+    describe(@"-userDidSwitchToSignup", ^{
+        subjectAction(^{
+            [delegate userDidSwitchToSignup];
+        });
+
+        beforeEach(^{
+            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            UIViewController *otherController = [[NCLoginViewController alloc] initWithCurrentUser:delegate.currentUser delegate:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:otherController];
+            delegate.window.rootViewController = navigationController;
+        });
+
+        it(@"should show the signup screen", ^{
+            UINavigationController *navigationController = (id)delegate.window.rootViewController;
+            navigationController.topViewController should be_instance_of([NCSignupViewController class]);
         });
     });
 
@@ -92,12 +110,12 @@ describe(@"NCAppDelegate", ^{
 
         beforeEach(^{
             [delegate application:nil didFinishLaunchingWithOptions:nil];
-            NCLoginViewController *messagesVC = [[NCLoginViewController alloc] initWithCurrentUser:nil delegate:nil];
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messagesVC];
+            NCLoginViewController *otherController = [[NCLoginViewController alloc] initWithCurrentUser:nil delegate:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:otherController];
             delegate.window.rootViewController = navigationController;
         });
 
-        it(@"should show the login screen", ^{
+        it(@"should show the messages view", ^{
             UINavigationController *navigationController = (id)delegate.window.rootViewController;
             navigationController.topViewController should be_instance_of([NCMessagesTableViewController class]);
         });
