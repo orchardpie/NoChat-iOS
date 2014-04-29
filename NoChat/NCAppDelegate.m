@@ -11,24 +11,39 @@ NoChat *noChat;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.currentUser = [[NCCurrentUser alloc] init];
-
-    UINavigationController *navigationController;
 
     if (noChat.webService.hasCredential) {
-        NCMessagesTableViewController *messageTVC = [[NCMessagesTableViewController alloc] initWithMessages:self.currentUser.messages];
-        navigationController = [[UINavigationController alloc] initWithRootViewController:messageTVC];
-        [messageTVC refreshMessagesWithIndicator];
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"];
+        if (data) {
+            self.currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [self showMessagesViewControllerWithTransition:NO refresh:YES];
+        } else {
+            self.currentUser = [[NCCurrentUser alloc] init];
+            [self.currentUser fetchWithSuccess:^{
+                [self showMessagesViewControllerWithTransition:NO refresh:NO];
+            } failure:^(NSError *error) {
+                //
+            }];
+        }
     } else {
+        self.currentUser = [[NCCurrentUser alloc] init];
+
         NCSignupViewController *signupVC = [[NCSignupViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
-        navigationController = [[UINavigationController alloc] initWithRootViewController:signupVC];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:signupVC];
+        self.window.rootViewController = navigationController;
     }
 
-    self.window.rootViewController = navigationController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    NSData *archive = [NSKeyedArchiver archivedDataWithRootObject:self.currentUser];
+    [NSUserDefaults.standardUserDefaults setObject:archive forKey:@"currentUser"];
+}
+
 
 #pragma mark - Signup and login delegate implementation
 
@@ -48,8 +63,7 @@ NoChat *noChat;
 
 - (void)userDidAuthenticate
 {
-    NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] initWithMessages:self.currentUser.messages];
-    [self transitionToViewController:messagesTVC];
+    [self showMessagesViewControllerWithTransition:YES refresh:NO];
 }
 
 - (void)userDidFailAuthentication
@@ -78,35 +92,15 @@ NoChat *noChat;
                     completion:nil];
 }
 
-#pragma mark - app delegate stuff
+#pragma mark Private interface
 
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
+- (void)showMessagesViewControllerWithTransition:(BOOL)transition refresh:(BOOL)refresh {
+    NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] initWithMessages:self.currentUser.messages];
+    [self transitionToViewController:messagesTVC];
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
-    [self.currentUser archive];
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    if (refresh) {
+        [messagesTVC refreshMessagesWithIndicator];
+    }
 }
 
 @end

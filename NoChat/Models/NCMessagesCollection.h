@@ -2,8 +2,7 @@
 
 @interface NCMessagesCollection : NSObject
 
-- (instancetype)initWithLocation:(NSString *)location
-                        messages:(NSArray *)messages;
+- (instancetype)initWithMessagesDict:(NSDictionary *)messagesDict;
 - (void)fetchWithSuccess:(void(^)())success
                  failure:(void(^)(NSError *error))failure;
 

@@ -7,17 +7,24 @@ static NSString const *EMAIL_KEY                    = @"email";
 static NSString const *PASSWORD_KEY                 = @"password";
 static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
+@interface NCCurrentUser ()
+@property (nonatomic, strong, readwrite) NCMessagesCollection *messages;
+@end
+
 @implementation NCCurrentUser
 
-- (id)init
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
     if (self = [super init]) {
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"];
-        if (data.length) {
-            [self unarchiveWithData:data];
-        }
+        self.messages = [decoder decodeObjectForKey:@"messages"];
     }
+
     return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:self.messages forKey:@"messages"];
 }
 
 - (BOOL)saveCredentialWithEmail:(NSString *)email password:(NSString *)password
@@ -31,9 +38,9 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
                  failure:(void(^)(NSError *error))failure
 {
     [noChat.webService GET:@"/" parameters:nil completion:^(id responseBody) {
-        [self setMessagesFromResponse:responseBody];
+        NSDictionary *currentUserDict = (NSDictionary *)responseBody;
+        self.messages = [[NCMessagesCollection alloc] initWithMessagesDict:currentUserDict[@"data"][@"messages"]];
         if (success) { success(); }
-
     } invalid:nil error:failure];
 }
 
@@ -48,8 +55,8 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
     [noChat.webService POST:@"/users" parameters:parameters completion:^(id responseBody) {
         [noChat.webService saveCredentialWithEmail:email password:password];
-
-        [self setMessagesFromResponse:responseBody];
+        NSDictionary *currentUserDict = (NSDictionary *)responseBody;
+        self.messages = [[NCMessagesCollection alloc] initWithMessagesDict:currentUserDict[@"data"][@"messages"]];
         if (success) { success(); }
 
     } invalid:^(id responseBody) {
@@ -63,42 +70,6 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
             failure(error);
         }
     } error:failure];
-}
-
-- (void)setMessagesFromResponse:(id)responseObject
-{
-    NSDictionary *responseDict = (NSDictionary *)responseObject;
-    NSArray *responseMessages = responseDict[@"messages"][@"resource"];
-
-    if (responseMessages && responseMessages.count > 0) {
-        NSMutableArray *messages = [NSMutableArray array];
-
-        for (NSDictionary *messageDict in responseMessages) {
-            [messages addObject:[[NCMessage alloc] initWithDictionary:messageDict]];
-        }
-
-        self.messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:messages];
-    }
-}
-
-- (void)unarchiveWithData:(NSData *)data
-{
-    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    self.messages = [decoder decodeObjectForKey:@"messages"];
-    [decoder finishDecoding];
-}
-
-- (void)archive
-{
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [encoder encodeObject:self.messages forKey:@"messages"];
-
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [encoder finishEncoding];
-
-    [userDefaults setObject:data forKey:@"currentUser"];
-    [userDefaults synchronize];
 }
 
 @end

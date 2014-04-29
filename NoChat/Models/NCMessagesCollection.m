@@ -11,29 +11,29 @@
 
 @implementation NCMessagesCollection
 
-- (instancetype)initWithLocation:(NSString *)location
-                        messages:(NSArray *)messages
+- (instancetype)initWithMessagesDict:(NSDictionary *)messagesDict
 {
-    NCParameterAssert(location);
+    NCParameterAssert(messagesDict[@"location"]);
 
     if (self = [super init]) {
-        self.location = location;
-        self.messages = messages;
+        self.location = messagesDict[@"location"];
+        self.messages = [self parseMessagesFromMessageData:messagesDict[@"data"]];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
-    self = [super init];
-    if (!self) {
-        return nil;
+    if (self = [super init]) {
+        self.location = [decoder decodeObjectForKey:@"location"];
+        self.messages = [decoder decodeObjectForKey:@"messages"];
     }
 
-    self.location = [decoder decodeObjectForKey:@"location"];
-    self.messages = [decoder decodeObjectForKey:@"messages"];
-
     return self;
+}
+
+- (instancetype)init {
+    [self doesNotRecognizeSelector:_cmd]; return nil;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
@@ -46,26 +46,28 @@
                  failure:(void(^)(NSError *error))failure
 {
     [noChat.webService GET:self.location parameters:nil completion:^(id responseBody) {
-        [self setMessagesFromResponse:responseBody];
+        NSDictionary *messagesDict = (NSDictionary *)responseBody;
+        self.messages = [self parseMessagesFromMessageData:messagesDict[@"data"]];
         if (success) { success(); }
 
     } invalid:nil error:failure];
 }
 
-- (void)setMessagesFromResponse:(id)responseBody
+- (NSArray *)parseMessagesFromMessageData:(NSArray *)messageData
 {
-    NSDictionary *responseDict = (NSDictionary *)responseBody;
-    NSArray *responseMessages = responseDict[@"messages"][@"resource"];
-
-    if (responseMessages && responseMessages.count > 0) {
+    if (messageData && messageData.count > 0) {
         NSMutableArray *messages = [NSMutableArray array];
 
-        for (NSDictionary *messageDict in responseMessages) {
-            [messages addObject:[[NCMessage alloc] initWithDictionary:messageDict]];
+        for (NSDictionary *messageDict in messageData) {
+            if ([messageDict[@"disposition"] isEqualToString:@"received"]) {
+                [messages addObject:[[NCMessage alloc] initWithDictionary:messageDict]];
+            }
         }
 
-        self.messages = messages;
+        return messages;
     }
+
+    return @[];
 }
 
 #pragma mark - Forward invocation

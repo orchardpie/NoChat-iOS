@@ -12,7 +12,7 @@ SPEC_BEGIN(NCSignupViewControllerSpec)
 
 describe(@"NCSignupViewController", ^{
     __block NCSignupViewController *controller;
-    __block id<CedarDouble> currentUser;
+    __block NCCurrentUser<CedarDouble> *currentUser;
     __block id<CedarDouble> delegate;
 
     beforeEach(^{

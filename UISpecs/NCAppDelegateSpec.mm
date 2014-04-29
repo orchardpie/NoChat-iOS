@@ -1,4 +1,10 @@
+#import "NCSpecHelper.h"
 #import "NCAppDelegate.h"
+#import "AFSpecWorking/SpecHelpers.h"
+#import "SingleTrack/SpecHelpers.h"
+#import "NCCurrentUser.h"
+#import "NCMessagesCollection.h"
+#import "NCMessage.h"
 #import "NCSignupViewController.h"
 #import "NCLoginViewController.h"
 #import "NCMessagesTableViewController.h"
@@ -13,14 +19,15 @@ SPEC_BEGIN(NCAppDelegateSpec)
 
 describe(@"NCAppDelegate", ^{
     __block NCAppDelegate *delegate;
+    UIApplication<CedarDouble> *application = fake_for([UIApplication class]);
 
     beforeEach(^{
         delegate = [[NCAppDelegate alloc] init];
     });
 
-    describe(@"application:didFinishLaunchingWithOptions", ^{
+    describe(@"-application:didFinishLaunchingWithOptions", ^{
         subjectAction(^{
-            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            [delegate application:application didFinishLaunchingWithOptions:nil];
         });
 
         it(@"should initialize a global NoChat object", ^{
@@ -32,10 +39,47 @@ describe(@"NCAppDelegate", ^{
                 [NCWebService setHasCredentialTo:YES];
             });
 
-            it(@"should set messages table view controller as the root view controller", ^{
-                delegate.window.rootViewController should be_instance_of([UINavigationController class]);
-                UINavigationController *navController = (id)delegate.window.rootViewController;
-                navController.topViewController should be_instance_of([NCMessagesTableViewController class]);
+            context(@"when there is a current user archive", ^{
+                beforeEach(^{
+                    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+                    NCCurrentUser *currentUser = [[NCCurrentUser alloc] init];
+                    [currentUser fetchWithSuccess:nil failure:nil];
+
+                    NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
+                    NSHTTPURLResponse *response = makeResponse(200);
+                    NSData *responseData = dataFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json");
+                    [task completeWithResponse:response data:responseData error:nil];
+
+                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:currentUser];
+
+                    [userDefaults setObject:data forKey:@"currentUser"];
+                    [userDefaults synchronize];
+                });
+
+                it(@"should create a current user with the archived data", ^{
+                    delegate.currentUser.messages should_not be_empty;
+                });
+
+                it(@"should set messages table view controller as the root view controller", ^{
+                    delegate.window.rootViewController should be_instance_of([UINavigationController class]);
+                    UINavigationController *navController = (id)delegate.window.rootViewController;
+                    navController.topViewController should be_instance_of([NCMessagesTableViewController class]);
+                });
+
+                it(@"should refresh messages", ^{
+                    [noChat.webService.tasks.lastObject originalRequest].URL.path should equal(@"/messages");
+                });
+            });
+
+            context(@"when there is not a current user archive", ^{
+                beforeEach(^{
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentUser"];
+                });
+
+                it(@"should fetch from root", ^{
+                    [[[noChat.webService.tasks.firstObject originalRequest] URL] path] should equal(@"/");
+                });
             });
         });
 
@@ -52,18 +96,59 @@ describe(@"NCAppDelegate", ^{
         });
     });
 
+    describe(@"on refresh of the current user", ^{
+        __block NSURLSessionDataTask *task;
+        __block NSError *error;
+
+        subjectAction(^{ [task completeWithError:error]; });
+
+        beforeEach(^{
+            [NCWebService setHasCredentialTo:YES];
+            [delegate application:application didFinishLaunchingWithOptions:nil];
+
+            task = noChat.webService.tasks.lastObject;
+            task should_not be_nil;
+        });
+
+        describe(@"on success response", ^{
+            beforeEach(^{
+                [task receiveResponse:makeResponse(200)];
+                [task receiveData:dataFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json")];
+                error = nil;
+            });
+
+            it(@"should show the messages view", ^{
+                delegate.window.rootViewController should be_instance_of([UINavigationController class]);
+                UINavigationController *navController = (id)delegate.window.rootViewController;
+                navController.topViewController should be_instance_of([NCMessagesTableViewController class]);
+            });
+
+            it(@"should not refresh the messages", ^{
+                noChat.webService.tasks should be_empty;
+            });
+        });
+
+        describe(@"on failure response", ^{
+            it(@"should display an error view", PENDING);
+        });
+
+        describe(@"on network error", ^{
+            it(@"should display an error view", PENDING);
+        });
+    });
+
     describe(@"-applicationDidEnterBackground:", ^{
         subjectAction(^{
             [delegate applicationDidEnterBackground:nil];
         });
 
         beforeEach(^{
-            [delegate application:nil didFinishLaunchingWithOptions:@{}];
+            [delegate application:application didFinishLaunchingWithOptions:@{}];
             spy_on(delegate.currentUser);
         });
 
         it(@"should archive current user", ^{
-            delegate.currentUser should have_received("archive");
+            delegate.currentUser should have_received("encodeWithCoder:");
         });
     });
 
@@ -73,7 +158,7 @@ describe(@"NCAppDelegate", ^{
         });
 
         beforeEach(^{
-            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            [delegate application:application didFinishLaunchingWithOptions:nil];
             UIViewController *otherController = [[NCSignupViewController alloc] initWithCurrentUser:delegate.currentUser delegate:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:otherController];
             delegate.window.rootViewController = navigationController;
@@ -91,7 +176,7 @@ describe(@"NCAppDelegate", ^{
         });
 
         beforeEach(^{
-            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            [delegate application:application didFinishLaunchingWithOptions:nil];
             UIViewController *otherController = [[NCLoginViewController alloc] initWithCurrentUser:delegate.currentUser delegate:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:otherController];
             delegate.window.rootViewController = navigationController;
@@ -109,7 +194,7 @@ describe(@"NCAppDelegate", ^{
         });
 
         beforeEach(^{
-            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            [delegate application:application didFinishLaunchingWithOptions:nil];
             NCLoginViewController *otherController = [[NCLoginViewController alloc] initWithCurrentUser:nil delegate:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:otherController];
             delegate.window.rootViewController = navigationController;
@@ -127,7 +212,7 @@ describe(@"NCAppDelegate", ^{
         });
 
         beforeEach(^{
-            [delegate application:nil didFinishLaunchingWithOptions:nil];
+            [delegate application:application didFinishLaunchingWithOptions:nil];
         });
 
         context(@"when the user is on the login screen", ^{

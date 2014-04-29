@@ -13,19 +13,18 @@ SPEC_BEGIN(NCMessagesCollectionSpec)
 describe(@"NCMessagesCollection", ^{
     __block NCMessagesCollection *messages;
 
-    describe(@"-initWithLocation:messages", ^{
-        __block NSString *location;
-        __block NSArray *messagesAry;
+    describe(@"-initWithMessagesDict:", ^{
+        __block NSMutableDictionary *messagesDict;
 
         beforeEach(^{
-            messagesAry = @[];
+            messagesDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"/messages", @"location", @[], @"data", nil];
         });
 
-        subjectAction(^{ messages = [[NCMessagesCollection alloc] initWithLocation:location messages:messagesAry]; });
+        subjectAction(^{ messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict]; });
 
         context(@"with a nil location", ^{
             beforeEach(^{
-                location = nil;
+                messagesDict[@"location"] = nil;
             });
 
             itShouldRaiseException();
@@ -41,6 +40,7 @@ describe(@"NCMessagesCollection", ^{
         __block NSHTTPURLResponse *response;
         __block NSData *responseData;
         __block NSURLSessionDataTask *task;
+        __block NSMutableDictionary *messagesDict;
 
         subjectAction(^{
             [messages fetchWithSuccess:success failure:failure];
@@ -55,7 +55,8 @@ describe(@"NCMessagesCollection", ^{
             success = [^() { successWasCalled = YES; } copy];
             failure = [^(NSError *error) { failureMessage = [error localizedDescription]; } copy];
 
-            messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:@[]];
+            messagesDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"/messages", @"location", @[], @"data", nil];
+            messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
         });
 
         it(@"should request the resource at its location", ^{
@@ -76,7 +77,7 @@ describe(@"NCMessagesCollection", ^{
                 failureMessage should be_empty;
             });
 
-            it(@"should update the collection", ^{
+            it(@"should update the collection with only received messages", ^{
                 messages.count should equal(2);
             });
         });
@@ -104,10 +105,8 @@ describe(@"NCMessagesCollection", ^{
     describe(@"-count", ^{
         context(@"when the collection has been initialized with messages", ^{
             beforeEach(^{
-                NCMessage *message1 = [[NCMessage alloc] init];
-                NCMessage *message2 = [[NCMessage alloc] init];
-                NSArray *messagesAry = @[message1, message2];
-                messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:messagesAry];
+                NSDictionary *messagesDict = validJSONFromResponseFixtureWithFileName(@"get_fetch_messages_response_200.json");
+                messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
             });
 
             it(@"should return the number of messages", ^{
@@ -117,7 +116,9 @@ describe(@"NCMessagesCollection", ^{
 
         context(@"when the collection has not been initialized with messages", ^{
             beforeEach(^{
-                messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:@[]];
+                NSDictionary *messagesDict = @{ @"location": @"/messages",
+                                                @"data": @[] };
+                messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
             });
 
             it(@"should return zero", ^{

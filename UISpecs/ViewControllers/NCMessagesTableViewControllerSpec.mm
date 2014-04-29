@@ -24,7 +24,9 @@ describe(@"NCMessagesTableViewController", ^{
     __block NCMessagesCollection *messages;
 
     beforeEach(^{
-        messages = [[NCMessagesCollection alloc] initWithLocation:@"/messages" messages:@[]];
+        NSDictionary *messagesDict = @{ @"location": @"/messages",
+                                        @"data": @[] };
+        messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
         spy_on(messages);
 
         controller = [[NCMessagesTableViewController alloc] initWithMessages:messages];

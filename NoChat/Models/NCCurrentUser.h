@@ -3,9 +3,9 @@
 
 @class NCMessagesCollection;
 
-@interface NCCurrentUser : NSObject
+@interface NCCurrentUser : NSObject <NSCoding>
 
-@property (strong, nonatomic) NCMessagesCollection *messages;
+@property (strong, nonatomic, readonly) NCMessagesCollection *messages;
 
 - (BOOL)saveCredentialWithEmail:(NSString *)email password:(NSString *)password;
 
@@ -16,7 +16,5 @@
                password:(NSString *)password
                 success:(void(^)())success
                 failure:(void(^)(NSError *error))failure;
-
-- (void)archive;
 
 @end

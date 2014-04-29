@@ -34,61 +34,23 @@ describe(@"NCCurrentUser", ^{
         [userDefaults synchronize];
     });
 
-    describe(@"-init", ^{
-        __block NSUserDefaults *userDefaults;
+    describe(@"archiving and unarchiving", ^{
+        __block NCCurrentUser *protoUser;
 
-        subjectAction(^{ user = [[NCCurrentUser alloc] init]; });
-
-        beforeEach(^{
-            userDefaults = [NSUserDefaults standardUserDefaults];
-        });
-
-        context(@"when the current user has archived data", ^{
-            beforeEach(^{
-                NCCurrentUser *aCurrentUser = [[NCCurrentUser alloc] init];
-                NCMessage *message = [[NCMessage alloc] init];
-                aCurrentUser.messages = [[NCMessagesCollection alloc] initWithLocation:@"sup" messages:@[message]];
-
-                NSMutableData *data = [NSMutableData data];
-                NSKeyedArchiver *encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-
-                [encoder encodeObject:aCurrentUser.messages forKey:@"messages"];
-                [encoder finishEncoding];
-
-                [userDefaults setObject:data forKey:@"currentUser"];
-                [userDefaults synchronize];
-
-            });
-
-            it(@"should set the messages collection", ^{
-                user.messages.count should equal(1);
-            });
-        });
-
-        context(@"when the current user has no archived data", ^{
-            beforeEach(^{
-                [userDefaults objectForKey:@"currentUser"] should be_nil;
-            });
-
-            it(@"should not set the messages collection", ^{
-                user.messages should be_nil;
-            });
-        });
-    });
-
-    describe(@"-archive", ^{
-        __block NSUserDefaults *userDefaults;
-
-        subjectAction(^{ [user archive]; });
+        subjectAction(^{ user = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:protoUser]]; });
 
         beforeEach(^{
-            userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults objectForKey:@"currentUser"] should be_nil;
+            protoUser = [[NCCurrentUser alloc] init];
+            [protoUser fetchWithSuccess:nil failure:nil];
+
+            NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
+            NSHTTPURLResponse *response = makeResponse(200);
+            NSData *responseData = dataFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json");
+            [task completeWithResponse:response data:responseData error:nil];
         });
 
-        it(@"should archive the current user", ^{
-            NSData *data = [userDefaults objectForKey:@"currentUser"];
-            data should_not be_nil;
+        it(@"should set the messages collection", ^{
+            user.messages.count should equal(protoUser.messages.count);
         });
     });
 
