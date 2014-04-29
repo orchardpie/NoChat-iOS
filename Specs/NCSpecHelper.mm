@@ -21,10 +21,14 @@ NSHTTPURLResponse *makeResponse(int statusCode)
     return response;
 }
 
-id validJSONFromResponseFixtureWithFileName(NSString *fileName) {
+NSData *dataFromResponseFixtureWithFileName(NSString *fileName) {
     NSString *userFixturePath = [NSString stringWithFormat:@"%@/%@", FIXTURES_DIR, fileName];
-    NSData *userFixtureData = [NSData dataWithContentsOfFile:userFixturePath options:0 error:nil];
-    return [NSJSONSerialization JSONObjectWithData:userFixtureData options:0 error:nil];
+    return [NSData dataWithContentsOfFile:userFixturePath options:0 error:nil];
+}
+
+id validJSONFromResponseFixtureWithFileName(NSString *fileName) {
+    NSData *data = dataFromResponseFixtureWithFileName(fileName);
+    return [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 }
 
 @interface NCSpecHelper : NSObject; @end
