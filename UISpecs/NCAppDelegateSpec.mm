@@ -7,6 +7,7 @@
 #import "NCMessage.h"
 #import "NCSignupViewController.h"
 #import "NCLoginViewController.h"
+#import "NCNoDataViewController.h"
 #import "NCMessagesTableViewController.h"
 #import "NoChat.h"
 #import "NCWebService+Spec.h"
@@ -129,11 +130,34 @@ describe(@"NCAppDelegate", ^{
         });
 
         describe(@"on failure response", ^{
-            it(@"should display an error view", PENDING);
+            beforeEach(^{
+                [task receiveResponse:makeResponse(500)];
+                error = nil;
+            });
+
+            it(@"should display an error view", ^{
+                delegate.window.rootViewController should be_instance_of([NCNoDataViewController class]);
+            });
+
+            it(@"should not display an alert", ^{
+                UIAlertView.currentAlertView should_not be_nil;
+            });
         });
 
         describe(@"on network error", ^{
-            it(@"should display an error view", PENDING);
+            beforeEach(^{
+                error = [NSError errorWithDomain:@"Some error domain" code:4 userInfo:@{ NSLocalizedRecoverySuggestionErrorKey: @"Try again" }];
+            });
+
+            it(@"should display an error view", ^{
+                delegate.window.rootViewController should be_instance_of([NCNoDataViewController class]);
+            });
+
+            it(@"should display the error in an alert view", ^{
+                UIAlertView *alertView = UIAlertView.currentAlertView;
+                alertView.title should equal(error.localizedDescription);
+                alertView.message should equal(error.localizedRecoverySuggestion);
+            });
         });
     });
 

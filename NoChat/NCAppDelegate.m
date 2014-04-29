@@ -4,6 +4,7 @@ NoChat *noChat;
 
 #import "NCAppDelegate.h"
 #import "NCMessagesTableViewController.h"
+#import "NCNoDataViewcontroller.h"
 #import "NCCurrentUser.h"
 
 @implementation NCAppDelegate
@@ -22,7 +23,12 @@ NoChat *noChat;
             [self.currentUser fetchWithSuccess:^{
                 [self showMessagesViewControllerWithTransition:NO refresh:NO];
             } failure:^(NSError *error) {
-                //
+                self.window.rootViewController = [[NCNoDataViewController alloc] init];
+                [[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                            message:error.localizedRecoverySuggestion
+                                           delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil] show];
             }];
         }
     } else {
