@@ -18,7 +18,8 @@ describe(@"NCMessage", ^{
     beforeEach(^{
         dictionary = @{ @"id": @42,
                         @"created_at": @"4/14/14",
-                        @"time_saved_description": @"666 seconds saved"
+                        @"time_saved_description": @"666 seconds saved",
+                        @"disposition": @"received"
                       };
     });
 
@@ -35,6 +36,10 @@ describe(@"NCMessage", ^{
 
         it(@"should set time saved in milliseconds", ^{
             message.timeSavedDescription should equal(@"666 seconds saved");
+        });
+
+        it(@"should set the disposition", ^{
+            message.disposition should equal(@"received");
         });
     });
 

@@ -13,6 +13,7 @@
         self.messageId = dictionary[@"id"];
         self.createdAt = dictionary[@"created_at"];
         self.timeSavedDescription = dictionary[@"time_saved_description"];
+        self.disposition = dictionary[@"disposition"];
     }
     return self;
 }
@@ -29,6 +30,7 @@
     self.timeSavedDescription = [decoder decodeObjectForKey:@"timeSavedDescription"];
     self.body = [decoder decodeObjectForKey:@"body"];
     self.receiverEmail = [decoder decodeObjectForKey:@"receiverEmail"];
+    self.disposition = [decoder decodeObjectForKey:@"disposition"];
 
     return self;
 }
@@ -40,6 +42,7 @@
     [encoder encodeObject:self.timeSavedDescription forKey:@"timeSavedDescription"];
     [encoder encodeObject:self.body forKey:@"body"];
     [encoder encodeObject:self.receiverEmail forKey:@"receiverEmail"];
+    [encoder encodeObject:self.disposition forKey:@"disposition"];
 }
 
 - (void)saveWithSuccess:(void(^)())success

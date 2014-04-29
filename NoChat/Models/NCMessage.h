@@ -8,6 +8,7 @@
 @property (strong, nonatomic) NSString *timeSavedDescription;
 @property (strong, nonatomic) NSString *body;
 @property (strong, nonatomic) NSString *receiverEmail;
+@property (strong, nonatomic) NSString *disposition;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 - (void)saveWithSuccess:(void(^)())success
