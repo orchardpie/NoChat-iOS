@@ -7,12 +7,14 @@ pod 'NSDate-Time-Ago'
 
 target 'UISpecs', exclusive: true do
     platform :ios, '6.0'
-    pod 'AFNetworking'
+    pod 'AFNetworking', git: 'https://github.com/orchardpie/AFNetworking'
+    pod 'AFSpecWorking', git: 'https://github.com/orchardpie/AFSpecWorking'
+    pod 'SingleTrack/SpecHelpers', git: 'https://github.com/orchardadam/SingleTrack'
     pod 'Cedar', git: 'https://github.com/orchardpie/Cedar'
     pod 'MBProgressHUD'
     pod 'NSDate-Time-Ago'
-    pod 'PivotalCoreKit', git: 'https://github.com/pivotal/PivotalCoreKit'
-    pod 'PivotalCoreKit/UIKit/SpecHelper', git: 'https://github.com/pivotal/PivotalCoreKit'
+    pod 'PivotalCoreKit', git: 'https://github.com/pivotal/PivotalCoreKit', commit: 'v0.0.3'
+    pod 'PivotalCoreKit/UIKit/SpecHelper', git: 'https://github.com/pivotal/PivotalCoreKit', commit: 'v0.0.3'
 end
 
 target 'Specs', exclusive: true do
