@@ -816,6 +816,7 @@
 				CURRENT_PROJECT_VERSION = 17;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NoChat/NoChat-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "NoChat/NoChat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -834,6 +835,7 @@
 				CURRENT_PROJECT_VERSION = 17;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NoChat/NoChat-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "NoChat/NoChat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -855,6 +857,7 @@
 					"$(inherited)",
 					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
 				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "UISpecs/UISpecs-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
@@ -881,6 +884,7 @@
 					"COCOAPODS=1",
 					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
 				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "UISpecs/UISpecs-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -911,6 +915,7 @@
 					"$(inherited)",
 					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
 				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -940,6 +945,7 @@
 					"COCOAPODS=1",
 					"FIXTURES_DIR=@\\\"$(PROJECT_DIR)/Specs/Fixtures\\\"",
 				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
 					"-ObjC",
