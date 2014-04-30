@@ -2,7 +2,8 @@
 #import "NCAuthenticatable.h"
 #import "NCCurrentUser.h"
 #import "MBProgressHUD.h"
-#import "GAI+NoChat.h"
+#import "NoChat.h"
+#import "NCAnalytics.h"
 
 @interface NCSignupViewController ()
 
@@ -52,13 +53,13 @@
     [self.currentUser signUpWithEmail:self.emailTextField.text password:self.passwordTextField.text
                               success:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[GAI sharedInstance] sendAction:@"Submit Signup" withCategory:@"Account"];
+        [noChat.analytics sendAction:@"Submit Signup" withCategory:@"Account"];
         if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {
             [self.delegate userDidAuthenticate];
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[GAI sharedInstance] sendAction:@"Error Signup" withCategory:@"Account"];
+        [noChat.analytics sendAction:@"Error Signup" withCategory:@"Account"];
         [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                     message:error.localizedRecoverySuggestion
                                    delegate:nil
@@ -102,9 +103,9 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     if (textField == self.emailTextField && textField.text.length > 0) {
-        [[GAI sharedInstance] sendAction:@"Enter Signup Email" withCategory:@"Account"];
+        [noChat.analytics sendAction:@"Enter Signup Email" withCategory:@"Account"];
     } else if (textField == self.passwordTextField && textField.text.length > 0) {
-        [[GAI sharedInstance] sendAction:@"Enter Signup Password" withCategory:@"Account"];
+        [noChat.analytics sendAction:@"Enter Signup Password" withCategory:@"Account"];
     }
 }
 

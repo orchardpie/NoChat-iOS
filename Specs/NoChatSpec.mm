@@ -18,6 +18,12 @@ describe(@"NoChat", ^{
             noChat.webService should_not be_nil;
         });
     });
+
+    describe(@"-analytics", ^{
+        it(@"should not be nil", ^{
+            noChat.analytics should_not be_nil;
+        });
+    });
 });
 
 SPEC_END

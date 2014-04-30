@@ -1,8 +1,7 @@
-#import "GAI.h"
+#import <Foundation/Foundation.h>
 
-@interface GAI (NoChat)
+@interface NCAnalytics : NSObject
 
-- (void)initializeGAI;
 - (void)sendAction:(NSString *)action
       withCategory:(NSString *)category;
 

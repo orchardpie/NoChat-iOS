@@ -4,6 +4,7 @@
 #import "NCMessage.h"
 #import "NCMessageTableViewCell.h"
 #import "NoChat.h"
+#import "NCAnalytics.h"
 #import "MBProgressHUD.h"
 
 @interface NCMessagesTableViewController ()
@@ -74,6 +75,7 @@
 
 - (void)composeMessage:(id)sender
 {
+    [noChat.analytics sendAction:@"Create Message" withCategory:@"Messages"];
     NCMessage *message = [[NCMessage alloc] init];
     NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessage:message
                                                         delegate:self];

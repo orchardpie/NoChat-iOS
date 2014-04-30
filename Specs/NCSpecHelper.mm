@@ -37,6 +37,7 @@ id validJSONFromResponseFixtureWithFileName(NSString *fileName) {
 
 + (void)beforeEach {
     noChat = [[NoChat alloc] init];
+    spy_on(noChat.analytics);
     spy_on(noChat);
 }
 

@@ -1,8 +1,17 @@
-#import "GAI+NoChat.h"
+#import "NCAnalytics.h"
+#import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
 
-@implementation GAI (NoChat)
+@implementation NCAnalytics
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        [self initializeGAI];
+    }
+    return self;
+}
 
 - (void)initializeGAI
 {
@@ -22,7 +31,8 @@
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:category
                                                                                         action:action
                                                                                          label:nil
-                                                                                         value:nil] build]];
+                                                                                         value:nil]
+                                                 build]];
 }
 
 @end

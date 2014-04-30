@@ -211,6 +211,64 @@ describe(@"NCComposeMessageViewController", ^{
         });
     });
 
+    describe(@"-textFieldDidEndEditing", ^{
+        __block UITextField *textField;
+
+        subjectAction(^{ [controller textFieldDidEndEditing:textField]; });
+
+        beforeEach(^{
+            textField = controller.receiverTextField;
+        });
+
+        context(@"and the user has entered an email", ^{
+            beforeEach(^{
+                textField.text = @"wibble";
+            });
+
+            it(@"should send data to analytics", ^{
+                noChat.analytics should have_received("sendAction:withCategory:").with(@"Enter Email", @"Messages");
+            });
+        });
+        context(@"but the user has not entered an email", ^{
+            beforeEach(^{
+                textField.text = @"";
+            });
+
+            it(@"should not notify GA", ^{
+                noChat.analytics should_not have_received("sendAction:withCategory:");
+            });
+        });
+    });
+
+    describe(@"-textViewDidEndEditing", ^{
+        __block UITextView *textView;
+
+        subjectAction(^{ [controller textViewDidEndEditing:textView]; });
+
+        beforeEach(^{
+            textView = controller.messageBodyTextView;
+        });
+
+        context(@"and the user has entered an email", ^{
+            beforeEach(^{
+                textView.text = @"wibble";
+            });
+
+            it(@"should send data to analytics", ^{
+                noChat.analytics should have_received("sendAction:withCategory:").with(@"Enter Message", @"Messages");
+            });
+        });
+        context(@"but the user has not entered an email", ^{
+            beforeEach(^{
+                textView.text = @"";
+            });
+
+            it(@"should not notify GA", ^{
+                noChat.analytics should_not have_received("sendAction:withCategory:");
+            });
+        });
+    });
+
     describe(@"close button action", ^{
         __block UIBarButtonItem *closeButton;
 
@@ -224,6 +282,10 @@ describe(@"NCComposeMessageViewController", ^{
 
         it(@"should ask the delegate to dismiss the modal", ^{
             delegate should have_received("composeMessageVCCloseButtonTapped");
+        });
+
+        it(@"should send data to analytics", ^{
+            noChat.analytics should have_received("sendAction:withCategory:").with(@"Cancel Message", @"Messages");
         });
     });
 
@@ -283,6 +345,10 @@ describe(@"NCComposeMessageViewController", ^{
             it(@"should clear the progress indicator", ^{
                 MBProgressHUD.currentHUD should be_nil;
             });
+
+            it(@"should send data to analytics", ^{
+                noChat.analytics should have_received("sendAction:withCategory:").with(@"Send Message", @"Messages");
+            });
         });
 
         context(@"when the save is unsuccessful", ^{
@@ -305,6 +371,10 @@ describe(@"NCComposeMessageViewController", ^{
                 UIAlertView.currentAlertView should_not be_nil;
                 UIAlertView.currentAlertView.title should_not be_nil;
                 UIAlertView.currentAlertView.message should_not be_nil;
+            });
+
+            it(@"should send data to analytics", ^{
+                noChat.analytics should have_received("sendAction:withCategory:").with(@"Error Sending Message", @"Messages");
             });
         });
     });

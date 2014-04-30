@@ -1,6 +1,6 @@
 #import "NoChat.h"
 #import "NCWebService.h"
-
+#import "NCAnalytics.h"
 
 void NCParameterAssert(id parameter) {
     if (!parameter) { @throw @"NULL parameter!"; }
@@ -9,6 +9,7 @@ void NCParameterAssert(id parameter) {
 @interface NoChat ()
 
 @property (strong, nonatomic, readwrite) NCWebService *webService;
+@property (strong, nonatomic, readwrite) NCAnalytics *analytics;
 
 @end
 
@@ -24,6 +25,7 @@ void NCParameterAssert(id parameter) {
 {
     if (self = [super init]) {
         self.webService = [[NCWebService alloc] init];
+        self.analytics = [[NCAnalytics alloc] init];
     }
     return self;
 }

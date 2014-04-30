@@ -4,6 +4,7 @@
 #import "NCMessagesCollection.h"
 #import "NCMessageTableViewCell.h"
 #import "NoChat.h"
+#import "NCAnalytics.h"
 #import "UIAlertView+Spec.h"
 
 // Ignore "Unknown selector may cause a leak" warning.  We use performSelector: to
@@ -148,6 +149,9 @@ describe(@"NCMessagesTableViewController", ^{
             composeButton = controller.navigationItem.rightBarButtonItem;
         });
 
+        it(@"should send data to analytics", ^{
+            noChat.analytics should have_received("sendAction:withCategory:").with(@"Create Message", @"Messages");
+        });
 
         it(@"should push to a NCComposeMessageViewController", ^{
             controller.presentedViewController should be_instance_of([NCComposeMessageViewController class]);

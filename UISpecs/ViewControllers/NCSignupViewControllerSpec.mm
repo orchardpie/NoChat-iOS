@@ -5,7 +5,8 @@
 #import "UIAlertView+Spec.h"
 #import "UIView+Spec.h"
 #import "UIGestureRecognizer+Spec.h"
-#import "GAI.h"
+#import "NoChat.h"
+#import "NCAnalytics.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -110,13 +111,6 @@ describe(@"NCSignupViewController", ^{
     });
 
     sharedExamplesFor(@"an action that attempts to save credentials and create current user", ^(NSDictionary *sharedContext) {
-        __block GAI *GAISharedInstance;
-
-        beforeEach(^{
-            GAISharedInstance = [GAI sharedInstance];
-            spy_on(GAISharedInstance);
-        });
-
         it(@"should show the progress indicator", ^{
             MBProgressHUD.currentHUD should_not be_nil;
         });
@@ -142,8 +136,8 @@ describe(@"NCSignupViewController", ^{
                 MBProgressHUD.currentHUD should be_nil;
             });
 
-            it(@"should notify GA", ^{
-                GAISharedInstance should have_received("sendAction:withCategory:").with(@"Submit Signup", @"Account");
+            it(@"should send data to analytics", ^{
+                noChat.analytics should have_received("sendAction:withCategory:").with(@"Submit Signup", @"Account");
             });
         });
 
@@ -157,8 +151,8 @@ describe(@"NCSignupViewController", ^{
                 });
             });
 
-            it(@"should notify GA", ^{
-                GAISharedInstance should have_received("sendAction:withCategory:").with(@"Error Signup", @"Account");
+            it(@"should send data to analytics", ^{
+                noChat.analytics should have_received("sendAction:withCategory:").with(@"Error Signup", @"Account");
             });
         });
     });
@@ -364,15 +358,9 @@ describe(@"NCSignupViewController", ^{
         });
 
         describe(@"-textFieldDidEndEditing", ^{
-            __block GAI *GAISharedInstance;
             __block UITextField *textField;
 
             subjectAction(^{ [controller textFieldDidEndEditing:textField]; });
-
-            beforeEach(^{
-                GAISharedInstance = [GAI sharedInstance];
-                spy_on([GAI sharedInstance]);
-            });
 
             context(@"when the text field is the email field", ^{
                 beforeEach(^{
@@ -384,8 +372,8 @@ describe(@"NCSignupViewController", ^{
                         textField.text = @"wibble";
                     });
 
-                    it(@"should notify GA", ^{
-                        GAISharedInstance should have_received("sendAction:withCategory:").with(@"Enter Signup Email", @"Account");
+                    it(@"should send data to analytics", ^{
+                        noChat.analytics should have_received("sendAction:withCategory:").with(@"Enter Signup Email", @"Account");
                     });
                 });
                 context(@"but the user has not entered an email", ^{
@@ -394,7 +382,7 @@ describe(@"NCSignupViewController", ^{
                     });
 
                     it(@"should not notify GA", ^{
-                        GAISharedInstance should_not have_received("sendAction:withCategory:");
+                        noChat.analytics should_not have_received("sendAction:withCategory:");
                     });
                 });
             });
@@ -409,8 +397,8 @@ describe(@"NCSignupViewController", ^{
                         textField.text = @"wibble";
                     });
 
-                    it(@"should notify GA", ^{
-                        GAISharedInstance should have_received("sendAction:withCategory:").with(@"Enter Signup Password", @"Account");
+                    it(@"should send data to analytics", ^{
+                        noChat.analytics should have_received("sendAction:withCategory:").with(@"Enter Signup Password", @"Account");
                     });
                 });
                 context(@"but the user has not entered a password", ^{
@@ -419,7 +407,7 @@ describe(@"NCSignupViewController", ^{
                     });
 
                     it(@"should not notify GA", ^{
-                        GAISharedInstance should_not have_received("sendAction:withCategory:");
+                        noChat.analytics should_not have_received("sendAction:withCategory:");
                     });
                 });
             });

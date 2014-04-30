@@ -1,6 +1,8 @@
 #import "NCComposeMessageViewController.h"
 #import "NCMessage.h"
 #import "MBProgressHUD.h"
+#import "NoChat.h"
+#import "NCAnalytics.h"
 
 @interface NCComposeMessageViewController ()
 
@@ -54,6 +56,13 @@
     return NO;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.text.length > 0) {
+        [noChat.analytics sendAction:@"Enter Email" withCategory:@"Messages"];
+    }
+}
+
 #pragma mark - UITextView delegate implementation
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -63,6 +72,13 @@
     self.sendButton.enabled = otherText.length > 0 && newText.length > 0;
 
     return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if (textView.text.length > 0) {
+        [noChat.analytics sendAction:@"Enter Message" withCategory:@"Messages"];
+    }
 }
 
 #pragma mark - Private interface
@@ -77,6 +93,7 @@
 
 - (IBAction)close:(id)sender
 {
+    [noChat.analytics sendAction:@"Cancel Message" withCategory:@"Messages"];
     if ([self.delegate respondsToSelector:@selector(composeMessageVCCloseButtonTapped)]) {
         [self.delegate composeMessageVCCloseButtonTapped];
     }
@@ -90,12 +107,14 @@
     self.message.receiverEmail = self.receiverTextField.text;
     self.message.body = self.messageBodyTextView.text;
     [self.message saveWithSuccess:^{
+        [noChat.analytics sendAction:@"Send Message" withCategory:@"Messages"];
         if ([self.delegate respondsToSelector:@selector(userDidSendMessage:)]) {
             [self.delegate userDidSendMessage:self.message];
         }
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(NSError *error) {
+        [noChat.analytics sendAction:@"Error Sending Message" withCategory:@"Messages"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                     message:error.localizedRecoverySuggestion
