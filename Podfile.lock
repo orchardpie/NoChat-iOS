@@ -27,6 +27,7 @@ PODS:
     - SingleTrack
   - AFSpecWorking (0.1)
   - Cedar (0.9.6)
+  - GoogleAnalytics-iOS-SDK (3.0.6)
   - MBProgressHUD (0.8)
   - NSDate-Time-Ago (1.0)
   - PivotalCoreKit (0.0.3):
@@ -53,6 +54,7 @@ DEPENDENCIES:
   - AFNetworking (from `https://github.com/orchardpie/AFNetworking`)
   - AFSpecWorking (from `https://github.com/orchardpie/AFSpecWorking`)
   - Cedar (from `https://github.com/orchardpie/Cedar`)
+  - GoogleAnalytics-iOS-SDK
   - MBProgressHUD
   - NSDate-Time-Ago
   - PivotalCoreKit (from `https://github.com/pivotal/PivotalCoreKit`, commit `v0.0.3`)
@@ -77,6 +79,7 @@ SPEC CHECKSUMS:
   AFNetworking: e30cb25377301d0e6b93c3068c2d5634a522adff
   AFSpecWorking: 1621cdb20a0e40a4e3c906d2f12241bae2261362
   Cedar: 0a470fd062666218c3ac1a38503584d1e9a68b88
+  GoogleAnalytics-iOS-SDK: 16dfcc0c4491148bf372edc85a8470cc405ffb72
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   NSDate-Time-Ago: 5f2986ab55db3c0dcde39c4da8aed914633580e4
   PivotalCoreKit: 25f9a17b5b5c3e8747bf3e131fb14cbad242a3aa

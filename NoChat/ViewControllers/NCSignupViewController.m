@@ -2,6 +2,7 @@
 #import "NCAuthenticatable.h"
 #import "NCCurrentUser.h"
 #import "MBProgressHUD.h"
+#import "GAI+NoChat.h"
 
 @interface NCSignupViewController ()
 
@@ -51,11 +52,13 @@
     [self.currentUser signUpWithEmail:self.emailTextField.text password:self.passwordTextField.text
                               success:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[GAI sharedInstance] sendAction:@"Submit Signup" withCategory:@"Account"];
         if ([self.delegate respondsToSelector:@selector(userDidAuthenticate)]) {
             [self.delegate userDidAuthenticate];
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[GAI sharedInstance] sendAction:@"Error Signup" withCategory:@"Account"];
         [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                     message:error.localizedRecoverySuggestion
                                    delegate:nil
@@ -94,6 +97,15 @@
     self.signUpButton.enabled = otherText.length > 0 && newText.length > 0;
 
     return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == self.emailTextField && textField.text.length > 0) {
+        [[GAI sharedInstance] sendAction:@"Enter Signup Email" withCategory:@"Account"];
+    } else if (textField == self.passwordTextField && textField.text.length > 0) {
+        [[GAI sharedInstance] sendAction:@"Enter Signup Password" withCategory:@"Account"];
+    }
 }
 
 

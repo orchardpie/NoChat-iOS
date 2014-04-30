@@ -5,6 +5,7 @@
 #import "UIAlertView+Spec.h"
 #import "UIView+Spec.h"
 #import "UIGestureRecognizer+Spec.h"
+#import "GAI.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -109,6 +110,13 @@ describe(@"NCSignupViewController", ^{
     });
 
     sharedExamplesFor(@"an action that attempts to save credentials and create current user", ^(NSDictionary *sharedContext) {
+        __block GAI *GAISharedInstance;
+
+        beforeEach(^{
+            GAISharedInstance = [GAI sharedInstance];
+            spy_on(GAISharedInstance);
+        });
+
         it(@"should show the progress indicator", ^{
             MBProgressHUD.currentHUD should_not be_nil;
         });
@@ -132,6 +140,25 @@ describe(@"NCSignupViewController", ^{
 
             it(@"should dismiss the progress indicator", ^{
                 MBProgressHUD.currentHUD should be_nil;
+            });
+
+            it(@"should notify GA", ^{
+                GAISharedInstance should have_received("sendAction:withCategory:").with(@"Submit Signup", @"Account");
+            });
+        });
+
+        context(@"when the fetch is unsuccessful", ^{
+            beforeEach(^{
+                currentUser stub_method("signUpWithEmail:password:success:failure:").and_do(^(NSInvocation *invocation) {
+                    void (^failureBlock)(NSError *error);
+                    NSError *anError = [NSError errorWithDomain:@"test" code:666 userInfo:@{}];
+                    [invocation getArgument:&failureBlock atIndex:5];
+                    failureBlock(anError);
+                });
+            });
+
+            it(@"should notify GA", ^{
+                GAISharedInstance should have_received("sendAction:withCategory:").with(@"Error Signup", @"Account");
             });
         });
     });
@@ -331,6 +358,68 @@ describe(@"NCSignupViewController", ^{
                         it(@"should set the email field as the first responder", ^{
                             controller.emailTextField should have_received("becomeFirstResponder");
                         });
+                    });
+                });
+            });
+        });
+
+        describe(@"-textFieldDidEndEditing", ^{
+            __block GAI *GAISharedInstance;
+            __block UITextField *textField;
+
+            subjectAction(^{ [controller textFieldDidEndEditing:textField]; });
+
+            beforeEach(^{
+                GAISharedInstance = [GAI sharedInstance];
+                spy_on([GAI sharedInstance]);
+            });
+
+            context(@"when the text field is the email field", ^{
+                beforeEach(^{
+                    textField = controller.emailTextField;
+                });
+
+                context(@"and the user has entered an email", ^{
+                    beforeEach(^{
+                        textField.text = @"wibble";
+                    });
+
+                    it(@"should notify GA", ^{
+                        GAISharedInstance should have_received("sendAction:withCategory:").with(@"Enter Signup Email", @"Account");
+                    });
+                });
+                context(@"but the user has not entered an email", ^{
+                    beforeEach(^{
+                        textField.text = @"";
+                    });
+
+                    it(@"should not notify GA", ^{
+                        GAISharedInstance should_not have_received("sendAction:withCategory:");
+                    });
+                });
+            });
+
+            context(@"when the text field is the password field", ^{
+                beforeEach(^{
+                    textField = controller.passwordTextField;
+                });
+
+                context(@"and the user has entered a password", ^{
+                    beforeEach(^{
+                        textField.text = @"wibble";
+                    });
+
+                    it(@"should notify GA", ^{
+                        GAISharedInstance should have_received("sendAction:withCategory:").with(@"Enter Signup Password", @"Account");
+                    });
+                });
+                context(@"but the user has not entered a password", ^{
+                    beforeEach(^{
+                        textField.text = @"";
+                    });
+
+                    it(@"should not notify GA", ^{
+                        GAISharedInstance should_not have_received("sendAction:withCategory:");
                     });
                 });
             });

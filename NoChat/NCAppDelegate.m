@@ -7,12 +7,15 @@ NoChat *noChat;
 #import "NCNoDataViewcontroller.h"
 #import "NCCurrentUser.h"
 #import "NCAuthenticatable.h"
+#import "GAI+NoChat.h"
 
 @implementation NCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    [[GAI sharedInstance] initializeGAI];
 
     if (noChat.webService.hasCredential) {
         [self getCurrentUserAndDisplayMessages];

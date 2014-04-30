@@ -14,6 +14,7 @@
 #import "NoChat.h"
 #import "NCWebService+Spec.h"
 #import "UIAlertView+Spec.h"
+#import "GAI.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -39,8 +40,16 @@ describe(@"NCAppDelegate", ^{
             [delegate application:application didFinishLaunchingWithOptions:nil];
         });
 
+        beforeEach(^{
+            spy_on([GAI sharedInstance]);
+        });
+
         it(@"should initialize a global NoChat object", ^{
             noChat should_not be_nil;
+        });
+
+        it(@"should initialize Google Analytics default tracker", ^{
+            [GAI sharedInstance] should have_received("initializeGAI");
         });
 
         context(@"when the current user has credentials", ^{
