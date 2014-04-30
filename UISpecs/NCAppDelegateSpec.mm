@@ -18,6 +18,12 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
+@interface NCCurrentUser (Spec)
+
+@property (strong, nonatomic, readwrite) NCMessagesCollection *messages;
+
+@end
+
 SPEC_BEGIN(NCAppDelegateSpec)
 
 describe(@"NCAppDelegate", ^{
@@ -173,8 +179,25 @@ describe(@"NCAppDelegate", ^{
             spy_on(delegate.currentUser);
         });
 
-        it(@"should archive current user", ^{
-            delegate.currentUser should have_received("encodeWithCoder:");
+        context(@"when the current user does not have messages", ^{
+            beforeEach(^{
+                delegate.currentUser.messages should be_nil;
+            });
+
+            it(@"should not archive the current user", ^{
+                delegate.currentUser should_not have_received("encodeWithCoder:");
+            });
+        });
+
+        context(@"when the current user has messages", ^{
+            beforeEach(^{
+                NSDictionary *messagesDict = @{ @"location": @"/messages"};
+                delegate.currentUser.messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
+            });
+
+            it(@"should archive current user", ^{
+                delegate.currentUser should have_received("encodeWithCoder:");
+            });
         });
     });
 

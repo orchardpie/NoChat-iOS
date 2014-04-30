@@ -31,8 +31,10 @@ NoChat *noChat;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    NSData *archive = [NSKeyedArchiver archivedDataWithRootObject:self.currentUser];
-    [NSUserDefaults.standardUserDefaults setObject:archive forKey:@"currentUser"];
+    if (self.currentUser.messages) {
+        NSData *archive = [NSKeyedArchiver archivedDataWithRootObject:self.currentUser];
+        [NSUserDefaults.standardUserDefaults setObject:archive forKey:@"currentUser"];
+    }
 }
 
 
