@@ -15,23 +15,7 @@ NoChat *noChat;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     if (noChat.webService.hasCredential) {
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"];
-        if (data) {
-            self.currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [self showMessagesViewControllerWithTransition:NO refresh:YES];
-        } else {
-            self.currentUser = [[NCCurrentUser alloc] init];
-            [self.currentUser fetchWithSuccess:^{
-                [self showMessagesViewControllerWithTransition:NO refresh:NO];
-            } failure:^(NSError *error) {
-                self.window.rootViewController = [[NCNoDataViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
-                [[[UIAlertView alloc] initWithTitle:error.localizedDescription
-                                            message:error.localizedRecoverySuggestion
-                                           delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil] show];
-            }];
-        }
+        [self getCurrentUserAndDisplayMessages];
     } else {
         self.currentUser = [[NCCurrentUser alloc] init];
 
@@ -100,6 +84,27 @@ NoChat *noChat;
 }
 
 #pragma mark Private interface
+
+- (void)getCurrentUserAndDisplayMessages
+{
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"];
+    if (data) {
+        self.currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        [self showMessagesViewControllerWithTransition:NO refresh:YES];
+    } else {
+        self.currentUser = [[NCCurrentUser alloc] init];
+        [self.currentUser fetchWithSuccess:^{
+            [self showMessagesViewControllerWithTransition:NO refresh:NO];
+        } failure:^(NSError *error) {
+            self.window.rootViewController = [[NCNoDataViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
+            [[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                        message:error.localizedRecoverySuggestion
+                                       delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil] show];
+        }];
+    }
+}
 
 - (void)showMessagesViewControllerWithTransition:(BOOL)transition refresh:(BOOL)refresh {
     NCMessagesTableViewController *messagesTVC = [[NCMessagesTableViewController alloc] initWithMessages:self.currentUser.messages];
