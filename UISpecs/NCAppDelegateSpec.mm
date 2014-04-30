@@ -7,6 +7,7 @@
 #import "NCMessage.h"
 #import "NCSignupViewController.h"
 #import "NCLoginViewController.h"
+#import "NCAuthenticatable.h"
 #import "NCNoDataViewController.h"
 #import "NCMessagesTableViewController.h"
 #import "NoChat.h"

@@ -13,7 +13,7 @@ SPEC_BEGIN(NCLoginViewControllerSpec)
 describe(@"NCLoginViewController", ^{
     __block NCLoginViewController *controller;
     __block NCCurrentUser<CedarDouble> *currentUser;
-    __block id<CedarDouble> delegate;
+    __block id<NCLoginDelegate> delegate;
 
     beforeEach(^{
         [UIGestureRecognizer whitelistClassForGestureSnooping:[NCLoginViewController class]];

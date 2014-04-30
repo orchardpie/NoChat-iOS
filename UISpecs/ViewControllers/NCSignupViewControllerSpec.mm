@@ -1,5 +1,6 @@
 #import "NCSignupViewController.h"
 #import "NCCurrentUser.h"
+#import "NCAuthenticatable.h"
 #import "MBProgressHUD+Spec.h"
 #import "UIAlertView+Spec.h"
 #import "UIView+Spec.h"
@@ -13,7 +14,7 @@ SPEC_BEGIN(NCSignupViewControllerSpec)
 describe(@"NCSignupViewController", ^{
     __block NCSignupViewController *controller;
     __block NCCurrentUser<CedarDouble> *currentUser;
-    __block id<CedarDouble> delegate;
+    __block id<NCSignupDelegate> delegate;
 
     beforeEach(^{
         [UIGestureRecognizer whitelistClassForGestureSnooping:[NCSignupViewController class]];
@@ -22,7 +23,6 @@ describe(@"NCSignupViewController", ^{
         delegate = nice_fake_for(@protocol(NCSignupDelegate));
 
         controller = [[NCSignupViewController alloc] initWithCurrentUser:currentUser delegate:delegate];
-
         controller.view should_not be_nil;
     });
 

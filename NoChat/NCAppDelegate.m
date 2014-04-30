@@ -6,6 +6,7 @@ NoChat *noChat;
 #import "NCMessagesTableViewController.h"
 #import "NCNoDataViewcontroller.h"
 #import "NCCurrentUser.h"
+#import "NCAuthenticatable.h"
 
 @implementation NCAppDelegate
 

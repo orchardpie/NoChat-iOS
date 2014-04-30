@@ -1,10 +1,10 @@
 #import <UIKit/UIKit.h>
 
 @class NCCurrentUser;
+@protocol NCAuthenticatable;
 
-@protocol NCLoginDelegate <NSObject>
+@protocol NCLoginDelegate <NCAuthenticatable>
 
-- (void)userDidAuthenticate;
 - (void)userDidSwitchToSignup;
 
 @end
@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *switchToSignupButton;
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-                 delegate:(id)delegate;
+                 delegate:(id<NCLoginDelegate>)delegate;
 - (void)badCredentialAlert;
 
 @end

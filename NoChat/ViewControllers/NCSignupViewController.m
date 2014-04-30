@@ -1,4 +1,5 @@
 #import "NCSignupViewController.h"
+#import "NCAuthenticatable.h"
 #import "NCCurrentUser.h"
 #import "MBProgressHUD.h"
 
@@ -12,7 +13,7 @@
 @implementation NCSignupViewController
 
 - (id)initWithCurrentUser:(NCCurrentUser *)currentUser
-                 delegate:(id)delegate
+                 delegate:(id<NCSignupDelegate>)delegate
 {
     if(self = [super init]) {
         self.currentUser = currentUser;

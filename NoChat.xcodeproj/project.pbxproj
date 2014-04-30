@@ -99,6 +99,7 @@
 		4510F0CB19104AFC00F8828D /* NCNoDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCNoDataViewController.h; sourceTree = "<group>"; };
 		4510F0CC19104AFC00F8828D /* NCNoDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCNoDataViewController.m; sourceTree = "<group>"; };
 		4510F0CF19104BA000F8828D /* NCNoDataViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCNoDataViewController.xib; sourceTree = "<group>"; };
+		4510F0D61911390200F8828D /* NCAuthenticatable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCAuthenticatable.h; sourceTree = "<group>"; };
 		4546EEE319085A3B000C6A2C /* get_fetch_messages_response_200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_fetch_messages_response_200.json; sourceTree = "<group>"; };
 		4549879918DA3DC300CFC545 /* NoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4549879C18DA3DC300CFC545 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -277,6 +278,7 @@
 		454987CB18DA496400CFC545 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4510F0D61911390200F8828D /* NCAuthenticatable.h */,
 				454987CD18DB2B9100CFC545 /* NCMessagesTableViewController.h */,
 				454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */,
 				454987CF18DB2B9100CFC545 /* NCMessagesTableViewController.xib */,
