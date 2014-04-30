@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NCNoDataViewController">
             <connections>
+                <outlet property="retryButton" destination="FCK-KL-n5b" id="tc8-v9-TXE"/>
                 <outlet property="view" destination="gz7-li-1i9" id="HJO-eD-3Ns"/>
             </connections>
         </placeholder>
@@ -13,7 +14,24 @@
         <view contentMode="scaleToFill" id="gz7-li-1i9">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FCK-KL-n5b">
+                    <rect key="frame" x="137" y="264" width="47" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" title="Retry">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapRetryButton:" destination="-1" eventType="touchUpInside" id="fzB-cG-SeY"/>
+                    </connections>
+                </button>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="FCK-KL-n5b" secondAttribute="centerX" constant="-0.5" id="1gK-7n-I0r"/>
+                <constraint firstAttribute="centerY" secondItem="FCK-KL-n5b" secondAttribute="centerY" constant="2" id="uiO-U8-5I6"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>

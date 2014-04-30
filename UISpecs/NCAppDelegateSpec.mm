@@ -1,5 +1,6 @@
 #import "NCSpecHelper.h"
 #import "NCAppDelegate.h"
+#import "NCAuthenticatable.h"
 #import "AFSpecWorking/SpecHelpers.h"
 #import "SingleTrack/SpecHelpers.h"
 #import "NCCurrentUser.h"

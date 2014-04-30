@@ -24,7 +24,7 @@ NoChat *noChat;
             [self.currentUser fetchWithSuccess:^{
                 [self showMessagesViewControllerWithTransition:NO refresh:NO];
             } failure:^(NSError *error) {
-                self.window.rootViewController = [[NCNoDataViewController alloc] init];
+                self.window.rootViewController = [[NCNoDataViewController alloc] initWithCurrentUser:self.currentUser delegate:self];
                 [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                             message:error.localizedRecoverySuggestion
                                            delegate:nil
