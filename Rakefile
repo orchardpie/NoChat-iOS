@@ -8,7 +8,7 @@ BUILD_DIR = File.join(PROJECT_ROOT, "build")
 TESTFLIGHT_API_TOKEN = "c7a2d337adb7e696c58a603e7973ce49_MTI2MjM4MDIwMTMtMDgtMjYgMTQ6NDY6NTMuODQ0ODc4"
 TESTFLIGHT_TEAM_TOKENS = { :staging => "3b03cc339fbe3cc18932fe8e625a023e_MzYzNDM4MjAxNC0wNC0wNCAxMDoyNTo0MC44NzIyNTE",
                            :production => "3b03cc339fbe3cc18932fe8e625a023e_MzYzNDM4MjAxNC0wNC0wNCAxMDoyNTo0MC44NzIyNTE" }
-TESTFLIGHT_DISTRIBUTION_LISTS = { :staging => "NoChatTeam", :production => "NoChatTeam" }
+TESTFLIGHT_DISTRIBUTION_LISTS = { :staging => "InnerCircle", :production => "NoChatTeam" }
 TRACKER_ID = "1040020"
 
 # Xcode 4.3 stores its /Developer inside /Applications/Xcode.app, Xcode 4.2 stored it in /Developer
