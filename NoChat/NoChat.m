@@ -30,10 +30,4 @@ void NCParameterAssert(id parameter) {
     return self;
 }
 
-- (void)invalidateCurrentUser
-{
-    [self.webService clearAllCredentials];
-    [self userDidSwitchToLogin];
-}
-
 @end

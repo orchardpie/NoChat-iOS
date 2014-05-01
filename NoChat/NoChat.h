@@ -8,8 +8,6 @@
 @property (strong, nonatomic, readonly) NCWebService *webService;
 @property (strong, nonatomic, readonly) NCAnalytics *analytics;
 
-- (void)invalidateCurrentUser;
-
 @end
 
 extern void NCParameterAssert(id parameter);

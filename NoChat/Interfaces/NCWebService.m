@@ -61,16 +61,6 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
     return !![[NSURLCredentialStorage sharedCredentialStorage] defaultCredentialForProtectionSpace:self.protectionSpace];
 }
 
-- (void)clearAllCredentials
-{
-    NSURLCredentialStorage *credentialStorage = [NSURLCredentialStorage sharedCredentialStorage];
-    NSDictionary *credentials = [credentialStorage credentialsForProtectionSpace:self.protectionSpace];
-
-    for (NSString *key in credentials.allKeys) {
-        [credentialStorage removeCredential:credentials[key] forProtectionSpace:self.protectionSpace];
-    }
-}
-
 - (void)setAuthTokenIfInsideResponse:(NSURLResponse *)response
 {
     NSHTTPURLResponse *httpURLResponse = (NSHTTPURLResponse *)response;

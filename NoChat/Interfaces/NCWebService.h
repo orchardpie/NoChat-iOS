@@ -9,7 +9,6 @@ typedef void(^WebServiceError)(NSError *error);
 - (void)saveCredentialWithEmail:(NSString *)email
                        password:(NSString *)password;
 - (BOOL)hasCredential;
-- (void)clearAllCredentials;
 
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(NSDictionary *)parameters

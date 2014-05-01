@@ -15,14 +15,6 @@ describe(@"NoChat", ^{
 
         spy_on(noChat.webService);
     });
-
-    describe(@"-invalidateCurrentUser", ^{
-        subjectAction(^{ [noChat invalidateCurrentUser]; });
-
-        it(@"should invalidate stored credentials", ^{
-            noChat.webService should have_received("clearAllCredentials");
-        });
-    });
 });
 
 SPEC_END
