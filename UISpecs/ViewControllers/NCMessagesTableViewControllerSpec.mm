@@ -24,8 +24,9 @@ describe(@"NCMessagesTableViewController", ^{
 
     beforeEach(^{
         NSDictionary *messagesDict = @{ @"location": @"/messages",
-                                        @"data": @[] };
+                                        @"data": @[ @{ @"disposition": @"received" } ] };
         messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
+
         spy_on(messages);
 
         controller = [[NCMessagesTableViewController alloc] initWithMessages:messages];
@@ -102,16 +103,14 @@ describe(@"NCMessagesTableViewController", ^{
     });
 
     describe(@"-tableView:tableView:cellForRowAtIndexPath:", ^{
+        __block NCMessageTableViewCell *cell;
+
         subjectAction(^{
-            NCMessageTableViewCell *cell = (NCMessageTableViewCell *)[controller.tableView cellForRowAtIndexPath:nil];
+            cell = (NCMessageTableViewCell *)[controller tableView:controller.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        });
 
-            it(@"should set the time saved label", ^{
-                cell.timeSavedLabel.text should_not be_nil;
-            });
-
-            it(@"should set the created at label", ^{
-                cell.createdAtLabel.text should_not be_nil;
-            });
+        it(@"should set the message", ^{
+            cell.message should_not be_nil;
         });
     });
 
