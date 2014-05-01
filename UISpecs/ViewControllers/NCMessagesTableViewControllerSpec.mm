@@ -39,10 +39,6 @@ describe(@"NCMessagesTableViewController", ^{
             controller.view should_not be_nil;
         });
 
-        it(@"should set the logout button's target to itself", ^{
-            controller.navigationItem.leftBarButtonItem.target should equal(controller);
-        });
-
         it(@"should set the compose button's target to itself", ^{
             controller.navigationItem.rightBarButtonItem.target should equal(controller);
         });
@@ -116,24 +112,6 @@ describe(@"NCMessagesTableViewController", ^{
             it(@"should set the created at label", ^{
                 cell.createdAtLabel.text should_not be_nil;
             });
-        });
-    });
-
-    describe(@"-logout button action", ^{
-        __block UIBarButtonItem *logoutButton;
-
-        subjectAction(^{
-            [logoutButton.target performSelector:logoutButton.action withObject:logoutButton];
-        });
-
-        beforeEach(^{
-            controller.view should_not be_nil;
-
-            logoutButton = controller.navigationItem.leftBarButtonItem;
-        });
-
-        it(@"should log out the current user", ^{
-            noChat should have_received("invalidateCurrentUser");
         });
     });
 

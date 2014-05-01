@@ -35,7 +35,6 @@
     self.title = @"Chats";
     [self.tableView registerNib:[UINib nibWithNibName:@"NCMessageTableViewCell" bundle:nil] forCellReuseIdentifier:NCMessageTableViewCell.cellIdentifier];
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Log Out" style:UIBarButtonItemStylePlain target:self action:@selector(logout:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeMessage:)];
 
     [self enablePullToRefresh];
@@ -80,11 +79,6 @@
     NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessage:message
                                                         delegate:self];
     [self presentViewController:composeMessageVC animated:YES completion:nil];
-}
-
-- (void)logout:(id)sender
-{
-    [noChat invalidateCurrentUser];
 }
 
 #pragma mark - NCComposeMessageViewController delegate methods
