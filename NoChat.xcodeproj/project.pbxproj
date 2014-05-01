@@ -70,7 +70,6 @@
 		45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */; };
 		45D751811901D1F900D3D763 /* NCSpecHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9FA418E4756E00F7CA64 /* NCSpecHelper.mm */; };
 		45D751841901D44C00D3D763 /* NoChat+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751831901D44C00D3D763 /* NoChat+Spec.m */; };
-		45D751851901D68500D3D763 /* NoChatSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */; };
 		45D751881901D87700D3D763 /* NoChat+App.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751871901D87700D3D763 /* NoChat+App.m */; };
 		45D7518C19059D8600D3D763 /* NoChat+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751831901D44C00D3D763 /* NoChat+Spec.m */; };
 		45D751911907112400D3D763 /* NCMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7518F1907112400D3D763 /* NCMessageTableViewCell.m */; };
@@ -152,7 +151,6 @@
 		45B1077B18F34ED700FA7428 /* NCSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCSignupViewController.m; sourceTree = "<group>"; };
 		45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NCSignupViewController.xib; sourceTree = "<group>"; };
 		45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCSignupViewControllerSpec.mm; sourceTree = "<group>"; };
-		45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NoChatSpec.mm; sourceTree = "<group>"; };
 		45D7517E1901C32400D3D763 /* NCSpecHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCSpecHelper.h; sourceTree = "<group>"; };
 		45D751831901D44C00D3D763 /* NoChat+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NoChat+Spec.m"; sourceTree = "<group>"; };
 		45D751861901D87700D3D763 /* NoChat+App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NoChat+App.h"; sourceTree = "<group>"; };
@@ -408,7 +406,6 @@
 				45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */,
 				45EB035518DCED2B0012A621 /* Supporting Files */,
 				45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */,
-				45CD5B0418FDC495000A8CA0 /* NoChatSpec.mm */,
 			);
 			path = UISpecs;
 			sourceTree = "<group>";
@@ -706,7 +703,6 @@
 				45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */,
 				4558D19F18ECB3B70043418E /* UIAlertView+Spec.m in Sources */,
 				4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */,
-				45D751851901D68500D3D763 /* NoChatSpec.mm in Sources */,
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
 				450EB97B18F8833600E188DF /* NCMessagesTableViewControllerSpec.mm in Sources */,
 				4546EEE4190865A3000C6A2C /* NCMessagesCollection.m in Sources */,
