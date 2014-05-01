@@ -45,6 +45,10 @@ describe(@"NCComposeMessageViewController", ^{
             it(@"should set the Return key to 'Next'", ^{
                 controller.receiverTextField.returnKeyType should equal(UIReturnKeyNext);
             });
+
+            it(@"should disable autocorrect", ^{
+                controller.receiverTextField.autocorrectionType should equal(UITextAutocorrectionTypeNo);
+            });
         });
 
         describe(@"-messageBodyTextView", ^{
