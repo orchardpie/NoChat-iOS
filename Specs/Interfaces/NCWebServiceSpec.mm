@@ -104,8 +104,6 @@ describe(@"NCWebService", ^{
         it(@"should send an HTTP GET request to the specified path", ^{
             task.originalRequest.HTTPMethod should equal(@"GET");
         });
-
-        it(@"should set the Accept header to application/json", PENDING);
     });
 
     describe(@"POST:parameters:completion:invalid:error:", ^{
@@ -124,8 +122,6 @@ describe(@"NCWebService", ^{
         it(@"should send an HTTP POST request to the specified path", ^{
             task.originalRequest.HTTPMethod should equal(@"POST");
         });
-
-        it(@"should set the Accept header to application/json", PENDING);
     });
 
     sharedExamplesFor(@"valid responses to a request", ^(NSDictionary *sharedContext) {
