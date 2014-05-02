@@ -147,7 +147,7 @@ describe(@"NCAppDelegate", ^{
                 delegate.window.rootViewController should be_instance_of([NCNoDataViewController class]);
             });
 
-            it(@"should not display an alert", ^{
+            it(@"should display an alert", ^{
                 UIAlertView.currentAlertView should_not be_nil;
             });
         });

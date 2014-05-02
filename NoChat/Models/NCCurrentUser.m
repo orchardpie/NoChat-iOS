@@ -2,6 +2,7 @@
 #import "NoChat.h"
 #import "NCMessage.h"
 #import "NCMessagesCollection.h"
+#import "NCAnalytics.h"
 
 static NSString const *EMAIL_KEY                    = @"email";
 static NSString const *PASSWORD_KEY                 = @"password";
@@ -66,6 +67,8 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
             NSString *errorMessage = errors[errors.allKeys[0]][0];
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
             NSError *error = [NSError errorWithDomain:@"com.nochat.mobile" code:0 userInfo:userInfo];
+
+            [noChat.analytics sendAction:@"Error Signup" withCategory:@"Account" andError:error];
 
             failure(error);
         }

@@ -59,7 +59,6 @@
         }
     } failure:^(NSError *error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [noChat.analytics sendAction:@"Error Signup" withCategory:@"Account"];
         [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                     message:error.localizedRecoverySuggestion
                                    delegate:nil

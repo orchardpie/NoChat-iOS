@@ -114,7 +114,6 @@
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(NSError *error) {
-        [noChat.analytics sendAction:@"Error Sending Message" withCategory:@"Messages"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [[[UIAlertView alloc] initWithTitle:error.localizedDescription
                                     message:error.localizedRecoverySuggestion

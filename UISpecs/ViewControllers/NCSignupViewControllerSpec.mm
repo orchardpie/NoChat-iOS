@@ -142,17 +142,27 @@ describe(@"NCSignupViewController", ^{
         });
 
         context(@"when the fetch is unsuccessful", ^{
+            __block NSError *anError;
+
             beforeEach(^{
                 currentUser stub_method("signUpWithEmail:password:success:failure:").and_do(^(NSInvocation *invocation) {
                     void (^failureBlock)(NSError *error);
-                    NSError *anError = [NSError errorWithDomain:@"test" code:666 userInfo:@{}];
+                    anError = [NSError errorWithDomain:@"test" code:666 userInfo:@{}];
                     [invocation getArgument:&failureBlock atIndex:5];
                     failureBlock(anError);
                 });
             });
 
-            it(@"should send data to analytics", ^{
-                noChat.analytics should have_received("sendAction:withCategory:").with(@"Error Signup", @"Account");
+            it(@"should not tell the delegate that the user has authenticated", ^{
+                delegate should_not have_received("userDidAuthenticate");
+            });
+
+            it(@"should dismiss the progress indicator", ^{
+                MBProgressHUD.currentHUD should be_nil;
+            });
+
+            it(@"should display an alert", ^{
+                UIAlertView.currentAlertView should_not be_nil;
             });
         });
     });

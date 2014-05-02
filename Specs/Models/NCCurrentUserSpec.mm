@@ -181,6 +181,10 @@ describe(@"NCCurrentUser", ^{
             it(@"should not change the user messages collection", ^{
                 user.messages should be_empty;
             });
+
+            it(@"should notify GA", ^{
+                noChat.analytics should have_received("sendAction:withCategory:andError:").with(@"Error Signup", @"Account", Arguments::any([NSError class]));
+            });
         });
 
         context(@"when the signup attempt yields a failure", ^{
@@ -199,6 +203,10 @@ describe(@"NCCurrentUser", ^{
 
             it(@"should not change the user messages collection", ^{
                 user.messages should be_empty;
+            });
+
+            it(@"should not notify GA", ^{
+                noChat.analytics should_not have_received("sendAction:withCategory:andError:");
             });
         });
     });

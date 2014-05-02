@@ -27,6 +27,27 @@
 
 - (void)sendAction:(NSString *)action
       withCategory:(NSString *)category
+          andError:(NSError *)error
+{
+    NSString *label = @"";
+
+    if (error.localizedDescription && error.localizedRecoverySuggestion) {
+        label = [NSString stringWithFormat:@"%@ | %@", error.localizedDescription, error.localizedRecoverySuggestion];
+    } else if (error.localizedDescription) {
+        label = error.localizedDescription;
+    } else {
+        label = error.localizedRecoverySuggestion;
+    }
+
+    [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:category
+                                                                                        action:action
+                                                                                         label:label
+                                                                                         value:nil]
+                                                 build]];
+}
+
+- (void)sendAction:(NSString *)action
+      withCategory:(NSString *)category
 {
     [[[GAI sharedInstance] defaultTracker] send:[[GAIDictionaryBuilder createEventWithCategory:category
                                                                                         action:action

@@ -1,5 +1,6 @@
 #import "NCMessage.h"
 #import "NoChat.h"
+#import "NCAnalytics.h"
 
 @interface NCMessage () <NSCoding>
 
@@ -67,6 +68,8 @@
             NSString *errorMessage = errors[errors.allKeys[0]][0];
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
             NSError *error = [NSError errorWithDomain:@"com.nochat.mobile" code:0 userInfo:userInfo];
+
+            [noChat.analytics sendAction:@"Error Sending Message" withCategory:@"Messages" andError:error];
 
             failure(error);
         }

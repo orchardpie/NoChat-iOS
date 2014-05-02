@@ -376,10 +376,6 @@ describe(@"NCComposeMessageViewController", ^{
                 UIAlertView.currentAlertView.title should_not be_nil;
                 UIAlertView.currentAlertView.message should_not be_nil;
             });
-
-            it(@"should send data to analytics", ^{
-                noChat.analytics should have_received("sendAction:withCategory:").with(@"Error Sending Message", @"Messages");
-            });
         });
     });
 });

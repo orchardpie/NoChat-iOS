@@ -99,6 +99,10 @@ describe(@"NCMessage", ^{
             it(@"should call the failure block with an error", ^{
                 failureMessage should equal(@"E-mail is invalid");
             });
+
+            it(@"should notify GA", ^{
+                noChat.analytics should have_received("sendAction:withCategory:andError:").with(@"Error Sending Message", @"Messages", Arguments::any([NSError class]));
+            });
         });
 
         context(@"when the fetch attempt yields a non-validation failure", ^{
@@ -114,6 +118,10 @@ describe(@"NCMessage", ^{
 
             it(@"should call the failure block with an error", ^{
                 failureMessage should_not be_nil;
+            });
+
+            it(@"should not notify GA", ^{
+                noChat.analytics should_not have_received("sendAction:withCategory:andError:");
             });
         });
     });
