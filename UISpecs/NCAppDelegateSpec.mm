@@ -14,6 +14,7 @@
 #import "NoChat.h"
 #import "NCWebService+Spec.h"
 #import "UIAlertView+Spec.h"
+#import "NSUserDefaults+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -262,6 +263,12 @@ describe(@"NCAppDelegate", ^{
 
         beforeEach(^{
             [delegate application:application didFinishLaunchingWithOptions:nil];
+            spy_on([NSUserDefaults standardUserDefaults]);
+        });
+
+        it(@"should clear the current user archive", ^{
+            [NSUserDefaults standardUserDefaults] should have_received("removeObjectForKey:").with(@"currentUser");
+            [NSUserDefaults standardUserDefaults] should have_received("synchronize");
         });
 
         context(@"when the user is on the login screen", ^{

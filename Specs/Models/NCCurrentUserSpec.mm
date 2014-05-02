@@ -5,6 +5,7 @@
 #import "NCMessage.h"
 #import "NSURLSession+Spec.h"
 #import "NSURLSessionDataTask+Spec.h"
+#import "NSUserDefaults+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;

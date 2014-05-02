@@ -42,6 +42,7 @@
 		4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19918EC99D30043418E /* MBProgressHUD+Spec.m */; };
 		4558D19C18ECA42C0043418E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4558D19B18ECA42C0043418E /* Default-568h@2x.png */; };
 		4558D19F18ECB3B70043418E /* UIAlertView+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19E18ECB3B70043418E /* UIAlertView+Spec.m */; };
+		45645E5B1914253D0039F502 /* NSUserDefaults+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45645E5A1914253D0039F502 /* NSUserDefaults+Spec.m */; };
 		45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */; };
 		45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987AC18DA3DC300CFC545 /* NCAppDelegate.m */; };
 		45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454987CE18DB2B9100CFC545 /* NCMessagesTableViewController.m */; };
@@ -130,6 +131,8 @@
 		4558D19B18ECA42C0043418E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		4558D19D18ECB3B70043418E /* UIAlertView+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Spec.h"; sourceTree = "<group>"; };
 		4558D19E18ECB3B70043418E /* UIAlertView+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Spec.m"; sourceTree = "<group>"; };
+		45645E591914253D0039F502 /* NSUserDefaults+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Spec.h"; sourceTree = "<group>"; };
+		45645E5A1914253D0039F502 /* NSUserDefaults+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Spec.m"; sourceTree = "<group>"; };
 		45AB9F7318DCEF6000F7CA64 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
 		45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCAppDelegateSpec.mm; sourceTree = "<group>"; };
 		45AB9F7A18E08A1E00F7CA64 /* NCCurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NCCurrentUser.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -322,6 +325,8 @@
 				450EB98518FC408B00E188DF /* NCWebService+Spec.h */,
 				450EB98618FC408B00E188DF /* NCWebService+Spec.m */,
 				45D751831901D44C00D3D763 /* NoChat+Spec.m */,
+				45645E591914253D0039F502 /* NSUserDefaults+Spec.h */,
+				45645E5A1914253D0039F502 /* NSUserDefaults+Spec.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -719,6 +724,7 @@
 				45EB035B18DCED2B0012A621 /* main.m in Sources */,
 				4510F0D51910530D00F8828D /* NCNoDataViewControllerSpec.mm in Sources */,
 				45AB9F9718E0E2D800F7CA64 /* NCWebService.m in Sources */,
+				45645E5B1914253D0039F502 /* NSUserDefaults+Spec.m in Sources */,
 				450EB98118F888A800E188DF /* NCComposeMessageViewController.m in Sources */,
 				450EB98718FC408B00E188DF /* NCWebService+Spec.m in Sources */,
 				4510F0CE19104AFC00F8828D /* NCNoDataViewController.m in Sources */,

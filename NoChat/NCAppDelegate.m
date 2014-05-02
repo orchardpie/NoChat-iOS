@@ -63,6 +63,9 @@ NoChat *noChat;
 
 - (void)userDidFailAuthentication
 {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentUser"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
 
     if ([navigationController.topViewController isKindOfClass:[NCLoginViewController class]]) {
