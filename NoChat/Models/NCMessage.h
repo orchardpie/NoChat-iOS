@@ -11,7 +11,5 @@
 @property (strong, nonatomic) NSString *disposition;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
-- (void)saveWithSuccess:(void(^)())success
-         failure:(WebServiceError)failure;
 
 @end

@@ -2,6 +2,7 @@
 #import "MBProgressHUD+Spec.h"
 #import "UIAlertView+Spec.h"
 #import "NCMessage.h"
+#import "NCMessagesCollection.h"
 #import "NoChat.h"
 #import "NCWebService.h"
 
@@ -17,14 +18,14 @@ SPEC_BEGIN(NCComposeMessageViewControllerSpec)
 
 describe(@"NCComposeMessageViewController", ^{
     __block NCComposeMessageViewController *controller;
-    __block NCMessage *message;
-    __block id<CedarDouble> delegate;
+    __block NCMessagesCollection *messagesCollection;
+    __block id<NCComposeMessageDelegate> delegate;
 
     beforeEach(^{
-        message = [[NCMessage alloc] init];
+        messagesCollection = nice_fake_for([NCMessagesCollection class]);
         delegate = nice_fake_for(@protocol(NCComposeMessageDelegate));
 
-        controller = [[NCComposeMessageViewController alloc] initWithMessage:message delegate:delegate];
+        controller = [[NCComposeMessageViewController alloc] initWithMessagesCollection:messagesCollection delegate:delegate];
         controller.view should_not be_nil;
     });
 
@@ -233,6 +234,7 @@ describe(@"NCComposeMessageViewController", ^{
                 noChat.analytics should have_received("sendAction:withCategory:").with(@"Enter Email", @"Messages");
             });
         });
+
         context(@"but the user has not entered an email", ^{
             beforeEach(^{
                 textField.text = @"";
@@ -295,6 +297,8 @@ describe(@"NCComposeMessageViewController", ^{
 
     describe(@"send button action", ^{
         __block UIBarButtonItem *sendButton;
+        NSString *email = @"comeon@fhqwgads.com",
+        *body = @"I see you tryin' to play like U NO ME";
 
         subjectAction(^{
             [sendButton.target performSelector:sendButton.action withObject:sendButton];
@@ -303,14 +307,11 @@ describe(@"NCComposeMessageViewController", ^{
         beforeEach(^{
             sendButton = controller.sendButton;
 
-            spy_on(message);
             spy_on(controller.view);
-
             spy_on(noChat.webService);
-            noChat.webService stub_method("POST:parameters:completion:invalid:error:");
 
-            controller.receiverTextField.text = @"comeon@fhqwgads.com";
-            controller.messageBodyTextView.text = @"I see you tryin' to play like U NO ME";
+            controller.receiverTextField.text = email;
+            controller.messageBodyTextView.text = body;
         });
 
         it(@"should show the progress indicator", ^{
@@ -321,24 +322,21 @@ describe(@"NCComposeMessageViewController", ^{
             controller.view should have_received("endEditing:");
         });
 
-        it(@"should set the message receiver e-mail", ^{
-            message.receiverEmail should equal(controller.receiverTextField.text);
-        });
-
-        it(@"should set the message body", ^{
-            message.body should equal(controller.messageBodyTextView.text);
-        });
-
-        it(@"should ask the new message to save itself", ^{
-            message should have_received("saveWithSuccess:failure:");
+        it(@"should create a new message with the specified parameters", ^{
+            messagesCollection should have_received("createMessageWithParameters:success:failure:")
+            .with(@{ @"message": @{ @"receiver_email": email, @"body": body } }, Arguments::anything, Arguments::anything);
         });
 
         context(@"when the save is successful", ^{
+            __block NCMessage *message;
+
             beforeEach(^{
-                message stub_method("saveWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
-                    void (^successBlock)();
-                    [invocation getArgument:&successBlock atIndex:2];
-                    successBlock();
+                message = fake_for([NCMessage class]);
+
+                messagesCollection stub_method("createMessageWithParameters:success:failure:").and_do(^(NSInvocation *invocation) {
+                    void (^successBlock)(NCMessage *);
+                    [invocation getArgument:&successBlock atIndex:3];
+                    successBlock(message);
                 });
             });
 
@@ -357,9 +355,9 @@ describe(@"NCComposeMessageViewController", ^{
 
         context(@"when the save is unsuccessful", ^{
             beforeEach(^{
-                message stub_method("saveWithSuccess:failure:").and_do(^(NSInvocation *invocation) {
+                messagesCollection stub_method("createMessageWithParameters:success:failure:").and_do(^(NSInvocation *invocation) {
                     WebServiceError failureBlock;
-                    [invocation getArgument:&failureBlock atIndex:3];
+                    [invocation getArgument:&failureBlock atIndex:4];
                     NSError<CedarDouble> *error = nice_fake_for([NSError class]);
                     error stub_method("localizedDescription").and_return(@"Something went wrong");
                     error stub_method("localizedRecoverySuggestion").and_return(@"try turning it on and off again");

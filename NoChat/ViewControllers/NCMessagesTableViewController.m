@@ -75,9 +75,8 @@
 - (void)composeMessage:(id)sender
 {
     [noChat.analytics sendAction:@"Create Message" withCategory:@"Messages"];
-    NCMessage *message = [[NCMessage alloc] init];
-    NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessage:message
-                                                        delegate:self];
+    NCComposeMessageViewController *composeMessageVC = [[NCComposeMessageViewController alloc] initWithMessagesCollection:self.messages
+                                                                                                                 delegate:self];
     [self presentViewController:composeMessageVC animated:YES completion:nil];
 }
 

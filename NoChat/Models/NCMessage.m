@@ -46,34 +46,4 @@
     [encoder encodeObject:self.disposition forKey:@"disposition"];
 }
 
-- (void)saveWithSuccess:(void(^)())success
-                failure:(void(^)(NSError *))failure
-{
-    NSDictionary *parameters = @{ @"message" : @{
-                                          @"receiver_email" : self.receiverEmail,
-                                          @"body" : self.body } };
-
-    [noChat.webService POST:@"/messages" parameters:parameters
-                    completion:success
-                    invalid:[self invalidWithFailure:failure]
-                    error:failure];
-}
-
-- (WebServiceInvalid)invalidWithFailure:(void(^)(NSError *))failure
-{
-    return ^(id responseBody) {
-        if (failure) {
-            NSDictionary *responseDict = (NSDictionary *)responseBody;
-            NSDictionary *errors = responseDict[@"errors"];
-            NSString *errorMessage = errors[errors.allKeys[0]][0];
-            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
-            NSError *error = [NSError errorWithDomain:@"com.nochat.mobile" code:0 userInfo:userInfo];
-
-            [noChat.analytics sendAction:@"Error Sending Message" withCategory:@"Messages" andError:error];
-
-            failure(error);
-        }
-    };
-}
-
 @end

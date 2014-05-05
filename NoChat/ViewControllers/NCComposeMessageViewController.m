@@ -1,5 +1,5 @@
 #import "NCComposeMessageViewController.h"
-#import "NCMessage.h"
+#import "NCMessagesCollection.h"
 #import "MBProgressHUD.h"
 #import "NoChat.h"
 #import "NCAnalytics.h"
@@ -7,16 +7,17 @@
 @interface NCComposeMessageViewController ()
 
 @property (weak, nonatomic) id<NCComposeMessageDelegate> delegate;
-@property (strong, nonatomic) NCMessage *message;
+@property (strong, nonatomic) NCMessagesCollection *messagesCollection;
 
 @end
 
 @implementation NCComposeMessageViewController
 
-- (instancetype)initWithMessage:(NCMessage *)message delegate:(id)delegate
+- (instancetype)initWithMessagesCollection:(NCMessagesCollection *)messagesCollection
+                                  delegate:(id)delegate
 {
     if (self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil]) {
-        self.message = message;
+        self.messagesCollection = messagesCollection;
         self.delegate = delegate;
     }
     return self;
@@ -32,7 +33,6 @@
     [super viewDidLoad];
 
     self.sendButton.enabled = NO;
-
     [self setUpMessageBodyTextView];
 }
 
@@ -104,23 +104,24 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.view endEditing:YES];
 
-    self.message.receiverEmail = self.receiverTextField.text;
-    self.message.body = self.messageBodyTextView.text;
-    [self.message saveWithSuccess:^{
-        [noChat.analytics sendAction:@"Send Message" withCategory:@"Messages"];
-        if ([self.delegate respondsToSelector:@selector(userDidSendMessage:)]) {
-            [self.delegate userDidSendMessage:self.message];
-        }
+    NSDictionary *parameters = @{ @"message" : @{
+                                          @"receiver_email" : self.receiverTextField.text,
+                                          @"body" : self.messageBodyTextView.text } };
 
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } failure:^(NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[[UIAlertView alloc] initWithTitle:error.localizedDescription
-                                    message:error.localizedRecoverySuggestion
-                                   delegate:nil
-                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                          otherButtonTitles:nil] show];
-    }];
+    [self.messagesCollection createMessageWithParameters:parameters
+                                      success:^(NCMessage *message) {
+                                          [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                          [noChat.analytics sendAction:@"Send Message" withCategory:@"Messages"];
+                                          [self.delegate userDidSendMessage:message];
+
+                                      } failure:^(NSError *error) {
+                                          [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                          [[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                                                      message:error.localizedRecoverySuggestion
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                            otherButtonTitles:nil] show];
+                                      }];
 }
 
 @end

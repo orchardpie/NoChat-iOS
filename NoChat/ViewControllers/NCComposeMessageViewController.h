@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 
 @class NCMessage;
+@class NCMessagesCollection;
 
 @protocol NCComposeMessageDelegate <NSObject>
 
@@ -17,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *receiverTextField;
 @property (weak, nonatomic) IBOutlet UITextView *messageBodyTextView;
 
-- (instancetype)initWithMessage:(NCMessage *)message delegate:(id)delegate;
+- (instancetype)initWithMessagesCollection:(NCMessagesCollection *)messagesCollection
+                                  delegate:(id)delegate;
 
 @end
