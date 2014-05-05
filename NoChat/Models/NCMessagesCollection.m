@@ -1,6 +1,7 @@
 #import "NCMessagesCollection.h"
 #import "NoChat.h"
 #import "NCMessage.h"
+#import "NCErrors.h"
 
 @interface NCMessagesCollection () <NSCoding>
 
@@ -62,13 +63,7 @@
         if (success) { success(message); }
     } invalid:^(id responseBody) {
         if (failure) {
-            NSDictionary *responseDict = (NSDictionary *)responseBody;
-            NSDictionary *errors = responseDict[@"errors"];
-            NSString *errorMessage = errors[errors.allKeys[0]][0];
-            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
-            NSError *error = [NSError errorWithDomain:@"com.nochat.mobile" code:0 userInfo:userInfo];
-
-            failure(error);
+            failure([[NCErrors alloc] initWithJSONObject:responseBody].error);
         }
     } error:^(NSError *error) {
         if (failure) { failure(error); }
