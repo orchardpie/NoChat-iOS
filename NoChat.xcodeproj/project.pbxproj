@@ -172,7 +172,6 @@
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		45EB035A18DCED2B0012A621 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		45EB035C18DCED2B0012A621 /* UISpecs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UISpecs-Prefix.pch"; sourceTree = "<group>"; };
-		45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iOS.framework"; path = "Frameworks/Cedar-iOS.framework"; sourceTree = "<group>"; };
 		45F1387C18DB3B6300D09454 /* Specs */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Specs; sourceTree = BUILT_PRODUCTS_DIR; };
 		45F1388118DB3B6300D09454 /* Specs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Specs-Prefix.pch"; sourceTree = "<group>"; };
 		45F1388318DB3B6300D09454 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -412,7 +411,6 @@
 				4558D19718EC999D0043418E /* Extensions */,
 				45D75198190715DA00D3D763 /* Views */,
 				45AB9F9F18E1E06600F7CA64 /* ViewControllers */,
-				45EB035E18DCED2B0012A621 /* Cedar-iOS.framework */,
 				45EB035518DCED2B0012A621 /* Supporting Files */,
 				45AB9F7418E0776400F7CA64 /* NCAppDelegateSpec.mm */,
 			);
