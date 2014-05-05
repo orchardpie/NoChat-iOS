@@ -1,0 +1,6 @@
+{
+    "errors": {
+        "email": ["Please enter a valid email address"],
+        "body": ["Must be something worthwhile; don't waste my time"]
+    }
+}

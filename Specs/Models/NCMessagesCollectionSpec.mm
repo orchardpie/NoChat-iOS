@@ -12,19 +12,22 @@ SPEC_BEGIN(NCMessagesCollectionSpec)
 
 describe(@"NCMessagesCollection", ^{
     __block NCMessagesCollection *messages;
+    NSString *location = @"/messages";
+
+    beforeEach(^{
+        messages = [[NCMessagesCollection alloc] initWithMessagesDict:@{ @"location": location, @"data": @[] }];
+    });
 
     describe(@"-initWithMessagesDict:", ^{
-        __block NSMutableDictionary *messagesDict;
+        __block NSDictionary *messagesDict;
 
-        beforeEach(^{
-            messagesDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"/messages", @"location", @[], @"data", nil];
+        subjectAction(^{
+            messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
         });
-
-        subjectAction(^{ messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict]; });
 
         context(@"with a nil location", ^{
             beforeEach(^{
-                messagesDict[@"location"] = nil;
+                messagesDict = @{};
             });
 
             itShouldRaiseException();
@@ -40,7 +43,6 @@ describe(@"NCMessagesCollection", ^{
         __block NSHTTPURLResponse *response;
         __block NSData *responseData;
         __block NSURLSessionDataTask *task;
-        __block NSMutableDictionary *messagesDict;
 
         subjectAction(^{
             [messages fetchWithSuccess:success failure:failure];
@@ -54,9 +56,6 @@ describe(@"NCMessagesCollection", ^{
 
             success = [^() { successWasCalled = YES; } copy];
             failure = [^(NSError *error) { failureMessage = [error localizedDescription]; } copy];
-
-            messagesDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"/messages", @"location", @[], @"data", nil];
-            messages = [[NCMessagesCollection alloc] initWithMessagesDict:messagesDict];
         });
 
         it(@"should request the resource at its location", ^{
@@ -98,6 +97,127 @@ describe(@"NCMessagesCollection", ^{
 
             it(@"should not update the collection", ^{
                 messages.count should equal(0);
+            });
+        });
+    });
+
+    describe(@"-createMessageWithParameters:success:failure:", ^{
+        __block void (^success)(NCMessage *message);
+        __block void (^failure)(NSError *error);
+        __block NCMessage *aMessage;
+        __block NSString *failureMessage;
+
+        __block NSURLSessionDataTask *task;
+        __block NSDictionary *parameters;
+        __block NSHTTPURLResponse *response;
+        __block NSData *responseData;
+        __block NSError *error;
+
+        subjectAction(^{
+            [messages createMessageWithParameters:parameters success:success failure:failure];
+            task = noChat.webService.tasks.lastObject;
+            [task completeWithResponse:response data:responseData error:error];
+        });
+
+        beforeEach(^{
+            parameters = @{ @"email": @"wibble@wibs.com",
+                            @"body": @"Nice message" };
+
+            aMessage = nil;
+            success = [^(NCMessage *message) { aMessage = message; } copy];
+
+            failureMessage = nil;
+            failure = [^(NSError *error) { failureMessage = [error localizedDescription]; } copy];
+        });
+
+        it(@"should create a POST request to its location", ^{
+            task.originalRequest.HTTPMethod should equal(@"POST");
+            task.originalRequest.URL.path should equal(location);
+        });
+
+        it(@"should include the specified params in the POST request body", ^{
+            NSString *body = [[NSString alloc] initWithData:task.originalRequest.HTTPBody encoding:NSUTF8StringEncoding];
+            body should contain(@"email=wibble%40wibs.com");
+            body should contain(@"body=Nice%20message");
+        });
+
+        context(@"when the message creation is successful", ^{
+            beforeEach(^{
+                response = makeResponse(201);
+                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromResponseFixtureWithFileName(@"post_create_message_response_201.json") options:0 error:nil];
+            });
+
+            context(@"with a success block", ^{
+                it(@"should call the success block", ^{
+                    aMessage should_not be_nil;
+                });
+            });
+
+            context(@"without a success block", ^{
+                beforeEach(^{
+                    success = nil;
+                });
+
+                it(@"should not explode", ^{
+                    aMessage should be_nil;
+                });
+            });
+
+            it(@"should not call the failure block", ^{
+                failureMessage should be_empty;
+            });
+        });
+
+        context(@"when the message creation fails", ^{
+            beforeEach(^{
+                response = makeResponse(422);
+                responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromResponseFixtureWithFileName(@"post_create_message_response_422.json") options:0 error:nil];
+            });
+
+            it(@"should not call the success block", ^{
+                aMessage should be_nil;
+            });
+
+            context(@"with a failure block", ^{
+                it(@"should call the failure block", ^{
+                    failureMessage should equal(@"Please enter a valid email address");
+                });
+            });
+
+            context(@"without a failure block", ^{
+                beforeEach(^{
+                    failure = nil;
+                });
+
+                it(@"should not explode", ^{
+                    failureMessage should be_nil;
+                });
+            });
+        });
+
+        context(@"with a network error", ^{
+            beforeEach(^{
+                response = nil;
+                responseData = nil;
+
+                error = [NSError errorWithDomain:@"Test" code:123 userInfo:@{ NSLocalizedDescriptionKey: @"You blew it." }];
+                failureMessage = nil;
+            });
+
+            context(@"with a failure block", ^{
+                it(@"should call the failure block", ^{
+                    failureMessage should equal(@"You blew it.");
+                });
+            });
+
+            context(@"without a failure block", ^{
+                beforeEach(^{
+                    failure = nil;
+                });
+
+                it(@"should not explode", ^{
+                    failureMessage should be_nil;
+                });
             });
         });
     });

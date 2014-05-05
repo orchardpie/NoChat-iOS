@@ -53,6 +53,28 @@
     } invalid:nil error:failure];
 }
 
+- (void)createMessageWithParameters:(NSDictionary *)parameters
+                            success:(void(^)(NCMessage *))success
+                            failure:(void(^)(NSError *))failure
+{
+    [noChat.webService POST:self.location parameters:parameters completion:^(id responseBody) {
+        NCMessage *message = [[NCMessage alloc] initWithDictionary:(NSDictionary *)responseBody];
+        if (success) { success(message); }
+    } invalid:^(id responseBody) {
+        if (failure) {
+            NSDictionary *responseDict = (NSDictionary *)responseBody;
+            NSDictionary *errors = responseDict[@"errors"];
+            NSString *errorMessage = errors[errors.allKeys[0]][0];
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errorMessage};
+            NSError *error = [NSError errorWithDomain:@"com.nochat.mobile" code:0 userInfo:userInfo];
+
+            failure(error);
+        }
+    } error:^(NSError *error) {
+        if (failure) { failure(error); }
+    }];
+}
+
 - (NSArray *)parseMessagesFromMessageData:(NSArray *)messageData
 {
     if (messageData && messageData.count > 0) {

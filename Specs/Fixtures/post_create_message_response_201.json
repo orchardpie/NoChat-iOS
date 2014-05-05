@@ -1,0 +1,11 @@
+{
+    "location": "/messages/43",
+    "data": {
+        "id": 43,
+        "word_count": 147,
+        "created_at": "2014-04-25T21:39:00.199Z",
+        "time_saved": 12000,
+        "time_saved_description": "buttloads of time saved",
+        "disposition": "sent"
+    }
+}
