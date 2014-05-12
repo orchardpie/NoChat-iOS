@@ -43,6 +43,8 @@
 		4558D19C18ECA42C0043418E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4558D19B18ECA42C0043418E /* Default-568h@2x.png */; };
 		4558D19F18ECB3B70043418E /* UIAlertView+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558D19E18ECB3B70043418E /* UIAlertView+Spec.m */; };
 		45645E5B1914253D0039F502 /* NSUserDefaults+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45645E5A1914253D0039F502 /* NSUserDefaults+Spec.m */; };
+		45723F331921598B00699FAF /* NCAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 45723F321921598B00699FAF /* NCAddressBook.m */; };
+		45723F3419215A1600699FAF /* NCAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 45723F321921598B00699FAF /* NCAddressBook.m */; };
 		45A4622619182B9400B2D209 /* NCErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A4622519182B9400B2D209 /* NCErrors.m */; };
 		45A4622719182B9400B2D209 /* NCErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A4622519182B9400B2D209 /* NCErrors.m */; };
 		45A4622819182B9400B2D209 /* NCErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 45A4622519182B9400B2D209 /* NCErrors.m */; };
@@ -73,6 +75,9 @@
 		45B1077F18F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
 		45B1078018F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
 		45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */; };
+		45CC00001921690700D03DEC /* NCContactsTableViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45CCFFFF1921690700D03DEC /* NCContactsTableViewControllerSpec.mm */; };
+		45CCFFFB1921676B00D03DEC /* NCContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */; };
+		45CCFFFC1921676B00D03DEC /* NCContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */; };
 		45D751811901D1F900D3D763 /* NCSpecHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9FA418E4756E00F7CA64 /* NCSpecHelper.mm */; };
 		45D751841901D44C00D3D763 /* NoChat+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751831901D44C00D3D763 /* NoChat+Spec.m */; };
 		45D751881901D87700D3D763 /* NoChat+App.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751871901D87700D3D763 /* NoChat+App.m */; };
@@ -85,6 +90,8 @@
 		45D7519D190816B800D3D763 /* NCMessagesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519C190816B800D3D763 /* NCMessagesCollection.m */; };
 		45D7519E190816B800D3D763 /* NCMessagesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519C190816B800D3D763 /* NCMessagesCollection.m */; };
 		45D751A0190816DE00D3D763 /* NCMessagesCollectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519F190816DE00D3D763 /* NCMessagesCollectionSpec.mm */; };
+		45E9B8BD19214FC500CA3410 /* NCAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E9B8BC19214FC500CA3410 /* NCAddressBook.m */; };
+		45E9B8C01921514900CA3410 /* NCAddressBookSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45E9B8BF1921514900CA3410 /* NCAddressBookSpec.mm */; };
 		45EB035118DCED2B0012A621 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454987A018DA3DC300CFC545 /* UIKit.framework */; };
 		45EB035218DCED2B0012A621 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		45EB035318DCED2B0012A621 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -137,6 +144,8 @@
 		4558D19E18ECB3B70043418E /* UIAlertView+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Spec.m"; sourceTree = "<group>"; };
 		45645E591914253D0039F502 /* NSUserDefaults+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Spec.h"; sourceTree = "<group>"; };
 		45645E5A1914253D0039F502 /* NSUserDefaults+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Spec.m"; sourceTree = "<group>"; };
+		45723F321921598B00699FAF /* NCAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCAddressBook.m; sourceTree = "<group>"; };
+		45723F3519215C9B00699FAF /* NCAddressBook+Spec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NCAddressBook+Spec.h"; sourceTree = "<group>"; };
 		45A4622419182B9400B2D209 /* NCErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCErrors.h; sourceTree = "<group>"; };
 		45A4622519182B9400B2D209 /* NCErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCErrors.m; sourceTree = "<group>"; };
 		45A4622919182B9F00B2D209 /* NCErrorsSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCErrorsSpec.mm; sourceTree = "<group>"; };
@@ -163,6 +172,9 @@
 		45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCSignupViewControllerSpec.mm; sourceTree = "<group>"; };
 		45C88AF019181E2B0086E579 /* post_create_message_response_201.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_create_message_response_201.json; sourceTree = "<group>"; };
 		45C88AF119181EE00086E579 /* post_create_message_response_422.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_create_message_response_422.json; sourceTree = "<group>"; };
+		45CCFFF81921676B00D03DEC /* NCContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCContactsTableViewController.h; sourceTree = "<group>"; };
+		45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCContactsTableViewController.m; sourceTree = "<group>"; };
+		45CCFFFF1921690700D03DEC /* NCContactsTableViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCContactsTableViewControllerSpec.mm; sourceTree = "<group>"; };
 		45D7517E1901C32400D3D763 /* NCSpecHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCSpecHelper.h; sourceTree = "<group>"; };
 		45D751831901D44C00D3D763 /* NoChat+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NoChat+Spec.m"; sourceTree = "<group>"; };
 		45D751861901D87700D3D763 /* NoChat+App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NoChat+App.h"; sourceTree = "<group>"; };
@@ -174,6 +186,9 @@
 		45D7519B190816B800D3D763 /* NCMessagesCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCMessagesCollection.h; sourceTree = "<group>"; };
 		45D7519C190816B800D3D763 /* NCMessagesCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCMessagesCollection.m; sourceTree = "<group>"; };
 		45D7519F190816DE00D3D763 /* NCMessagesCollectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCMessagesCollectionSpec.mm; sourceTree = "<group>"; };
+		45E9B8BB19214FC500CA3410 /* NCAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCAddressBook.h; sourceTree = "<group>"; };
+		45E9B8BC19214FC500CA3410 /* NCAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCAddressBook.m; sourceTree = "<group>"; };
+		45E9B8BF1921514900CA3410 /* NCAddressBookSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCAddressBookSpec.mm; sourceTree = "<group>"; };
 		45EB035018DCED2B0012A621 /* UISpecs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UISpecs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45EB035618DCED2B0012A621 /* UISpecs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UISpecs-Info.plist"; sourceTree = "<group>"; };
 		45EB035818DCED2B0012A621 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -227,6 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				4506778219119EF300059926 /* NCAnalytics.m */,
+				45723F321921598B00699FAF /* NCAddressBook.m */,
+				45723F3519215C9B00699FAF /* NCAddressBook+Spec.h */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -319,6 +336,8 @@
 				4510F0CB19104AFC00F8828D /* NCNoDataViewController.h */,
 				4510F0CC19104AFC00F8828D /* NCNoDataViewController.m */,
 				4510F0CF19104BA000F8828D /* NCNoDataViewController.xib */,
+				45CCFFF81921676B00D03DEC /* NCContactsTableViewController.h */,
+				45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -346,6 +365,8 @@
 				45AB9F8818E0BB3B00F7CA64 /* NCWebService.m */,
 				4506777819119BC100059926 /* NCAnalytics.h */,
 				4506777919119BC100059926 /* NCAnalytics.m */,
+				45E9B8BB19214FC500CA3410 /* NCAddressBook.h */,
+				45E9B8BC19214FC500CA3410 /* NCAddressBook.m */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -369,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				45AB9F8C18E0BB9600F7CA64 /* NCWebServiceSpec.mm */,
+				45E9B8BF1921514900CA3410 /* NCAddressBookSpec.mm */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -392,6 +414,7 @@
 				450EB97A18F8833600E188DF /* NCMessagesTableViewControllerSpec.mm */,
 				450EB98218FC216000E188DF /* NCComposeMessageViewControllerSpec.mm */,
 				4510F0D41910530D00F8828D /* NCNoDataViewControllerSpec.mm */,
+				45CCFFFF1921690700D03DEC /* NCContactsTableViewControllerSpec.mm */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -696,10 +719,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				45D751911907112400D3D763 /* NCMessageTableViewCell.m in Sources */,
+				45CCFFFB1921676B00D03DEC /* NCContactsTableViewController.m in Sources */,
 				4506777A19119BC100059926 /* NCAnalytics.m in Sources */,
 				450EB97F18F888A200E188DF /* NCComposeMessageViewController.m in Sources */,
 				45A4622619182B9400B2D209 /* NCErrors.m in Sources */,
 				45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */,
+				45E9B8BD19214FC500CA3410 /* NCAddressBook.m in Sources */,
 				454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */,
 				454987A918DA3DC300CFC545 /* main.m in Sources */,
 				45AB9F9B18E1DC5100F7CA64 /* NCLoginViewController.m in Sources */,
@@ -719,6 +744,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */,
+				45CCFFFC1921676B00D03DEC /* NCContactsTableViewController.m in Sources */,
+				45CC00001921690700D03DEC /* NCContactsTableViewControllerSpec.mm in Sources */,
 				4558D19F18ECB3B70043418E /* UIAlertView+Spec.m in Sources */,
 				4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */,
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
@@ -730,6 +757,7 @@
 				45AB9FA218E1E11800F7CA64 /* NCLoginViewController.m in Sources */,
 				45AB9FA318E32A5900F7CA64 /* NCCurrentUser.m in Sources */,
 				4506778419119EF300059926 /* NCAnalytics.m in Sources */,
+				45723F3419215A1600699FAF /* NCAddressBook.m in Sources */,
 				45B1077E18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
 				45D7519A190715DA00D3D763 /* NCMessageTableViewCellSpec.mm in Sources */,
 				45D751921907112400D3D763 /* NCMessageTableViewCell.m in Sources */,
@@ -753,6 +781,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45723F331921598B00699FAF /* NCAddressBook.m in Sources */,
 				45A4622B19182B9F00B2D209 /* NCErrorsSpec.mm in Sources */,
 				45AB9F7F18E08A4E00F7CA64 /* NCCurrentUserSpec.mm in Sources */,
 				45F1388418DB3B6300D09454 /* main.m in Sources */,
@@ -763,6 +792,7 @@
 				4558D19518EB655B0043418E /* NCMessageSpec.mm in Sources */,
 				45D7519E190816B800D3D763 /* NCMessagesCollection.m in Sources */,
 				45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */,
+				45E9B8C01921514900CA3410 /* NCAddressBookSpec.mm in Sources */,
 				45AB9FA518E4756E00F7CA64 /* NCSpecHelper.mm in Sources */,
 				45AB9F7D18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
 				45D7518C19059D8600D3D763 /* NoChat+Spec.m in Sources */,

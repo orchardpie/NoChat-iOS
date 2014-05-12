@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *closeButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
 @property (weak, nonatomic) IBOutlet UITextField *receiverTextField;
+@property (weak, nonatomic) IBOutlet UIButton *addContactButton;
 @property (weak, nonatomic) IBOutlet UITextView *messageBodyTextView;
 
 - (instancetype)initWithMessagesCollection:(NCMessagesCollection *)messagesCollection

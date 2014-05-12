@@ -3,6 +3,8 @@
 #import "MBProgressHUD.h"
 #import "NoChat.h"
 #import "NCAnalytics.h"
+#import "NCAddressBook.h"
+#import "NCContactsTableViewController.h"
 
 @interface NCComposeMessageViewController ()
 
@@ -122,6 +124,25 @@
                                                             cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                             otherButtonTitles:nil] show];
                                       }];
+}
+
+- (IBAction)addContact:(id)sender {
+    [noChat.addressBook checkAccess:^(BOOL hasAccess, NSError *error) {
+        if (hasAccess) {
+            NCContactsTableViewController *contactsTVC = [[NCContactsTableViewController alloc] init];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:contactsTVC];
+            [self presentViewController:navigationController animated:YES completion:nil];
+        } else {
+            if (error) {
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Oh noes!"
+                                           delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil]
+                 show];
+            }
+        }
+    }];
 }
 
 @end

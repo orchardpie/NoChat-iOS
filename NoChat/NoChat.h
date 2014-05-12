@@ -1,12 +1,12 @@
 #import <Foundation/Foundation.h>
-#import "NCWebService.h"
 
-@class NCAnalytics;
+@class NCAnalytics, NCWebService, NCAddressBook;
 
 @interface NoChat : NSObject
 
 @property (strong, nonatomic, readonly) NCWebService *webService;
 @property (strong, nonatomic, readonly) NCAnalytics *analytics;
+@property (strong, nonatomic, readonly) NCAddressBook *addressBook;
 
 @end
 

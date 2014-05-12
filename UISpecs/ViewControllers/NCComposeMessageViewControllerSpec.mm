@@ -5,6 +5,9 @@
 #import "NCMessagesCollection.h"
 #import "NoChat.h"
 #import "NCWebService.h"
+#import "NCContactsTableViewController.h"
+#import "NCAddressBook+Spec.h"
+#import "UIAlertView+Spec.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -373,6 +376,68 @@ describe(@"NCComposeMessageViewController", ^{
                 UIAlertView.currentAlertView should_not be_nil;
                 UIAlertView.currentAlertView.title should_not be_nil;
                 UIAlertView.currentAlertView.message should_not be_nil;
+            });
+        });
+    });
+
+    describe(@"add contact action", ^{
+        __block BOOL hasAccess;
+        __block NSError *error;
+
+        subjectAction(^{
+            [noChat.addressBook respondWithAccess:hasAccess error:error];
+        });
+
+        beforeEach(^{
+            [controller.addContactButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+        });
+
+        context(@"when the user allows access to the address book", ^{
+            beforeEach(^{
+                hasAccess = YES;
+                error = nil;
+
+//                noChat.addressBook.contacts = @[@"fred", @"sally", @"francine"];
+            });
+
+            it(@"should not display an alert", ^{
+                UIAlertView.currentAlertView should be_nil;
+            });
+
+            it(@"should display a modal view controller", ^{
+                controller.presentedViewController should be_instance_of([UINavigationController class]);
+                UINavigationController *navigationController = (id)controller.presentedViewController;
+                navigationController.topViewController should be_instance_of([NCContactsTableViewController class]);
+            });
+        });
+
+        context(@"when the user denies access to the address book", ^{
+            beforeEach(^{
+                hasAccess = NO;
+                error = nil;
+            });
+
+            it(@"should not display an alert", ^{
+                UIAlertView.currentAlertView should be_nil;
+            });
+
+            it(@"should not display a modal view controller", ^{
+                controller.presentedViewController should be_nil;
+            });
+        });
+
+        context(@"when the user has previously denied access to the addres book", ^{
+            beforeEach(^{
+                hasAccess = NO;
+                error = [NSError errorWithDomain:@"wibble" code:3 userInfo:@{}];
+            });
+
+            it(@"should display an alert", ^{
+                UIAlertView.currentAlertView should_not be_nil;
+            });
+
+            it(@"should not display a modal view controller", ^{
+                controller.presentedViewController should be_nil;
             });
         });
     });

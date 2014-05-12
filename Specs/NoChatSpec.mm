@@ -24,6 +24,12 @@ describe(@"NoChat", ^{
             noChat.analytics should_not be_nil;
         });
     });
+
+    describe(@"-addressBook", ^{
+        it(@"should not be nil", ^{
+            noChat.addressBook should_not be_nil;
+        });
+    });
 });
 
 SPEC_END
