@@ -9,6 +9,12 @@
 
 @implementation NCAddressBook
 
+- (void)dealloc {
+    if (self.addressBook) {
+        CFRelease(self.addressBook);
+    }
+}
+
 - (void)checkAccess:(void(^)(BOOL, NSError *))completion
 {
     CFErrorRef cfError = NULL;

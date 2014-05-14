@@ -396,8 +396,6 @@ describe(@"NCComposeMessageViewController", ^{
             beforeEach(^{
                 hasAccess = YES;
                 error = nil;
-
-//                noChat.addressBook.contacts = @[@"fred", @"sally", @"francine"];
             });
 
             it(@"should not display an alert", ^{
