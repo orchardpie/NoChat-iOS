@@ -76,8 +76,12 @@
 		45B1078018F34ED700FA7428 /* NCSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45B1077C18F34ED700FA7428 /* NCSignupViewController.xib */; };
 		45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */; };
 		45CC00001921690700D03DEC /* NCContactsTableViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45CCFFFF1921690700D03DEC /* NCContactsTableViewControllerSpec.mm */; };
+		45CC00031923C74700D03DEC /* NCContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CC00021923C74700D03DEC /* NCContact.m */; };
+		45CC00041923C74700D03DEC /* NCContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CC00021923C74700D03DEC /* NCContact.m */; };
+		45CC00061923C84900D03DEC /* NCContactSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45CC00051923C84900D03DEC /* NCContactSpec.mm */; };
+		45CC00071923E96B00D03DEC /* NCContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */; };
+		45CC00081923E9F800D03DEC /* NCContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CC00021923C74700D03DEC /* NCContact.m */; };
 		45CCFFFB1921676B00D03DEC /* NCContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */; };
-		45CCFFFC1921676B00D03DEC /* NCContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */; };
 		45D751811901D1F900D3D763 /* NCSpecHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9FA418E4756E00F7CA64 /* NCSpecHelper.mm */; };
 		45D751841901D44C00D3D763 /* NoChat+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751831901D44C00D3D763 /* NoChat+Spec.m */; };
 		45D751881901D87700D3D763 /* NoChat+App.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D751871901D87700D3D763 /* NoChat+App.m */; };
@@ -172,6 +176,9 @@
 		45B1078118F34EFE00FA7428 /* NCSignupViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCSignupViewControllerSpec.mm; sourceTree = "<group>"; };
 		45C88AF019181E2B0086E579 /* post_create_message_response_201.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_create_message_response_201.json; sourceTree = "<group>"; };
 		45C88AF119181EE00086E579 /* post_create_message_response_422.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_create_message_response_422.json; sourceTree = "<group>"; };
+		45CC00011923C74700D03DEC /* NCContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCContact.h; sourceTree = "<group>"; };
+		45CC00021923C74700D03DEC /* NCContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCContact.m; sourceTree = "<group>"; };
+		45CC00051923C84900D03DEC /* NCContactSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCContactSpec.mm; sourceTree = "<group>"; };
 		45CCFFF81921676B00D03DEC /* NCContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCContactsTableViewController.h; sourceTree = "<group>"; };
 		45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCContactsTableViewController.m; sourceTree = "<group>"; };
 		45CCFFFF1921690700D03DEC /* NCContactsTableViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCContactsTableViewControllerSpec.mm; sourceTree = "<group>"; };
@@ -382,6 +389,8 @@
 				4558D19118EB64670043418E /* NCMessage.m */,
 				45D7519B190816B800D3D763 /* NCMessagesCollection.h */,
 				45D7519C190816B800D3D763 /* NCMessagesCollection.m */,
+				45CC00011923C74700D03DEC /* NCContact.h */,
+				45CC00021923C74700D03DEC /* NCContact.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -491,6 +500,7 @@
 				45AB9F7E18E08A4E00F7CA64 /* NCCurrentUserSpec.mm */,
 				4558D19418EB655B0043418E /* NCMessageSpec.mm */,
 				45D7519F190816DE00D3D763 /* NCMessagesCollectionSpec.mm */,
+				45CC00051923C84900D03DEC /* NCContactSpec.mm */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -727,6 +737,7 @@
 				45E9B8BD19214FC500CA3410 /* NCAddressBook.m in Sources */,
 				454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */,
 				454987A918DA3DC300CFC545 /* main.m in Sources */,
+				45CC00031923C74700D03DEC /* NCContact.m in Sources */,
 				45AB9F9B18E1DC5100F7CA64 /* NCLoginViewController.m in Sources */,
 				4558D19218EB64670043418E /* NCMessage.m in Sources */,
 				45D751881901D87700D3D763 /* NoChat+App.m in Sources */,
@@ -744,10 +755,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B1078218F34EFE00FA7428 /* NCSignupViewControllerSpec.mm in Sources */,
-				45CCFFFC1921676B00D03DEC /* NCContactsTableViewController.m in Sources */,
 				45CC00001921690700D03DEC /* NCContactsTableViewControllerSpec.mm in Sources */,
 				4558D19F18ECB3B70043418E /* UIAlertView+Spec.m in Sources */,
+				45CC00081923E9F800D03DEC /* NCContact.m in Sources */,
 				4558D19A18EC99D30043418E /* MBProgressHUD+Spec.m in Sources */,
+				45CC00071923E96B00D03DEC /* NCContactsTableViewController.m in Sources */,
 				45AB9F7518E0776400F7CA64 /* NCAppDelegateSpec.mm in Sources */,
 				450EB97B18F8833600E188DF /* NCMessagesTableViewControllerSpec.mm in Sources */,
 				4546EEE4190865A3000C6A2C /* NCMessagesCollection.m in Sources */,
@@ -790,12 +802,14 @@
 				45D751A0190816DE00D3D763 /* NCMessagesCollectionSpec.mm in Sources */,
 				4558D19318EB64800043418E /* NCMessage.m in Sources */,
 				4558D19518EB655B0043418E /* NCMessageSpec.mm in Sources */,
+				45CC00041923C74700D03DEC /* NCContact.m in Sources */,
 				45D7519E190816B800D3D763 /* NCMessagesCollection.m in Sources */,
 				45AB9F8A18E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				45E9B8C01921514900CA3410 /* NCAddressBookSpec.mm in Sources */,
 				45AB9FA518E4756E00F7CA64 /* NCSpecHelper.mm in Sources */,
 				45AB9F7D18E08A1E00F7CA64 /* NCCurrentUser.m in Sources */,
 				45D7518C19059D8600D3D763 /* NoChat+Spec.m in Sources */,
+				45CC00061923C84900D03DEC /* NCContactSpec.mm in Sources */,
 				45AB9F9418E0D83F00F7CA64 /* NoChat.m in Sources */,
 				45A4622719182B9400B2D209 /* NCErrors.m in Sources */,
 				4506778319119EF300059926 /* NCAnalytics.m in Sources */,

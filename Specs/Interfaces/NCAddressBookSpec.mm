@@ -11,8 +11,6 @@ describe(@"NCAddressBook", ^{
     beforeEach(^{
         addressBook = [[NCAddressBook alloc] init];
     });
-
-    
 });
 
 SPEC_END

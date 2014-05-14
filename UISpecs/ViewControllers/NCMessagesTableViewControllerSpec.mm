@@ -19,7 +19,6 @@ SPEC_BEGIN(NCMessagesTableViewControllerSpec)
 
 describe(@"NCMessagesTableViewController", ^{
     __block NCMessagesTableViewController *controller;
-    __block UINavigationController *navigationController;
     __block NCMessagesCollection *messages;
 
     beforeEach(^{
@@ -30,7 +29,6 @@ describe(@"NCMessagesTableViewController", ^{
         spy_on(messages);
 
         controller = [[NCMessagesTableViewController alloc] initWithMessages:messages];
-        navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
 
         controller.view should_not be_nil;
     });

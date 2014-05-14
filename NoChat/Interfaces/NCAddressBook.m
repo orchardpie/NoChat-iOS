@@ -1,5 +1,6 @@
 #import <AddressBook/AddressBook.h>
 #import "NCAddressBook.h"
+#import "NCContact.h"
 
 @interface NCAddressBook ()
 
@@ -13,6 +14,11 @@
     if (self.addressBook) {
         CFRelease(self.addressBook);
     }
+}
+
+- (NSArray *)contacts
+{
+    return [self parseContactsFromAddressBook];
 }
 
 - (void)checkAccess:(void(^)(BOOL, NSError *))completion
@@ -35,6 +41,29 @@
             });
         });
     }
+}
+
+#pragma mark - Private interface
+
+- (NSArray *)parseContactsFromAddressBook
+{
+    CFArrayRef contactsFromAddressBook = ABAddressBookCopyArrayOfAllPeople(self.addressBook);
+    CFIndex contactsCount = CFArrayGetCount(contactsFromAddressBook);
+    NSMutableArray *contacts = [NSMutableArray array];
+
+    for (int i = 0; i < contactsCount; i++) {
+        ABRecordRef person = CFArrayGetValueAtIndex(contactsFromAddressBook, i);
+        NSString *firstName = (__bridge_transfer NSString *)(ABRecordCopyValue(person, kABPersonFirstNameProperty));
+        NSString *lastName = (__bridge_transfer NSString *)(ABRecordCopyValue(person, kABPersonLastNameProperty));
+        NSArray *emails = (__bridge_transfer NSArray *)ABMultiValueCopyArrayOfAllValues(ABRecordCopyValue(person, kABPersonEmailProperty));
+
+        NCContact *contact = [[NCContact alloc] initWithFirstName:firstName lastName:lastName emails:emails];
+        [contacts addObject:contact];
+        CFRelease(person);
+    }
+
+    CFRelease(contactsFromAddressBook);
+    return contacts;
 }
 
 @end
