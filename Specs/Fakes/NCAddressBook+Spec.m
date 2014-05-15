@@ -48,6 +48,11 @@
     [self.fakeContacts addObject:contact];
 }
 
+- (void)removeAllContacts
+{
+    [self.fakeContacts removeAllObjects];
+}
+
 @end
 
 

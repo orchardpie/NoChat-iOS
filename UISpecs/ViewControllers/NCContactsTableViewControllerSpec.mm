@@ -30,6 +30,42 @@ describe(@"NCContactsTableViewController", ^{
         controller.view should_not be_nil;
     });
 
+    describe(@"-viewDidLoad", ^{
+        context(@"when the user has contacts", ^{
+            it(@"should not show the no results view", ^{
+                __block UILabel *labelView;
+                [controller.view.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    if ([obj isKindOfClass:[UILabel class]]) {
+                        labelView = obj;
+                        *stop = YES;
+                    }
+                }];
+
+                labelView should be_nil;
+            });
+        });
+
+        context(@"when the user has no contacts", ^{
+            beforeEach(^{
+                [noChat.addressBook removeAllContacts];
+                controller = [[NCContactsTableViewController alloc] initWithDelegate:delegate];
+                controller.view should_not be_nil;
+            });
+
+            it(@"should show the no results view", ^{
+                __block UILabel *labelView;
+                [controller.view.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    if ([obj isKindOfClass:[UILabel class]]) {
+                        labelView = obj;
+                        *stop = YES;
+                    }
+                }];
+
+                labelView should_not be_nil;
+            });
+        });
+    });
+
     describe(@"-close:", ^{
         __block UIBarButtonItem *closeButton;
 

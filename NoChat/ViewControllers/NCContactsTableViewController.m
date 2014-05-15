@@ -33,6 +33,7 @@ static NSString *kCellIdentifier = @"contactCell";
     [super viewDidLoad];
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellIdentifier];
+    self.tableView.tableFooterView = [UIView new]; // don't show blank rows in table view with no data
 
     self.title = @"Select Contact";
 
@@ -40,6 +41,10 @@ static NSString *kCellIdentifier = @"contactCell";
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(close:)];
+
+    if (self.contacts.count == 0) {
+        [self showNoResultsView];
+    }
 }
 
 #pragma mark - Table view data source
@@ -80,6 +85,23 @@ static NSString *kCellIdentifier = @"contactCell";
 - (void)close:(id)sender
 {
     [self.delegate didCloseContactsModal];
+}
+
+#pragma mark - Private interface
+
+- (void)showNoResultsView
+{
+    UILabel *noResultsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
+                                                                        0,
+                                                                        self.view.frame.size.width,
+                                                                        self.view.frame.size.height)];
+    noResultsLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18.0];
+    noResultsLabel.text = @"No Results";
+    noResultsLabel.textColor = UIColor.lightGrayColor;
+    noResultsLabel.textAlignment = NSTextAlignmentCenter;
+    noResultsLabel.center = self.view.center;
+
+    [self.view addSubview:noResultsLabel];
 }
 
 @end

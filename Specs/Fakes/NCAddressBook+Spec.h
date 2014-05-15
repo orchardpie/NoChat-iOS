@@ -6,5 +6,6 @@
 
 - (void)respondWithAccess:(BOOL)hasAccess error:(NSError *)error;
 - (void)addContact:(NCContact *)contact;
+- (void)removeAllContacts;
 
 @end
