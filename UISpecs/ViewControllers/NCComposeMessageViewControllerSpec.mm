@@ -439,6 +439,31 @@ describe(@"NCComposeMessageViewController", ^{
             });
         });
     });
+
+    describe(@"-didSelectContactWithEmail:", ^{
+        __block NSString *email = @"cooldude@coolisland.com";
+
+        subjectAction(^{
+            [controller didSelectContactWithEmail:email];
+        });
+
+        beforeEach(^{
+            spy_on(controller.messageBodyTextView);
+            [controller presentViewController:[[UITableViewController alloc] init] animated:NO completion:nil];
+        });
+
+        it(@"should set the receiver email field text", ^{
+            controller.receiverTextField.text should equal(email);
+        });
+
+        it(@"should set focus to the body text view", ^{
+            controller.messageBodyTextView should have_received("becomeFirstResponder");
+        });
+
+        it(@"should dismiss the contacts table view controller", ^{
+            controller.presentedViewController should be_nil;
+        });
+    });
 });
 
 SPEC_END

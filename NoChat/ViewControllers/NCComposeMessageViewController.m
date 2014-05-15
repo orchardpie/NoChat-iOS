@@ -4,7 +4,6 @@
 #import "NoChat.h"
 #import "NCAnalytics.h"
 #import "NCAddressBook.h"
-#import "NCContactsTableViewController.h"
 
 @interface NCComposeMessageViewController ()
 
@@ -129,7 +128,7 @@
 - (IBAction)addContact:(id)sender {
     [noChat.addressBook checkAccess:^(BOOL hasAccess, NSError *error) {
         if (hasAccess) {
-            NCContactsTableViewController *contactsTVC = [[NCContactsTableViewController alloc] init];
+            NCContactsTableViewController *contactsTVC = [[NCContactsTableViewController alloc] initWithDelegate:self];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:contactsTVC];
             [self presentViewController:navigationController animated:YES completion:nil];
         } else {
@@ -143,6 +142,15 @@
             }
         }
     }];
+}
+
+#pragma mark - NCContactsTableViewController delegate implementation
+
+- (void)didSelectContactWithEmail:(NSString *)email
+{
+    self.receiverTextField.text = email;
+    [self.messageBodyTextView becomeFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

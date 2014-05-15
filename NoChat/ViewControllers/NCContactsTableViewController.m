@@ -8,17 +8,24 @@ static NSString *kCellIdentifier = @"contactCell";
 @interface NCContactsTableViewController ()
 
 @property (strong, nonatomic) NSArray *contacts;
+@property (weak, nonatomic) id<NCContactsTableViewControllerDelegate> delegate;
 
 @end
 
 @implementation NCContactsTableViewController
 
-- (instancetype)init
+- (instancetype)initWithDelegate:(id<NCContactsTableViewControllerDelegate>)delegate
 {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.contacts = noChat.addressBook.contacts;
+        self.delegate = delegate;
     }
     return self;
+}
+
+- (instancetype)init
+{
+    [self doesNotRecognizeSelector:_cmd]; return nil;
 }
 
 - (void)viewDidLoad
@@ -53,6 +60,12 @@ static NSString *kCellIdentifier = @"contactCell";
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", contact.firstName, contact.lastName];
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NCContact *contact = self.contacts[indexPath.row];
+    [self.delegate didSelectContactWithEmail:contact.emails[0]];
 }
 
 @end

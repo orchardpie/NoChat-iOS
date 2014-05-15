@@ -2,7 +2,11 @@
 
 @interface NCAddressBook : NSObject
 
-@property (strong, nonatomic) NSArray *contacts;
+- (NSArray *)contacts;
+
+@end
+
+@interface NCAddressBook (QuietCompiler)
 
 - (void)checkAccess:(void(^)(BOOL, NSError *))completion;
 

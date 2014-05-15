@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "NCContactsTableViewController.h"
 
 @class NCMessage;
 @class NCMessagesCollection;
@@ -10,7 +11,7 @@
 
 @end
 
-@interface NCComposeMessageViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
+@interface NCComposeMessageViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, NCContactsTableViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *closeButton;

@@ -10,6 +10,7 @@ SPEC_BEGIN(NCContactsTableViewControllerSpec)
 
 describe(@"NCContactsTableViewController", ^{
     __block NCContactsTableViewController *controller;
+    __block id<NCContactsTableViewControllerDelegate> delegate;
     __block NCContact *contact1;
     __block NCContact *contact2;
 
@@ -17,7 +18,9 @@ describe(@"NCContactsTableViewController", ^{
         contact1 = [[NCContact alloc] initWithFirstName:@"Cool" lastName:@"Dude" emails:@[@"cooldude@cooltimes.com"]];
         contact2 = [[NCContact alloc] initWithFirstName:@"Gary" lastName:@"Busey" emails:@[@"gary@busey.com"]];
         noChat.addressBook.contacts = @[contact1, contact2];
-        controller = [[NCContactsTableViewController alloc] init];
+
+        delegate = nice_fake_for(@protocol(NCContactsTableViewControllerDelegate));
+        controller = [[NCContactsTableViewController alloc] initWithDelegate:delegate];
     });
 
     describe(@"-tableView:tableView:cellForRowAtIndexPath:", ^{
@@ -50,6 +53,16 @@ describe(@"NCContactsTableViewController", ^{
             it(@"should show a disclosure indicator", ^{
                 cell.accessoryType should equal(UITableViewCellAccessoryDisclosureIndicator);
             });
+        });
+    });
+
+    describe(@"-tableView:didSelectRowAtIndexPath:", ^{
+        subjectAction(^{
+            [controller tableView:controller.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        });
+
+        it(@"should pass the selected contact's email to the delegate", ^{
+            delegate should have_received("didSelectContactWithEmail:");
         });
     });
 });
