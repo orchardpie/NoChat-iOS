@@ -34,6 +34,8 @@ static NSString *kCellIdentifier = @"contactCell";
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellIdentifier];
 
+    self.title = @"Select Contact";
+
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close"
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
