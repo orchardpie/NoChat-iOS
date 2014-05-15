@@ -9,5 +9,6 @@
 - (instancetype)initWithFirstName:(NSString *)firstName
                          lastName:(NSString *)lastName
                            emails:(NSArray *)emails;
+- (NSString *)fullName;
 
 @end

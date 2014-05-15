@@ -14,4 +14,17 @@
     return self;
 }
 
+- (NSString *)fullName
+{
+    if (self.firstName && self.lastName) {
+        return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
+    } else if (self.firstName) {
+        return self.firstName;
+    } else if (self.lastName) {
+        return self.lastName;
+    } else {
+        return self.emails.firstObject;
+    }
+}
+
 @end

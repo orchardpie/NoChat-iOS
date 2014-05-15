@@ -64,7 +64,7 @@ static NSString *kCellIdentifier = @"contactCell";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", contact.firstName, contact.lastName];
+    cell.textLabel.text = [contact fullName];
 
     return cell;
 }

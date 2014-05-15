@@ -61,7 +61,7 @@ describe(@"NCAddressBook", ^{
                 [addressBook addContact:contact1];
             });
 
-            it(@"should order alphabetically by first name", ^{
+            it(@"should order alphabetically by full name", ^{
                 [addressBook.contacts.firstObject firstName] should equal(contact1.firstName);
                 [addressBook.contacts.lastObject firstName] should equal(contact2.firstName);
             });
