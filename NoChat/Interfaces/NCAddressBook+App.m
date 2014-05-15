@@ -43,7 +43,7 @@
 
 - (NSArray *)allContacts
 {
-    CFArrayRef contactsFromAddressBook = ABAddressBookCopyArrayOfAllPeople(self.addressBook);
+    CFArrayRef contactsFromAddressBook = ABAddressBookCopyArrayOfAllPeopleInSource(self.addressBook, ABAddressBookCopyDefaultSource(self.addressBook));
     CFIndex contactsCount = CFArrayGetCount(contactsFromAddressBook);
     NSMutableArray *contacts = [NSMutableArray array];
 
