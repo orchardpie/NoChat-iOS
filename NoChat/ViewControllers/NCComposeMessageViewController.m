@@ -132,15 +132,20 @@
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:contactsTVC];
             [self presentViewController:navigationController animated:YES completion:nil];
         } else {
-            if (error) {
-                [[[UIAlertView alloc] initWithTitle:@"Error"
-                                            message:@"Oh noes!"
+            BOOL contactsAccessRequest = [[NSUserDefaults standardUserDefaults] boolForKey:@"contactsAccessRequested"];
+
+            if (contactsAccessRequest) {
+                [[[UIAlertView alloc] initWithTitle:@"Contacts Access Required"
+                                            message:@"Please enable access to your contacts in iPhone Settings > Privacy > Contacts > NoChat."
                                            delegate:nil
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil]
                  show];
             }
         }
+
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"contactsAccessRequested"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }];
 }
 

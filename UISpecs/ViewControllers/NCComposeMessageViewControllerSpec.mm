@@ -410,13 +410,33 @@ describe(@"NCComposeMessageViewController", ^{
         });
 
         context(@"when the user denies access to the address book", ^{
+            __block NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
             beforeEach(^{
                 hasAccess = NO;
                 error = nil;
             });
 
-            it(@"should not display an alert", ^{
-                UIAlertView.currentAlertView should be_nil;
+            context(@"when contacts access has already been requested", ^{
+                beforeEach(^{
+                    [userDefaults setBool:YES forKey:@"contactsAccessRequested"];
+                    [userDefaults synchronize];
+                });
+
+                afterEach(^{
+                    [userDefaults removeObjectForKey:@"contactsAccessRequested"];
+                    [userDefaults synchronize];
+                });
+
+                it(@"should display an alert", ^{
+                    UIAlertView.currentAlertView should_not be_nil;
+                });
+            });
+
+            context(@"when contacts access has not yet been requested", ^{
+                it(@"should display an alert", ^{
+                    UIAlertView.currentAlertView should be_nil;
+                });
             });
 
             it(@"should not display a modal view controller", ^{
