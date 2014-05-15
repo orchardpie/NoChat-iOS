@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "NCEmailSelectTableViewController.h"
 
 @protocol NCContactsTableViewControllerDelegate <NSObject>
 
@@ -7,7 +8,7 @@
 
 @end
 
-@interface NCContactsTableViewController : UITableViewController
+@interface NCContactsTableViewController : UITableViewController<NCEmailSelectTableViewControllerDelegate>
 
 - (instancetype)initWithDelegate:(id<NCContactsTableViewControllerDelegate>)delegate;
 

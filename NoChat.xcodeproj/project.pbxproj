@@ -28,6 +28,9 @@
 		451B3A471924205A00343190 /* NCAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E9B8BC19214FC500CA3410 /* NCAddressBook.m */; };
 		451B3A481924205B00343190 /* NCAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E9B8BC19214FC500CA3410 /* NCAddressBook.m */; };
 		451B3A4B1924FE6000343190 /* NCAddressBook+App.m in Sources */ = {isa = PBXBuildFile; fileRef = 451B3A4A1924FE6000343190 /* NCAddressBook+App.m */; };
+		451B3A4E19256D8900343190 /* NCEmailSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451B3A4D19256D8900343190 /* NCEmailSelectTableViewController.m */; };
+		451B3A4F19256D8900343190 /* NCEmailSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451B3A4D19256D8900343190 /* NCEmailSelectTableViewController.m */; };
+		451B3A5119256DB500343190 /* NCEmailSelectTableViewControllerSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 451B3A5019256DB500343190 /* NCEmailSelectTableViewControllerSpec.mm */; };
 		4546EEE4190865A3000C6A2C /* NCMessagesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D7519C190816B800D3D763 /* NCMessagesCollection.m */; };
 		4549879D18DA3DC300CFC545 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879C18DA3DC300CFC545 /* Foundation.framework */; };
 		4549879F18DA3DC300CFC545 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4549879E18DA3DC300CFC545 /* CoreGraphics.framework */; };
@@ -127,6 +130,9 @@
 		4510F0D41910530D00F8828D /* NCNoDataViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCNoDataViewControllerSpec.mm; sourceTree = "<group>"; };
 		4510F0D61911390200F8828D /* NCAuthenticatable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCAuthenticatable.h; sourceTree = "<group>"; };
 		451B3A4A1924FE6000343190 /* NCAddressBook+App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NCAddressBook+App.m"; sourceTree = "<group>"; };
+		451B3A4C19256D8900343190 /* NCEmailSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCEmailSelectTableViewController.h; sourceTree = "<group>"; };
+		451B3A4D19256D8900343190 /* NCEmailSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NCEmailSelectTableViewController.m; sourceTree = "<group>"; };
+		451B3A5019256DB500343190 /* NCEmailSelectTableViewControllerSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCEmailSelectTableViewControllerSpec.mm; sourceTree = "<group>"; };
 		4546EEE319085A3B000C6A2C /* get_fetch_messages_response_200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = get_fetch_messages_response_200.json; sourceTree = "<group>"; };
 		4549879918DA3DC300CFC545 /* NoChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4549879C18DA3DC300CFC545 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -349,6 +355,8 @@
 				4510F0CF19104BA000F8828D /* NCNoDataViewController.xib */,
 				45CCFFF81921676B00D03DEC /* NCContactsTableViewController.h */,
 				45CCFFF91921676B00D03DEC /* NCContactsTableViewController.m */,
+				451B3A4C19256D8900343190 /* NCEmailSelectTableViewController.h */,
+				451B3A4D19256D8900343190 /* NCEmailSelectTableViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -429,6 +437,7 @@
 				450EB98218FC216000E188DF /* NCComposeMessageViewControllerSpec.mm */,
 				4510F0D41910530D00F8828D /* NCNoDataViewControllerSpec.mm */,
 				45CCFFFF1921690700D03DEC /* NCContactsTableViewControllerSpec.mm */,
+				451B3A5019256DB500343190 /* NCEmailSelectTableViewControllerSpec.mm */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -741,6 +750,7 @@
 				45A4622619182B9400B2D209 /* NCErrors.m in Sources */,
 				45AB9F8918E0BB3B00F7CA64 /* NCWebService.m in Sources */,
 				45E9B8BD19214FC500CA3410 /* NCAddressBook.m in Sources */,
+				451B3A4E19256D8900343190 /* NCEmailSelectTableViewController.m in Sources */,
 				454987D018DB2B9100CFC545 /* NCMessagesTableViewController.m in Sources */,
 				454987A918DA3DC300CFC545 /* main.m in Sources */,
 				45CC00031923C74700D03DEC /* NCContact.m in Sources */,
@@ -777,6 +787,7 @@
 				4506778419119EF300059926 /* NCAnalytics.m in Sources */,
 				45723F3419215A1600699FAF /* NCAddressBook+Spec.m in Sources */,
 				45B1077E18F34ED700FA7428 /* NCSignupViewController.m in Sources */,
+				451B3A4F19256D8900343190 /* NCEmailSelectTableViewController.m in Sources */,
 				45D7519A190715DA00D3D763 /* NCMessageTableViewCellSpec.mm in Sources */,
 				451B3A481924205B00343190 /* NCAddressBook.m in Sources */,
 				45D751921907112400D3D763 /* NCMessageTableViewCell.m in Sources */,
@@ -793,6 +804,7 @@
 				45AB9F7718E07B4300F7CA64 /* NCMessagesTableViewController.m in Sources */,
 				4558D19618EC570C0043418E /* NCMessage.m in Sources */,
 				45AB9F7618E079D300F7CA64 /* NCAppDelegate.m in Sources */,
+				451B3A5119256DB500343190 /* NCEmailSelectTableViewControllerSpec.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

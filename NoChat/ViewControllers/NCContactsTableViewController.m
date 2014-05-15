@@ -49,11 +49,6 @@ static NSString *kCellIdentifier = @"contactCell";
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.contacts.count;
@@ -77,7 +72,20 @@ static NSString *kCellIdentifier = @"contactCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NCContact *contact = self.contacts[indexPath.row];
-    [self.delegate didSelectContactWithEmail:contact.emails[0]];
+
+    if (contact.emails.count > 1) {
+        NCEmailSelectTableViewController *emailSelectTVC = [[NCEmailSelectTableViewController alloc] initWithEmails:contact.emails delegate:self];
+        [self.navigationController pushViewController:emailSelectTVC animated:YES];
+    } else {
+        [self.delegate didSelectContactWithEmail:contact.emails.firstObject];
+    }
+}
+
+#pragma mark - NCEmailSelectTableViewController delegate implementation
+
+- (void)didSelectEmail:(NSString *)email
+{
+    [self.delegate didSelectContactWithEmail:email];
 }
 
 #pragma mark - Button actions

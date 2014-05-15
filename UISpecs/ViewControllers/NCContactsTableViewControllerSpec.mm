@@ -15,19 +15,22 @@ SPEC_BEGIN(NCContactsTableViewControllerSpec)
 
 describe(@"NCContactsTableViewController", ^{
     __block NCContactsTableViewController *controller;
+    __block UINavigationController *navigationController;
     __block id<NCContactsTableViewControllerDelegate> delegate;
     __block NCContact *contact1;
     __block NCContact *contact2;
 
     beforeEach(^{
         contact1 = [[NCContact alloc] initWithFirstName:@"Cool" lastName:@"Dude" emails:@[@"cooldude@cooltimes.com"]];
-        contact2 = [[NCContact alloc] initWithFirstName:@"Gary" lastName:@"Busey" emails:@[@"gary@busey.com"]];
+        contact2 = [[NCContact alloc] initWithFirstName:@"Gary" lastName:@"Busey" emails:@[@"gary@busey.com", @"coolgary@busey.com"]];
         [noChat.addressBook addContact:contact1];
         [noChat.addressBook addContact:contact2];
 
         delegate = nice_fake_for(@protocol(NCContactsTableViewControllerDelegate));
         controller = [[NCContactsTableViewController alloc] initWithDelegate:delegate];
         controller.view should_not be_nil;
+
+        navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     });
 
     describe(@"-viewDidLoad", ^{
@@ -112,8 +115,37 @@ describe(@"NCContactsTableViewController", ^{
     });
 
     describe(@"-tableView:didSelectRowAtIndexPath:", ^{
+        __block NSIndexPath *indexPath;
+
         subjectAction(^{
-            [controller tableView:controller.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+            [controller tableView:controller.tableView didSelectRowAtIndexPath:indexPath];
+        });
+
+        context(@"when the selected contact has one email", ^{
+            beforeEach(^{
+                indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            });
+
+            it(@"should pass the selected contact's email to the delegate", ^{
+                delegate should have_received("didSelectContactWithEmail:");
+            });
+        });
+
+        context(@"when the selected contact has more than one email", ^{
+            beforeEach(^{
+                indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+                spy_on(navigationController);
+            });
+
+            it(@"should push to the email select table view controller", ^{
+                navigationController should have_received("pushViewController:animated:");
+            });
+        });
+    });
+
+    describe(@"-didSelectEmail:", ^{
+        subjectAction(^{
+            [controller didSelectEmail:@"coolemail@roger.com"];
         });
 
         it(@"should pass the selected contact's email to the delegate", ^{
