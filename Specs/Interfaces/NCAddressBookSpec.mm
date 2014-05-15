@@ -48,6 +48,24 @@ describe(@"NCAddressBook", ^{
                 addressBook.contacts should_not contain(contact);
             });
         });
+
+        describe(@"order", ^{
+            __block NCContact *contact1;
+            __block NCContact *contact2;
+
+            beforeEach(^{
+                contact2 = [[NCContact alloc] initWithFirstName:@"Barack" lastName:@"Obama" emails:@[@"yournewbicycle@whitehouse.gov"]];
+                [addressBook addContact:contact2];
+
+                contact1 = [[NCContact alloc] initWithFirstName:@"Abe" lastName:@"Lincoln" emails:@[@"abe@orchardpie.com"]];
+                [addressBook addContact:contact1];
+            });
+
+            it(@"should order alphabetically by first name", ^{
+                [addressBook.contacts.firstObject firstName] should equal(contact1.firstName);
+                [addressBook.contacts.lastObject firstName] should equal(contact2.firstName);
+            });
+        });
     });
 });
 

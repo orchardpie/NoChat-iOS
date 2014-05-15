@@ -20,7 +20,12 @@
 - (NSArray *)contacts
 {
     NSPredicate *filterByEmail = [NSPredicate predicateWithFormat:@"emails.@count > 0"];
-    return [self.allContacts filteredArrayUsingPredicate:filterByEmail];
+    NSArray *filteredContacts = [self.allContacts filteredArrayUsingPredicate:filterByEmail];
+
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"firstName"
+                                                                     ascending:YES
+                                                                      selector:@selector(localizedCaseInsensitiveCompare:)];
+    return [filteredContacts sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 }
 
 @end
