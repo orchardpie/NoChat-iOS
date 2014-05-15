@@ -9,6 +9,10 @@
 @property (nonatomic, copy) void (^accessBlock)(BOOL, NSError *);
 @property (nonatomic, strong) NSMutableArray *fakeContacts;
 
+- (void)checkAccess:(void(^)(BOOL, NSError *))completion;
+- (void)respondWithAccess:(BOOL)hasAccess error:(NSError *)error;
+- (void)addContact:(NCContact *)contact;
+
 @end
 
 @implementation NCAddressBookImpl
@@ -19,6 +23,29 @@
         self.fakeContacts = [NSMutableArray array];
     }
     return self;
+}
+
+- (void)checkAccess:(void(^)(BOOL, NSError *))completion
+{
+    self.accessBlock = completion;
+}
+
+- (void)respondWithAccess:(BOOL)hasAccess error:(NSError *)error
+{
+    if (!self.accessBlock) {
+        @throw @"Responding to Address Book access request, but there is no request";
+    }
+    self.accessBlock(hasAccess, error);
+    self.accessBlock = nil;
+}
+
+- (NSMutableArray *)allContacts {
+    return self.fakeContacts;
+}
+
+- (void)addContact:(NCContact *)contact
+{
+    [self.fakeContacts addObject:contact];
 }
 
 @end
@@ -32,42 +59,24 @@
 
 @end
 
-@implementation NCAddressBook (Spec)
+@implementation NCAddressBook (SpecImplementation)
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
-
-- (void)checkAccess:(void(^)(BOOL, NSError *))completion
+- (void)forwardInvocation:(NSInvocation *)invocation
 {
-    self.implObj.accessBlock = completion;
+    [invocation invokeWithTarget:self.impl];
 }
 
-#pragma clang diagnostic pop
-
-- (void)respondWithAccess:(BOOL)hasAccess error:(NSError *)error
-{
-    if (!self.implObj.accessBlock) {
-        @throw @"Responding to Address Book access request, but there is no request";
-    }
-    self.implObj.accessBlock(hasAccess, error);
-    self.implObj.accessBlock = nil;
-}
-
-- (NSMutableArray *)allContacts {
-    return self.implObj.fakeContacts;
-}
-
-- (void)addContact:(NCContact *)contact
-{
-    [self.implObj.fakeContacts addObject:contact];
-}
-
-- (NCAddressBookImpl *)implObj
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
 {
     if (!self.impl) {
         self.impl = [[NCAddressBookImpl alloc] init];
     }
-    return self.impl;
+
+    NSMethodSignature *ms = [super methodSignatureForSelector:selector];
+    if (!ms) {
+        ms = [self.impl methodSignatureForSelector:selector];
+    }
+    return ms;
 }
 
 @end

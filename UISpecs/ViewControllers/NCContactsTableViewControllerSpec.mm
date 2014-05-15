@@ -17,7 +17,8 @@ describe(@"NCContactsTableViewController", ^{
     beforeEach(^{
         contact1 = [[NCContact alloc] initWithFirstName:@"Cool" lastName:@"Dude" emails:@[@"cooldude@cooltimes.com"]];
         contact2 = [[NCContact alloc] initWithFirstName:@"Gary" lastName:@"Busey" emails:@[@"gary@busey.com"]];
-        noChat.addressBook.contacts = @[contact1, contact2];
+        [noChat.addressBook addContact:contact1];
+        [noChat.addressBook addContact:contact2];
 
         delegate = nice_fake_for(@protocol(NCContactsTableViewControllerDelegate));
         controller = [[NCContactsTableViewController alloc] initWithDelegate:delegate];
