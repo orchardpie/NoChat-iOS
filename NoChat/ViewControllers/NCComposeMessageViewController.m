@@ -153,4 +153,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)didCloseContactsModal
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

@@ -33,6 +33,11 @@ static NSString *kCellIdentifier = @"contactCell";
     [super viewDidLoad];
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellIdentifier];
+
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(close:)];
 }
 
 #pragma mark - Table view data source
@@ -66,6 +71,13 @@ static NSString *kCellIdentifier = @"contactCell";
 {
     NCContact *contact = self.contacts[indexPath.row];
     [self.delegate didSelectContactWithEmail:contact.emails[0]];
+}
+
+#pragma mark - Button actions
+
+- (void)close:(id)sender
+{
+    [self.delegate didCloseContactsModal];
 }
 
 @end

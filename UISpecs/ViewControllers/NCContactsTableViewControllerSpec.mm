@@ -6,6 +6,11 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
+// Ignore "Unknown selector may cause a leak" warning.  We use performSelector: to
+// invoke IBActions, which we know return void.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 SPEC_BEGIN(NCContactsTableViewControllerSpec)
 
 describe(@"NCContactsTableViewController", ^{
@@ -22,6 +27,23 @@ describe(@"NCContactsTableViewController", ^{
 
         delegate = nice_fake_for(@protocol(NCContactsTableViewControllerDelegate));
         controller = [[NCContactsTableViewController alloc] initWithDelegate:delegate];
+        controller.view should_not be_nil;
+    });
+
+    describe(@"-close:", ^{
+        __block UIBarButtonItem *closeButton;
+
+        subjectAction(^{
+            [closeButton.target performSelector:closeButton.action withObject:closeButton];
+        });
+
+        beforeEach(^{
+            closeButton = controller.navigationItem.leftBarButtonItem;
+        });
+
+        it(@"should ask the delegate to close the contacts modal", ^{
+            delegate should have_received("didCloseContactsModal");
+        });
     });
 
     describe(@"-tableView:tableView:cellForRowAtIndexPath:", ^{
@@ -29,10 +51,6 @@ describe(@"NCContactsTableViewController", ^{
 
         subjectAction(^{
             cell = [controller tableView:controller.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        });
-
-        beforeEach(^{
-            controller.view should_not be_nil;
         });
 
         it(@"should set the name to the textLabel", ^{
@@ -69,3 +87,5 @@ describe(@"NCContactsTableViewController", ^{
 });
 
 SPEC_END
+
+#pragma clang diagnostic pop

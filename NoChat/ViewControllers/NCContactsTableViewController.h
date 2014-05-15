@@ -3,6 +3,7 @@
 @protocol NCContactsTableViewControllerDelegate <NSObject>
 
 - (void)didSelectContactWithEmail:(NSString *)email;
+- (void)didCloseContactsModal;
 
 @end
 

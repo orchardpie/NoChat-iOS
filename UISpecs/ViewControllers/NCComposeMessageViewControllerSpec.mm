@@ -464,6 +464,20 @@ describe(@"NCComposeMessageViewController", ^{
             controller.presentedViewController should be_nil;
         });
     });
+
+    describe(@"-didCloseContactsModal:", ^{
+        subjectAction(^{
+            [controller didCloseContactsModal];
+        });
+
+        beforeEach(^{
+            [controller presentViewController:[[UITableViewController alloc] init] animated:NO completion:nil];
+        });
+
+        it(@"should dismiss the contacts table view controller", ^{
+            controller.presentedViewController should be_nil;
+        });
+    });
 });
 
 SPEC_END
