@@ -5,6 +5,10 @@ static NSUserDefaults *__standardUserDefaults;
 
 @implementation NSUserDefaults (Spec)
 
++ (void)beforeEach {
+    [__standardUserDefaultsDict removeAllObjects];
+}
+
 + (instancetype)standardUserDefaults
 {
     if (!__standardUserDefaults) {
