@@ -10,11 +10,21 @@ NoChat *noChat;
 #import "NoChat.h"
 #import "NCAnalytics.h"
 
+@interface NCAppDelegate ()
+
+@property (copy, nonatomic) void (^notificationRegistrationBlock)();
+
+@end
+
 @implementation NCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.notificationRegistrationBlock = ^{
+        [application registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert)];
+    };
 
     if (noChat.webService.hasCredential) {
         [self getCurrentUserAndDisplayMessages];
@@ -39,6 +49,13 @@ NoChat *noChat;
     }
 }
 
+#pragma mark - Push notification delegate implementation
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [self.currentUser registerDeviceToken:deviceToken];
+}
+
 
 #pragma mark - Signup and login delegate implementation
 
@@ -58,6 +75,7 @@ NoChat *noChat;
 
 - (void)userDidAuthenticate
 {
+    self.notificationRegistrationBlock();
     [self showMessagesViewControllerWithTransition:YES refresh:NO];
 }
 
@@ -97,10 +115,12 @@ NoChat *noChat;
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"];
     if (data) {
         self.currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        self.notificationRegistrationBlock();
         [self showMessagesViewControllerWithTransition:NO refresh:YES];
     } else {
         self.currentUser = [[NCCurrentUser alloc] init];
         [self.currentUser fetchWithSuccess:^{
+            self.notificationRegistrationBlock();
             [self showMessagesViewControllerWithTransition:NO refresh:NO];
         } failure:^(NSError *error) {
             self.window.rootViewController = [[NCNoDataViewController alloc] initWithCurrentUser:self.currentUser delegate:self];

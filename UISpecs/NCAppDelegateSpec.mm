@@ -29,10 +29,13 @@ SPEC_BEGIN(NCAppDelegateSpec)
 
 describe(@"NCAppDelegate", ^{
     __block NCAppDelegate *delegate;
-    UIApplication<CedarDouble> *application = fake_for([UIApplication class]);
+    __block UIApplication<CedarDouble> *application;
 
     beforeEach(^{
         delegate = [[NCAppDelegate alloc] init];
+
+        application = fake_for([UIApplication class]);
+        application stub_method("registerForRemoteNotificationTypes:");
     });
 
     describe(@"-application:didFinishLaunchingWithOptions", ^{
@@ -80,6 +83,11 @@ describe(@"NCAppDelegate", ^{
                 it(@"should refresh messages", ^{
                     [noChat.webService.tasks.lastObject originalRequest].URL.path should equal(@"/messages");
                 });
+
+                it(@"should register for remote notifications", ^{
+                    application should have_received("registerForRemoteNotificationTypes:")
+                    .with(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert);
+                });
             });
 
             context(@"when there is not a current user archive", ^{
@@ -90,12 +98,20 @@ describe(@"NCAppDelegate", ^{
                 it(@"should fetch from root", ^{
                     [[[noChat.webService.tasks.firstObject originalRequest] URL] path] should equal(@"/");
                 });
+
+                it(@"should not register for remote notifications", ^{
+                    application should_not have_received("registerForRemoteNotificationTypes:");
+                });
             });
         });
 
         context(@"when the current user has no credentials", ^{
             beforeEach(^{
                 [NCWebService setHasCredentialTo:NO];
+            });
+
+            it(@"should not register for remote notifications", ^{
+                application should_not have_received("registerForRemoteNotificationTypes:");
             });
 
             it(@"should set signup view as the root view controller", ^{
@@ -136,6 +152,11 @@ describe(@"NCAppDelegate", ^{
             it(@"should not refresh the messages", ^{
                 noChat.webService.tasks should be_empty;
             });
+
+            it(@"should register for remote notifications", ^{
+                application should have_received("registerForRemoteNotificationTypes:")
+                .with(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert);
+            });
         });
 
         describe(@"on failure response", ^{
@@ -150,6 +171,10 @@ describe(@"NCAppDelegate", ^{
 
             it(@"should display an alert", ^{
                 UIAlertView.currentAlertView should_not be_nil;
+            });
+
+            it(@"should not register for remote notifications", ^{
+                application should_not have_received("registerForRemoteNotificationTypes:");
             });
         });
 
@@ -166,6 +191,10 @@ describe(@"NCAppDelegate", ^{
                 UIAlertView *alertView = UIAlertView.currentAlertView;
                 alertView.title should equal(error.localizedDescription);
                 alertView.message should equal(error.localizedRecoverySuggestion);
+            });
+
+            it(@"should not register for remote notifications", ^{
+                application should_not have_received("registerForRemoteNotificationTypes:");
             });
         });
     });
@@ -199,6 +228,22 @@ describe(@"NCAppDelegate", ^{
             it(@"should archive current user", ^{
                 delegate.currentUser should have_received("encodeWithCoder:");
             });
+        });
+    });
+
+    describe(@"application:didRegisterForRemoteNotificationsWithDeviceToken:", ^{
+        NSData *deviceToken = [@"nicedevicetoken" dataUsingEncoding:NSUTF8StringEncoding];
+
+        subjectAction(^{
+            [delegate application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+        });
+
+        beforeEach(^{
+            delegate.currentUser = nice_fake_for([NCCurrentUser class]);
+        });
+
+        it(@"should attempt to send a device token to the server", ^{
+            delegate.currentUser should have_received("registerDeviceToken:").with(deviceToken);
         });
     });
 
@@ -254,6 +299,11 @@ describe(@"NCAppDelegate", ^{
             UINavigationController *navigationController = (id)delegate.window.rootViewController;
             navigationController.topViewController should be_instance_of([NCMessagesTableViewController class]);
         });
+
+        it(@"should register for remote notifications", ^{
+            application should have_received("registerForRemoteNotificationTypes:")
+            .with(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert);
+        });
     });
 
     describe(@"-userDidFailAuthentication", ^{
@@ -269,6 +319,10 @@ describe(@"NCAppDelegate", ^{
         it(@"should clear the current user archive", ^{
             [NSUserDefaults standardUserDefaults] should have_received("removeObjectForKey:").with(@"currentUser");
             [NSUserDefaults standardUserDefaults] should have_received("synchronize");
+        });
+
+        it(@"should not register for remote notifications", ^{
+            application should_not have_received("registerForRemoteNotificationTypes:");
         });
 
         context(@"when the user is on the login screen", ^{
