@@ -132,9 +132,7 @@
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:contactsTVC];
             [self presentViewController:navigationController animated:YES completion:nil];
         } else {
-            BOOL contactsAccessRequest = [[NSUserDefaults standardUserDefaults] boolForKey:@"contactsAccessRequested"];
-
-            if (contactsAccessRequest) {
+            if (error) {
                 [[[UIAlertView alloc] initWithTitle:@"Contacts Access Required"
                                             message:@"Please enable access to your contacts in iPhone Settings > Privacy > Contacts > NoChat."
                                            delegate:nil

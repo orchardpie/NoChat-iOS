@@ -31,6 +31,7 @@
         completion(NO, (__bridge_transfer NSError *)cfError);
     } else {
         ABAddressBookRequestAccessWithCompletion(self.addressBook, ^(bool granted, CFErrorRef cfError) {
+            self.addressBook = nil;
             // ABAddressBookRequestAccessWithCompletion responds on a thread other than the main thread.
             // Push the response back to the main thread, so the caller (generally the UI) need not worry
             // about what thread the response is on.
