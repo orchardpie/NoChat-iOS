@@ -221,6 +221,32 @@ describe(@"NCCurrentUser", ^{
             noChat.webService should have_received("saveCredentialWithEmail:password:").with(email, password);
         });
     });
+
+    describe(@"-registerDeviceToken:", ^{
+        NSData *deviceToken = [@"nicedevicetoken" dataUsingEncoding:NSUTF8StringEncoding];
+
+        subjectAction(^{
+            [user registerDeviceToken:deviceToken];
+        });
+
+        context(@"with no device registrations location", ^{
+            itShouldRaiseException();
+        });
+
+        context(@"with a device registrations location", ^{
+            beforeEach(^{
+                [user fetchWithSuccess:nil failure:nil];
+                NSURLResponse *response = makeResponse(201);
+                NSData *responseData = [NSJSONSerialization dataWithJSONObject:validJSONFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json") options:0 error:nil];
+                [noChat.webService.tasks.lastObject completeWithResponse:response data:responseData error:nil];
+            });
+
+            it(@"should send a request to register the device", ^{
+                noChat.webService should have_received("POST:parameters:completion:invalid:error:")
+                .with(@"/device_registrations", @{ @"device_token": deviceToken }, nil, nil, nil);
+            });
+        });
+    });
 });
 
 SPEC_END

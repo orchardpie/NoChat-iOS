@@ -1,6 +1,9 @@
 {
     "location": "/",
     "data": {
+        "device_registrations": {
+            "location": "/device_registrations"
+        },
         "messages": {
             "location": "/messages",
             "data": [{

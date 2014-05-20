@@ -11,6 +11,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
 @interface NCCurrentUser ()
 @property (nonatomic, strong, readwrite) NCMessagesCollection *messages;
+@property (nonatomic, strong) NSString *deviceRegistrationsLocation;
 @end
 
 @implementation NCCurrentUser
@@ -41,6 +42,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 {
     [noChat.webService GET:@"/" parameters:nil completion:^(id responseBody) {
         NSDictionary *currentUserDict = (NSDictionary *)responseBody;
+        self.deviceRegistrationsLocation = currentUserDict[@"data"][@"device_registrations"][@"location"];
         self.messages = [[NCMessagesCollection alloc] initWithMessagesDict:currentUserDict[@"data"][@"messages"]];
         if (success) { success(); }
     } invalid:nil error:failure];
@@ -69,6 +71,18 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
             failure(error);
         }
     } error:failure];
+}
+
+- (void)registerDeviceToken:(NSData *)deviceToken
+{
+    if (!self.deviceRegistrationsLocation) {
+        @throw @"Cannot register device with incomplete CurrentUser definition";
+    }
+    [noChat.webService POST:self.deviceRegistrationsLocation
+                 parameters:@{ @"device_token": deviceToken }
+                 completion:nil
+                    invalid:nil
+                      error:nil];
 }
 
 @end
