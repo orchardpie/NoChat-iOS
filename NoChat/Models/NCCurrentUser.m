@@ -81,7 +81,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
         @throw @"Cannot register device with incomplete CurrentUser definition";
     }
     [noChat.webService POST:self.deviceRegistrationsLocation
-                 parameters:@{ @"device_token": deviceToken }
+                 parameters:@{ @"device_registration": @{ @"token": deviceToken } }
                  completion:nil
                     invalid:nil
                       error:nil];
