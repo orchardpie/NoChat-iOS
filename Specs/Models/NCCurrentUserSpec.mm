@@ -10,6 +10,12 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
+@interface NCCurrentUser ()
+
+@property (strong, nonatomic) NSString *deviceRegistrationsLocation;
+
+@end
+
 SPEC_BEGIN(NCCurrentUserSpec)
 
 describe(@"NCCurrentUser", ^{
@@ -52,6 +58,10 @@ describe(@"NCCurrentUser", ^{
 
         it(@"should set the messages collection", ^{
             user.messages.count should equal(protoUser.messages.count);
+        });
+
+        it(@"should set the device registrations location", ^{
+            user.deviceRegistrationsLocation should equal(protoUser.deviceRegistrationsLocation);
         });
     });
 

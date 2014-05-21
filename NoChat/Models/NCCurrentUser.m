@@ -20,6 +20,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 {
     if (self = [super init]) {
         self.messages = [decoder decodeObjectForKey:@"messages"];
+        self.deviceRegistrationsLocation = [decoder decodeObjectForKey:@"deviceRegistrationsLocation"];
     }
 
     return self;
@@ -28,6 +29,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
     [encoder encodeObject:self.messages forKey:@"messages"];
+    [encoder encodeObject:self.deviceRegistrationsLocation forKey:@"deviceRegistrationsLocation"];
 }
 
 - (BOOL)saveCredentialWithEmail:(NSString *)email password:(NSString *)password
