@@ -7,7 +7,6 @@
 
 static NSString const *EMAIL_KEY                    = @"email";
 static NSString const *PASSWORD_KEY                 = @"password";
-static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
 
 @interface NCCurrentUser ()
 @property (nonatomic, strong, readwrite) NCMessagesCollection *messages;
@@ -56,8 +55,7 @@ static NSString const *PASSWORD_CONFIRMATION_KEY    = @"password_confirmation";
                 failure:(void(^)(NSError *error))failure
 {
     NSDictionary *parameters = @{ @"user":@{ EMAIL_KEY : email,
-                                             PASSWORD_KEY : password,
-                                             PASSWORD_CONFIRMATION_KEY : password } };
+                                             PASSWORD_KEY : password } };
 
     [noChat.webService POST:@"/users" parameters:parameters completion:^(id responseBody) {
         [noChat.webService saveCredentialWithEmail:email password:password];
