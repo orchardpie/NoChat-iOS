@@ -43,6 +43,8 @@ NoChat *noChat;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [[NSUserDefaults standardUserDefaults] setInteger:ARCHIVE_VERSION forKey:@"archiveVersion"];
+
     if (self.currentUser.messages) {
         NSData *archive = [NSKeyedArchiver archivedDataWithRootObject:self.currentUser];
         [NSUserDefaults.standardUserDefaults setObject:archive forKey:@"currentUser"];
@@ -113,7 +115,9 @@ NoChat *noChat;
 - (void)getCurrentUserAndDisplayMessages
 {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentUser"];
-    if (data) {
+    NSInteger archiveVersion = [[NSUserDefaults standardUserDefaults] integerForKey:@"archiveVersion"];
+
+    if (data && archiveVersion == ARCHIVE_VERSION) {
         self.currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         self.notificationRegistrationBlock();
         [self showMessagesViewControllerWithTransition:NO refresh:YES];

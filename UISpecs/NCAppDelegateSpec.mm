@@ -25,6 +25,23 @@ using namespace Cedar::Doubles;
 
 @end
 
+void setCurrentUserArchive()
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+    NCCurrentUser *currentUser = [[NCCurrentUser alloc] init];
+    [currentUser fetchWithSuccess:nil failure:nil];
+
+    NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
+    NSHTTPURLResponse *response = makeResponse(200);
+    NSData *responseData = dataFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json");
+    [task completeWithResponse:response data:responseData error:nil];
+
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:currentUser];
+
+    [userDefaults setObject:data forKey:@"currentUser"];
+}
+
 SPEC_BEGIN(NCAppDelegateSpec)
 
 describe(@"NCAppDelegate", ^{
@@ -43,6 +60,17 @@ describe(@"NCAppDelegate", ^{
             [delegate application:application didFinishLaunchingWithOptions:nil];
         });
 
+
+        sharedExamplesFor(@"an action that fetches current user info", ^(NSDictionary *sharedContext) {
+            it(@"should fetch from root", ^{
+                [[[noChat.webService.tasks.firstObject originalRequest] URL] path] should equal(@"/");
+            });
+
+            it(@"should not register for remote notifications", ^{
+                application should_not have_received("registerForRemoteNotificationTypes:");
+            });
+        });
+
         it(@"should initialize a global NoChat object", ^{
             noChat should_not be_nil;
         });
@@ -52,55 +80,66 @@ describe(@"NCAppDelegate", ^{
                 [NCWebService setHasCredentialTo:YES];
             });
 
-            context(@"when there is a current user archive", ^{
+            context(@"when the archive version matches the current version", ^{
                 beforeEach(^{
                     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-
-                    NCCurrentUser *currentUser = [[NCCurrentUser alloc] init];
-                    [currentUser fetchWithSuccess:nil failure:nil];
-
-                    NSURLSessionDataTask *task = noChat.webService.tasks.firstObject;
-                    NSHTTPURLResponse *response = makeResponse(200);
-                    NSData *responseData = dataFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json");
-                    [task completeWithResponse:response data:responseData error:nil];
-
-                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:currentUser];
-
-                    [userDefaults setObject:data forKey:@"currentUser"];
-                    [userDefaults synchronize];
+                    [userDefaults setInteger:ARCHIVE_VERSION forKey:@"archiveVersion"];
                 });
 
-                it(@"should create a current user with the archived data", ^{
-                    delegate.currentUser.messages should_not be_empty;
-                });
+                context(@"and there is a current user archive", ^{
+                    beforeEach(^{
+                        setCurrentUserArchive();
+                    });
 
-                it(@"should set messages table view controller as the root view controller", ^{
-                    delegate.window.rootViewController should be_instance_of([UINavigationController class]);
-                    UINavigationController *navController = (id)delegate.window.rootViewController;
-                    navController.topViewController should be_instance_of([NCMessagesTableViewController class]);
-                });
+                    it(@"should create a current user with the archived data", ^{
+                        delegate.currentUser.messages should_not be_empty;
+                    });
 
-                it(@"should refresh messages", ^{
-                    [noChat.webService.tasks.lastObject originalRequest].URL.path should equal(@"/messages");
-                });
+                    it(@"should set messages table view controller as the root view controller", ^{
+                        delegate.window.rootViewController should be_instance_of([UINavigationController class]);
+                        UINavigationController *navController = (id)delegate.window.rootViewController;
+                        navController.topViewController should be_instance_of([NCMessagesTableViewController class]);
+                    });
 
-                it(@"should register for remote notifications", ^{
-                    application should have_received("registerForRemoteNotificationTypes:")
-                    .with(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert);
+                    it(@"should refresh messages", ^{
+                        [noChat.webService.tasks.lastObject originalRequest].URL.path should equal(@"/messages");
+                    });
+
+                    it(@"should register for remote notifications", ^{
+                        application should have_received("registerForRemoteNotificationTypes:")
+                        .with(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert);
+                    });
+                });
+                
+                context(@"but there is not a current user archive", ^{
+                    beforeEach(^{
+                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentUser"];
+                    });
+
+                    itShouldBehaveLike(@"an action that fetches current user info");
                 });
             });
 
-            context(@"when there is not a current user archive", ^{
+            context(@"when the archive version does not match the current version", ^{
                 beforeEach(^{
-                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentUser"];
+                    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                    [userDefaults setInteger:0 forKey:@"archiveVersion"];
                 });
 
-                it(@"should fetch from root", ^{
-                    [[[noChat.webService.tasks.firstObject originalRequest] URL] path] should equal(@"/");
+                context(@"and there is a current user archive", ^{
+                    beforeEach(^{
+                        setCurrentUserArchive();
+                    });
+
+                    itShouldBehaveLike(@"an action that fetches current user info");
                 });
 
-                it(@"should not register for remote notifications", ^{
-                    application should_not have_received("registerForRemoteNotificationTypes:");
+                context(@"but there is not a current user archive", ^{
+                    beforeEach(^{
+                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"currentUser"];
+                    });
+
+                    itShouldBehaveLike(@"an action that fetches current user info");
                 });
             });
         });
@@ -207,6 +246,10 @@ describe(@"NCAppDelegate", ^{
         beforeEach(^{
             [delegate application:application didFinishLaunchingWithOptions:@{}];
             spy_on(delegate.currentUser);
+        });
+
+        it(@"should set the archive version", ^{
+            [[NSUserDefaults standardUserDefaults] integerForKey:@"archiveVersion"] should equal(ARCHIVE_VERSION);
         });
 
         context(@"when the current user does not have messages", ^{

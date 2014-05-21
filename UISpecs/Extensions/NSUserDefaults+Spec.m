@@ -46,6 +46,16 @@ static NSUserDefaults *__standardUserDefaults;
     return [self.class.standardUserDefaultsDict objectForKey:defaultName];
 }
 
+- (NSInteger)integerForKey:(NSString *)defaultName
+{
+    return [[self.class.standardUserDefaultsDict objectForKey:defaultName] integerValue];
+}
+
+ -(void)setInteger:(NSInteger)value forKey:(NSString *)defaultName
+{
+    [self.class.standardUserDefaultsDict setObject:[NSNumber numberWithInteger:value] forKey:defaultName];
+}
+
 - (void)removeObjectForKey:(NSString *)defaultName
 {
     [self.class.standardUserDefaultsDict removeObjectForKey:defaultName];
