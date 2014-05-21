@@ -130,7 +130,7 @@ typedef void(^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
                 NSError *anError = [NSError errorWithDomain:@"com.nochat.mobile"
                                                        code:0
                                                    userInfo:@{ NSLocalizedRecoverySuggestionErrorKey: @"A thousand apologies, but an error occurred" }];
-                error(anError);
+                if (error) { error(anError); }
             }
                 break;
         }
