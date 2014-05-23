@@ -96,6 +96,7 @@
 
 - (void)refreshMessages {
     [self.messages fetchWithSuccess:^{
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     } failure:^(NSError *error) {

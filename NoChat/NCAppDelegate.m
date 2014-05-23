@@ -13,6 +13,7 @@ NoChat *noChat;
 @interface NCAppDelegate ()
 
 @property (copy, nonatomic) void (^notificationRegistrationBlock)();
+@property (copy, nonatomic) void (^clearApplicationIconBadgeCountBlock)();
 
 @end
 
@@ -24,6 +25,9 @@ NoChat *noChat;
     self.notificationRegistrationBlock = ^{
         [application registerForRemoteNotificationTypes:
          (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert)];
+    };
+    self.clearApplicationIconBadgeCountBlock = ^{
+        [application setApplicationIconBadgeNumber:0];
     };
 
     if (noChat.webService.hasCredential) {
@@ -124,6 +128,7 @@ NoChat *noChat;
     } else {
         self.currentUser = [[NCCurrentUser alloc] init];
         [self.currentUser fetchWithSuccess:^{
+            self.clearApplicationIconBadgeCountBlock();
             self.notificationRegistrationBlock();
             [self showMessagesViewControllerWithTransition:NO refresh:NO];
         } failure:^(NSError *error) {

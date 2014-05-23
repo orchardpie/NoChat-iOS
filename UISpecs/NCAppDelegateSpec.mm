@@ -53,13 +53,13 @@ describe(@"NCAppDelegate", ^{
 
         application = fake_for([UIApplication class]);
         application stub_method("registerForRemoteNotificationTypes:");
+        application stub_method("setApplicationIconBadgeNumber:");
     });
 
     describe(@"-application:didFinishLaunchingWithOptions", ^{
         subjectAction(^{
             [delegate application:application didFinishLaunchingWithOptions:nil];
         });
-
 
         sharedExamplesFor(@"an action that fetches current user info", ^(NSDictionary *sharedContext) {
             it(@"should fetch from root", ^{
@@ -180,6 +180,10 @@ describe(@"NCAppDelegate", ^{
                 [task receiveResponse:makeResponse(200)];
                 [task receiveData:dataFromResponseFixtureWithFileName(@"get_fetch_user_response_200.json")];
                 error = nil;
+            });
+
+            it(@"should clear the badge count", ^{
+                application should have_received("setApplicationIconBadgeNumber:").with(0);
             });
 
             it(@"should show the messages view", ^{

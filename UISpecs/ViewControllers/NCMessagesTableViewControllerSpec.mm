@@ -152,6 +152,10 @@ describe(@"NCMessagesTableViewController", ^{
                 spy_on(controller.tableView);
             });
 
+            it(@"should clear the badge count", ^{
+                [UIApplication sharedApplication].applicationIconBadgeNumber should equal(0);
+            });
+
             it(@"should refresh the tableview", ^{
                 controller.tableView should have_received("reloadData");
             });
