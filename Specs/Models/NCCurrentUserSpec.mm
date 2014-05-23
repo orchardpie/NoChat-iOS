@@ -253,7 +253,7 @@ describe(@"NCCurrentUser", ^{
 
             it(@"should send a request to register the device", ^{
                 noChat.webService should have_received("POST:parameters:completion:invalid:error:")
-                .with(@"/device_registrations", @{ @"device_token": deviceToken }, nil, nil, nil);
+                .with(@"/device_registrations", @{ @"device_registration": @{ @"token": deviceToken } }, nil, nil, nil);
             });
         });
     });
